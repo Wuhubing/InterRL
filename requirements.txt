@@ -14,4 +14,5 @@ monai>=1.0.0
 nibabel>=4.0.0
 tensorboard>=2.10.0
 imageio>=2.22.0
-ipython>=8.4.0 
+ipython>=8.4.0
+gym>=0.21.0 
