@@ -6,12 +6,9 @@ import sys
 import random
 from tqdm import tqdm
 
-# Add code directory to path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from code.data_utils import PolypDataset, get_data_loaders
-from code.rl_environment import PolypSegmentationEnv, PolypFeatureExtractor
-from code.rl_agent import PPOAgent
+from src.data_utils import PolypDataset, get_data_loaders
+from src.rl_environment import PolypSegmentationEnv, PolypFeatureExtractor
+from src.rl_agent import PPOAgent
 
 def train_agent(agent, train_dataset, device, num_episodes=1000, update_interval=128, save_interval=100):
     """

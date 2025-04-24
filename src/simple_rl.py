@@ -11,8 +11,8 @@ from tqdm import tqdm
 import cv2
 import pickle
 
-from code.data_utils import PolypDataset
-from code.utils import dice_coefficient, iou_score, set_seed
+from src.data_utils import PolypDataset
+from src.utils import dice_coefficient, iou_score, set_seed
 
 class SimplePolicyNetwork(nn.Module):
     """Simple policy network with fixed architecture"""

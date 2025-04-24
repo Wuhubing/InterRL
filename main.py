@@ -12,14 +12,14 @@ import torch.nn as nn
 import time
 import pickle
 
-# Add the code directory to the Python path
+# Add the src directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import modules
-from code.data_utils import PolypDataset, get_data_loaders, visualize_sample
-from code.unet_model import UNet, train_unet
-from code.rl_environment import PolypSegmentationEnv, PolypFeatureExtractor
-from code.rl_agent import PPOAgent
+from src.data_utils import PolypDataset, get_data_loaders, visualize_sample
+from src.unet_model import UNet, train_unet
+from src.rl_environment import PolypSegmentationEnv, PolypFeatureExtractor
+from src.rl_agent import PPOAgent
 
 def setup_environment():
     """Set up the environment (directories, random seeds, etc.)"""
@@ -94,7 +94,7 @@ def train_unet_model(args, device, data_loaders):
 
 def train_rl_agent(args, device, data_loaders):
     """Train and evaluate the RL agent"""
-    from code.train_rl import train_agent, evaluate_agent
+    from src.train_rl import train_agent, evaluate_agent
     
     print('Training RL agent...')
     
@@ -132,7 +132,7 @@ def train_rl_agent(args, device, data_loaders):
 
 def train_simple_rl_agent(args, device, data_loaders):
     """Train the SimpleRL agent from simple_rl.py"""
-    from code.simple_rl import SimpleRLAgent, train_agent
+    from src.simple_rl import SimpleRLAgent, train_agent
     
     print('Training Simple RL agent...')
     
@@ -155,7 +155,7 @@ def train_simple_rl_agent(args, device, data_loaders):
 
 def evaluate_unet(model, test_dataset, device, save_dir=None, num_samples=50, save_visualizations=False):
     """Evaluate the U-Net model on the test dataset and save results"""
-    from code.unet_model import dice_coefficient, iou_score
+    from src.unet_model import dice_coefficient, iou_score
     import torch
     import matplotlib.pyplot as plt
     import os
@@ -240,8 +240,8 @@ def evaluate_unet(model, test_dataset, device, save_dir=None, num_samples=50, sa
 
 def evaluate_simple_rl(agent, test_dataset, device, max_steps=20, save_dir=None, num_samples=50, save_visualizations=False):
     """Evaluate the SimpleRL agent on the test dataset and save results"""
-    from code.simple_rl import predict_mask, visualize_results
-    from code.utils import dice_coefficient, iou_score
+    from src.simple_rl import predict_mask, visualize_results
+    from src.utils import dice_coefficient, iou_score
     import matplotlib.pyplot as plt
     import os
     import torch.nn.functional as F
@@ -356,7 +356,7 @@ def compare_unet_simple_rl(args, device, data_loaders):
     unet_model, unet_history = train_unet_model(args, device, data_loaders)
     
     # Evaluate U-Net
-    from code.unet_model import dice_coefficient, iou_score
+    from src.unet_model import dice_coefficient, iou_score
     
     unet_dice = 0
     unet_iou = 0
@@ -388,7 +388,7 @@ def compare_unet_simple_rl(args, device, data_loaders):
     simple_rl_agent = train_simple_rl_agent(args, device, data_loaders)
     
     # Load the best model
-    from code.simple_rl import SimpleRLAgent
+    from src.simple_rl import SimpleRLAgent
     best_agent = SimpleRLAgent(
         n_actions=7,
         lr=args.lr,
@@ -429,7 +429,7 @@ def compare_unet_simple_rl(args, device, data_loaders):
 
 def evaluate_models(args, device, data_loaders, unet_model=None, rl_agent=None):
     """Evaluate and compare the U-Net model and RL agent"""
-    from code.train_rl import evaluate_agent
+    from src.train_rl import evaluate_agent
     
     print('Evaluating models...')
     
@@ -466,7 +466,7 @@ def evaluate_models(args, device, data_loaders, unet_model=None, rl_agent=None):
     
     # Evaluate U-Net model
     if unet_model is not None:
-        from code.unet_model import dice_coefficient, iou_score
+        from src.unet_model import dice_coefficient, iou_score
         
         unet_dice = 0
         unet_iou = 0
@@ -530,8 +530,8 @@ def evaluate_models(args, device, data_loaders, unet_model=None, rl_agent=None):
 def train_and_evaluate(args, device, data_loaders):
     """Train both U-Net and SimpleRL models, save them, and then evaluate and compare them"""
     # 导入必要的函数
-    from code.unet_model import dice_coefficient, iou_score, DiceLoss
-    from code.simple_rl import train_agent
+    from src.unet_model import dice_coefficient, iou_score, DiceLoss
+    from src.simple_rl import train_agent
     import numpy as np
     import pickle
     
@@ -942,7 +942,7 @@ def train_and_evaluate(args, device, data_loaders):
     
     # 加载SimpleRL最佳模型
     simple_rl_agent = None
-    from code.simple_rl import SimpleRLAgent
+    from src.simple_rl import SimpleRLAgent
     try:
         print(f"正在加载SimpleRL最佳模型...")
         best_rl_path = os.path.join(models_dir, 'simple_rl', 'best_model.pth')
@@ -1153,7 +1153,7 @@ def main():
         
         # 训练简单RL代理，这将保存训练历史数据
         print(f"开始训练InteractiveRL，保存训练数据到 {output_dir}")
-        from code.simple_rl import train_agent
+        from src.simple_rl import train_agent
         training_results = train_agent(simple_rl_args)
         
         print("\n===== InteractiveRL训练完成 =====")
