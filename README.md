@@ -50,6 +50,8 @@ The dataset was split using a fixed random seed (42) for reproducibility:
 - Architecture: Policy network and value network with convolutional layers and attention mechanism
 - Training: 1000 episodes with PPO-style updates, discount factor of 0.99, and entropy coefficient of 0.01
 
+![Interactive RL Process](academic_figures/interactive_rl_process.png)
+
 ## Project Structure
 
 ```
