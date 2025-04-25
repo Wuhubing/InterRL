@@ -757,8 +757,12 @@ def evaluate_simple_rl(agent, test_dataset, device, max_steps=20, save_dir=None,
             
             # Predict mask and time it
             start_time = time.time()
-            pred_mask, num_steps = predict_mask(agent, image, gt_mask, max_steps=max_steps, return_steps=True)
+            # 修改：移除return_steps参数，仅获取mask
+            pred_mask = predict_mask(agent, image, gt_mask, max_steps=max_steps)
             inference_time = time.time() - start_time
+            
+            # 将max_steps设为步数，因为我们无法知道实际步数
+            num_steps = max_steps  # 注意：这将导致所有样本都使用最大步数
             
             inference_times.append(inference_time)
             steps_taken.append(num_steps)

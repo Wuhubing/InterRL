@@ -1,0 +1,5 @@
+results/
+models/
+*.log
+*.tex
+__pycache__

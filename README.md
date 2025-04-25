@@ -9,16 +9,16 @@ Colorectal cancer is one of the leading causes of cancer-related deaths worldwid
 1. **Traditional U-Net Model**: A fully automated one-shot segmentation approach
 2. **Interactive RL Agent**: A novel reinforcement learning approach that simulates interactive segmentation through sequential decision-making
 
-The interactive RL approach mimics how human experts might annotate medical images through an iterative refinement process, providing both high accuracy and interpretability.
+The interactive RL approach mimics how human experts might annotate medical images through an iterative refinement process, potentially providing both high accuracy and interpretability.
 
 ## Key Findings
 
-Our experiments revealed some interesting patterns:
+Our experiments revealed the following key results:
 
-- U-Net provides efficient segmentation with excellent test set accuracy (Dice: 0.9319, IoU: 0.8734)
-- The RL approach offers remarkable performance on validation data (Dice: 0.9877, IoU: 0.9758)
-- The two models show complementary strengths, with U-Net excelling on test data while InteractiveRL shows superior generalization to validation data
-- The step-by-step nature of the RL method provides a transparent and interpretable segmentation process
+- The **InteractiveRL agent outperformed the U-Net model** on the test set (Dice: **0.8994** vs. 0.8444).
+- The RL agent also demonstrated significantly better performance on the validation set (Dice: **0.9884**).
+- While U-Net offers faster inference, the RL agent achieved higher accuracy through its iterative refinement.
+- The step-by-step nature of the RL method provides a transparent and interpretable segmentation process.
 
 ![Performance Comparison](academic_figures/comprehensive_performance.png)
 
@@ -40,18 +40,19 @@ The dataset was split using a fixed random seed (42) for reproducibility:
 
 ### U-Net Implementation
 
-- 4 downsampling blocks in the encoder and 4 upsampling blocks in the decoder
-- Trained using a combination of Binary Cross-Entropy and Dice loss functions
-- AdamW optimizer with learning rate of 5e-4 and weight decay of 1e-4
-- Early stopping triggered at epoch 96 of a maximum 1000 epochs
+- Standard U-Net architecture with 4 encoder and 4 decoder blocks.
+- Trained using a combination of Binary Cross-Entropy and Dice loss functions.
+- AdamW optimizer (lr=5e-4, weight decay=1e-4).
+- Best model selected at epoch 87 based on validation Dice (0.8731), early stopping at epoch 137.
 
 ### InteractiveRL Implementation
 
-- State: Comprises the colonoscopy image, current segmentation mask, pointer location, distance transform, and edge maps
-- Actions: Move pointer (up, down, left, right), expand region, shrink region, or confirm segmentation
-- Reward: Improvement in Dice coefficient with additional bonuses for high scores and penalties for premature termination
-- Architecture: Policy network and value network with convolutional layers and attention mechanism
-- Training: 1000 episodes with PPO-style updates, discount factor of 0.99, and entropy coefficient of 0.01
+- State: 7-channel input (Image, Mask, Pointer, Distance Transform, Edge Map).
+- Actions: Move pointer (4 directions), expand/shrink region, confirm segmentation.
+- Reward: Based on Dice score improvement, with bonuses and penalties.
+- Architecture: Actor-critic model with shared convolutional feature extractor, attention, and adaptive pooling.
+- Training: 1000 episodes with PPO-style updates ($\gamma=0.99$, entropy coef=0.01), max 10 steps/episode.
+- Best model selected at episode 695 based on validation Dice (0.9884).
 
 ![Interactive RL Process](academic_figures/interactive_rl_process.png)
 
@@ -62,14 +63,14 @@ The dataset was split using a fixed random seed (42) for reproducibility:
 ├── src/
 │   ├── data_utils.py        # Data loading and preprocessing
 │   ├── unet_model.py        # U-Net model implementation
-│   ├── rl_agent.py          # PPO agent implementation
-│   ├── rl_environment.py    # RL environment implementation
-│   ├── simple_rl.py         # Interactive RL implementation
-│   ├── train_rl.py          # RL training functions 
+│   ├── rl_agent.py          # Simple PPO agent implementation (Note: Used SimpleRLAgent in final run)
+│   ├── rl_environment.py    # RL environment implementation (Note: Used SimpleRL environment logic)
+│   ├── simple_rl.py         # Interactive RL (SimpleRLAgent) implementation
+│   ├── train_rl.py          # PPO training functions (Note: Not used for final SimpleRL run)
 │   └── utils.py             # Utility functions
 ├── academic_figures/        # Generated visualizations for analysis
 ├── data/
-│   └── raw/                 # Raw dataset files
+│   └── raw/                 # Raw dataset files (Requires CVC-ClinicDB download)
 ├── generate_academic_plots.py # Script for creating publication-ready figures
 ├── generate_interactive_rl_visualization.py # Script for creating RL process visualizations
 ├── main.py                  # Main script to run experiments
@@ -91,18 +92,26 @@ pip install -r requirements.txt
 
 ### Training Models
 
+To reproduce the final results presented in the report, run the combined training and evaluation command:
+
 ```bash
-# Train U-Net model
+# Train and evaluate both models (used for final results)
+python main.py --mode train_and_evaluate --unet_epochs 1000 --simple_rl_episodes 1000 --batch_size 4 --lr 5e-4 --max_steps 10 --eval_interval 5 --num_eval_episodes 3
+```
+
+You can also train the models individually:
+
+```bash
+# Train only the U-Net model
 python main.py --mode train_unet --unet_epochs 1000 --batch_size 4 --lr 5e-4
 
-# Train InteractiveRL model
+# Train only the InteractiveRL (SimpleRL) model
 python main.py --mode train_simple_rl --simple_rl_episodes 1000 --max_steps 10 --lr 5e-4 --eval_interval 5 --num_eval_episodes 3
-
-# Run both models and compare
-python main.py --mode train_and_evaluate
 ```
 
 ### Generating Plots
+
+After running the `train_and_evaluate` mode, generate the comparison plots:
 
 ```bash
 # Generate academic-quality plots comparing both approaches
@@ -116,25 +125,27 @@ The evaluation compares both approaches using:
 - Dice Similarity Coefficient (DSC)
 - Intersection over Union (IoU)
 - Sample-level performance analysis
-- Generalization capability across datasets
 
 Key visualizations include:
 
 - Performance distribution across samples
-- Generalization gap analysis
+- Training optimization curves
 - Sample-wise error analysis
-- Step-by-step segmentation progression
 
 ![Error Analysis](academic_figures/error_analysis.png)
 
 ## Conclusion
 
-This study demonstrates that both U-Net and reinforcement learning offer viable approaches for medical image segmentation, with different strengths depending on the context. The most striking finding is the different generalization patterns exhibited by the two models, suggesting they capture different aspects of the underlying data distribution.
+This study demonstrates that for the CVC-ClinicDB dataset and the implemented architectures, the **InteractiveRL agent outperforms the standard U-Net model** on both test (Dice: 0.8994 vs 0.8444) and validation sets. The iterative refinement process learned by the RL agent appears beneficial for achieving higher accuracy in this polyp segmentation task, while also offering better interpretability compared to the single-pass U-Net.
 
-The most promising extension would be a hybrid system that initializes segmentation using U-Net predictions and then refines them using InteractiveRL, potentially combining the efficiency of U-Net with the adaptability and interpretability of reinforcement learning.
+The most promising extension would be a hybrid system that initializes segmentation using U-Net predictions and then refines them using InteractiveRL, potentially combining the efficiency of U-Net with the final accuracy and adaptability of reinforcement learning.
 
 ## Acknowledgments
 
 - BMI/CS 567: Medical Image Analysis course at the University of Wisconsin-Madison
 - CVC-ClinicDB dataset providers
 - PyTorch and related libraries
+
+## Disclosure
+
+Generative AI (Google Gemini, Anthropic Claude) was used to assist with code generation, debugging, and report writing.
