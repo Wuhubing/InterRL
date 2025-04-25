@@ -416,8 +416,8 @@ def train_unet_model(args, device, data_loaders):
                 }, best_model_path)
                 
                 # Also save a copy to the standard location
-    torch.save(model.state_dict(), 'models/unet_model.pth')
-    
+                torch.save(model.state_dict(), 'models/unet_model.pth')
+                
                 print(f"Saved new best U-Net model with validation Dice: {best_val_dice:.4f}")
             except Exception as e:
                 print(f"Error saving best model: {str(e)}")
@@ -727,12 +727,12 @@ def evaluate_simple_rl(agent, test_dataset, device, max_steps=20, save_dir=None,
             
             # Print the original shape for debugging
             if i == 0:  # Only print for the first sample
-            print(f"Sample {i+1} image shape: {image.shape}")
+                print(f"Sample {i+1} image shape: {image.shape}")
             
             if image.shape != expected_shape:
                 # Only print for the first sample that needs resizing
                 if i == 0:
-                print(f"Resizing image from {image.shape} to {expected_shape}")
+                    print(f"Resizing image from {image.shape} to {expected_shape}")
                 # Transpose to (H, W, C) for resizing if needed
                 if image.shape[0] == 3:
                     # Already in (C, H, W) format
