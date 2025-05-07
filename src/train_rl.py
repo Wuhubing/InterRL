@@ -207,9 +207,9 @@ def evaluate_agent(agent, test_dataset, device, num_episodes=50):
             
             fig, axes = plt.subplots(len(indices), 3, figsize=(15, 5 * len(indices)))
             
-            # 确保ground truth掩码是2D数组
+            # Make sure ground truth mask is a 2D array
             gt_mask = sample['mask'].cpu().numpy()
-            if gt_mask.ndim == 3:  # 如果是3D的，例如(1, H, W)
+            if gt_mask.ndim == 3:  # If it's 3D, like (1, H, W)
                 gt_mask = gt_mask.squeeze(0)
             
             for j, idx in enumerate(indices):

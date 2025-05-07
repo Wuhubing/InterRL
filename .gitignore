@@ -3,3 +3,11 @@ models/
 *.log
 *.tex
 __pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pywz.pyc
+*.pywz.pyo

@@ -53,9 +53,6 @@ class Up(nn.Module):
 
         x1 = F.pad(x1, [diffX // 2, diffX - diffX // 2,
                         diffY // 2, diffY - diffY // 2])
-        # if you have padding issues, see
-        # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
-        # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
         x = torch.cat([x2, x1], dim=1)
         return self.conv(x)
 
@@ -74,17 +71,24 @@ class UNet(nn.Module):
         self.n_classes = n_classes
         self.bilinear = bilinear
 
+        # Standard U-Net architecture - don't easily change the channel numbers to avoid dimension mismatch
         self.inc = DoubleConv(n_channels, 64)
         self.down1 = Down(64, 128)
         self.down2 = Down(128, 256)
         self.down3 = Down(256, 512)
+        
         factor = 2 if bilinear else 1
         self.down4 = Down(512, 1024 // factor)
+        
         self.up1 = Up(1024, 512 // factor, bilinear)
         self.up2 = Up(512, 256 // factor, bilinear)
         self.up3 = Up(256, 128 // factor, bilinear)
         self.up4 = Up(128, 64, bilinear)
+        
         self.outc = OutConv(64, n_classes)
+        
+        # Add Dropout to reduce overfitting
+        self.dropout = nn.Dropout2d(0.2)
 
     def forward(self, x):
         x1 = self.inc(x)
@@ -92,6 +96,10 @@ class UNet(nn.Module):
         x3 = self.down2(x2)
         x4 = self.down3(x3)
         x5 = self.down4(x4)
+        
+        # Apply dropout at the deepest layer
+        x5 = self.dropout(x5)
+        
         x = self.up1(x5, x4)
         x = self.up2(x, x3)
         x = self.up3(x, x2)
@@ -114,9 +122,24 @@ class DiceLoss(nn.Module):
         
         return 1 - dice
 
-def train_unet(model, train_loader, val_loader, device, epochs=50, lr=1e-4):
+class DiceBCELoss(nn.Module):
+    """Combined Binary Cross Entropy and Dice Loss"""
+    def __init__(self, smooth=1.0, weight=0.5):
+        super(DiceBCELoss, self).__init__()
+        self.smooth = smooth
+        self.weight = weight  # Weight between Dice and BCE
+        self.bce = nn.BCELoss()
+        self.dice = DiceLoss(smooth)
+        
+    def forward(self, predictions, targets):
+        bce_loss = self.bce(predictions, targets)
+        dice_loss = self.dice(predictions, targets)
+        # Weighted sum
+        return self.weight * bce_loss + (1 - self.weight) * dice_loss
+
+def train_unet(model, train_loader, val_loader, device, epochs=50, lr=1e-4, patience=10):
     """
-    Train U-Net model
+    Train U-Net model with early stopping and learning rate scheduling
     
     Args:
         model (nn.Module): U-Net model
@@ -125,22 +148,43 @@ def train_unet(model, train_loader, val_loader, device, epochs=50, lr=1e-4):
         device (torch.device): Device to train on
         epochs (int): Number of epochs
         lr (float): Learning rate
+        patience (int): Early stopping patience
         
     Returns:
         dict: Training history
     """
     model = model.to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    criterion = DiceLoss()
+    
+    # Use learning rate scheduler
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode='min', factor=0.1, patience=patience//2, verbose=True
+    )
+    
+    # Use combined loss function
+    criterion = DiceBCELoss(weight=0.5)
     
     history = {
         'train_loss': [],
         'val_loss': [],
         'val_dice': [],
-        'val_iou': []
+        'val_iou': [],
+        'early_stopped': False,
+        'best_epoch': 0,
+        'time_per_epoch': [],
+        'per_sample_dice': [],
+        'per_sample_iou': []
     }
     
+    # Early stopping variables
+    best_val_loss = float('inf')
+    early_stop_counter = 0
+    best_model_state = None
+    
     for epoch in range(epochs):
+        import time
+        epoch_start = time.time()
+        
         model.train()
         train_loss = 0
         
@@ -156,6 +200,7 @@ def train_unet(model, train_loader, val_loader, device, epochs=50, lr=1e-4):
             # Backward pass and optimize
             optimizer.zero_grad()
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
             
             train_loss += loss.item()
@@ -165,6 +210,9 @@ def train_unet(model, train_loader, val_loader, device, epochs=50, lr=1e-4):
         val_loss = 0
         val_dice = 0
         val_iou = 0
+        
+        batch_dices = []
+        batch_ious = []
         
         with torch.no_grad():
             for batch in val_loader:
@@ -181,6 +229,13 @@ def train_unet(model, train_loader, val_loader, device, epochs=50, lr=1e-4):
                 dice = dice_coefficient(pred_masks, masks)
                 iou = iou_score(pred_masks, masks)
                 
+                # Record performance of each sample
+                for i in range(masks.size(0)):
+                    d = dice_coefficient(pred_masks[i:i+1], masks[i:i+1]).item()
+                    io = iou_score(pred_masks[i:i+1], masks[i:i+1]).item()
+                    batch_dices.append(d)
+                    batch_ious.append(io)
+                
                 val_dice += dice.item()
                 val_iou += iou.item()
         
@@ -190,14 +245,44 @@ def train_unet(model, train_loader, val_loader, device, epochs=50, lr=1e-4):
         val_dice /= len(val_loader)
         val_iou /= len(val_loader)
         
+        # Record epoch time
+        epoch_time = time.time() - epoch_start
+        
         # Save history
         history['train_loss'].append(train_loss)
         history['val_loss'].append(val_loss)
         history['val_dice'].append(val_dice)
         history['val_iou'].append(val_iou)
+        history['time_per_epoch'].append(epoch_time)
+        history['per_sample_dice'].append(batch_dices)
+        history['per_sample_iou'].append(batch_ious)
         
         print(f'Epoch {epoch+1}/{epochs}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, '
-              f'Val Dice: {val_dice:.4f}, Val IoU: {val_iou:.4f}')
+              f'Val Dice: {val_dice:.4f}, Val IoU: {val_iou:.4f}, Time: {epoch_time:.2f}s')
+        
+        # Learning rate scheduling
+        scheduler.step(val_loss)
+        
+        # Early stopping check
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            early_stop_counter = 0
+            best_model_state = model.state_dict().copy()
+            history['best_epoch'] = epoch
+            print(f"Saving new best model, validation loss: {val_loss:.4f}")
+        else:
+            early_stop_counter += 1
+            print(f"Validation loss not improved, counter: {early_stop_counter}/{patience}")
+            
+            if early_stop_counter >= patience:
+                print(f"Early stopping triggered at epoch {epoch+1}")
+                history['early_stopped'] = True
+                break
+    
+    # Load best model state
+    if best_model_state is not None:
+        model.load_state_dict(best_model_state)
+        print(f"Loaded best model (Epoch {history['best_epoch']+1})")
     
     return history
 

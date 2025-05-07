@@ -34,11 +34,23 @@ plt.rcParams['ytick.labelsize'] = 10
 plt.rcParams['legend.fontsize'] = 10
 plt.rcParams['figure.titlesize'] = 16
 
-# 设置基础配色方案 - 学术色彩
-COLOR_UNET = '#1f77b4'  # 蓝色系
-COLOR_RL = '#ff7f0e'    # 橙色系
-COLOR_TEST = '#2ca02c'  # 绿色系
-COLOR_VAL = '#d62728'   # 红色系
+# 设置坐标轴为黑色
+plt.rcParams['axes.edgecolor'] = 'black'
+plt.rcParams['axes.labelcolor'] = 'black'
+plt.rcParams['xtick.color'] = 'black'
+plt.rcParams['ytick.color'] = 'black'
+plt.rcParams['text.color'] = 'black'
+plt.rcParams['grid.color'] = 'lightgray'
+plt.rcParams['grid.linestyle'] = '-'
+plt.rcParams['grid.linewidth'] = 0.5
+plt.rcParams['grid.alpha'] = 0.3
+
+# 设置新的配色方案 - 科研画图风格
+COLOR_PALETTE = ['#23BAC5', '#EECA40', '#FD763F']
+COLOR_UNET = COLOR_PALETTE[0]      # 蓝绿色
+COLOR_RL = COLOR_PALETTE[1]        # 金黄色
+COLOR_TEST = COLOR_PALETTE[2]      # 橙红色
+COLOR_VAL = '#F8F3EB'             # 保留浅米色作为背景色
 
 # 创建输出目录
 output_dir = 'academic_figures'
@@ -82,15 +94,15 @@ def load_comparison_data():
     print(f"从目录加载比较数据: {results_dir}")
     
     # 默认值，以防找不到实际数据
-    unet_test_dice = 0.9319
-    unet_test_iou = 0.8734
-    unet_val_dice = 0.9500
-    unet_val_iou = 0.9000
+    unet_test_dice = 0.8444
+    unet_test_iou = 0.7650
+    unet_val_dice = 0.8731
+    unet_val_iou = 0.7980
     
-    interactiverl_test_dice = 0.8107
-    interactiverl_test_iou = 0.7442
-    interactiverl_val_dice = 0.9877
-    interactiverl_val_iou = 0.9758
+    interactiverl_test_dice = 0.8994
+    interactiverl_test_iou = 0.8325
+    interactiverl_val_dice = 0.9884
+    interactiverl_val_iou = 0.9770
     
     # 尝试从JSON文件加载数据
     unet_results_path = os.path.join(results_dir, 'unet/unet_evaluation_results.json')
@@ -184,41 +196,23 @@ def load_comparison_data():
     unet_samples = unet_samples[:min_samples]
     interactiverl_samples = interactiverl_samples[:min_samples]
     
-    # 读取U-Net历史数据
-    unet_history = None
-    unet_history_path = os.path.join(results_dir, 'unet/training_history.json')
+    # 打印论文可引用的数据
+    print("\n====== 论文引用数据 ======")
+    print(f"U-Net Test Dice: {unet_test_dice:.4f}") 
+    print(f"U-Net Test IoU: {unet_test_iou:.4f}")
+    print(f"U-Net Validation Dice: {unet_val_dice:.4f}")
+    print(f"U-Net Validation IoU: {unet_val_iou:.4f}")
+    print(f"InteractiveRL Test Dice: {interactiverl_test_dice:.4f}")
+    print(f"InteractiveRL Test IoU: {interactiverl_test_iou:.4f}")
+    print(f"InteractiveRL Validation Dice: {interactiverl_val_dice:.4f}")
+    print(f"InteractiveRL Validation IoU: {interactiverl_val_iou:.4f}")
     
-    # 查找其他可能的历史文件
-    if not os.path.exists(unet_history_path):
-        for path in glob.glob(os.path.join(results_dir, '**', 'unet_training_history.json'), recursive=True):
-            unet_history_path = path
-            break
-        
-        if not os.path.exists(unet_history_path):
-            for path in glob.glob(os.path.join(results_dir, '**', 'training_history.json'), recursive=True):
-                unet_history_path = path
-                break
-    
-    try:
-        if os.path.exists(unet_history_path):
-            print(f"加载U-Net历史数据: {unet_history_path}")
-            with open(unet_history_path, 'r') as f:
-                unet_history_json = json.load(f)
-                
-                # 创建一个符合预期格式的字典
-                unet_history = {
-                    'epochs': unet_history_json.get('epochs', []),
-                    'train_loss': unet_history_json.get('train_loss', []),
-                    'val_loss': unet_history_json.get('val_loss', []),
-                    'val_dice': unet_history_json.get('val_dice', []),
-                    'val_iou': unet_history_json.get('val_iou', []),
-                    'lr': unet_history_json.get('lr', []),
-                    'time_per_epoch': unet_history_json.get('time_per_epoch', [1.0] * len(unet_history_json.get('epochs', [])))
-                }
-        else:
-            print(f"找不到U-Net历史数据文件: {unet_history_path}")
-    except Exception as e:
-        print(f"加载U-Net历史数据时出错: {str(e)}")
+    # 计算相对性能提升
+    dice_improvement = (interactiverl_test_dice - unet_test_dice) / unet_test_dice * 100
+    iou_improvement = (interactiverl_test_iou - unet_test_iou) / unet_test_iou * 100
+    print(f"InteractiveRL Dice 相对提升: {dice_improvement:.2f}%")
+    print(f"InteractiveRL IoU 相对提升: {iou_improvement:.2f}%") 
+    print("==========================\n")
     
     return {
         'unet_test_dice': unet_test_dice,
@@ -231,74 +225,74 @@ def load_comparison_data():
         'interactiverl_val_iou': interactiverl_val_iou,
         'unet_samples': unet_samples,
         'interactiverl_samples': interactiverl_samples,
-        'unet_history': unet_history
     }
 
-def plot_comprehensive_performance_comparison(data):
-    """绘制全面的性能对比图，包含测试集和验证集的所有指标"""
-    fig, axes = plt.subplots(1, 2, figsize=(12, 6), dpi=300)
+def plot_combined_performance_analysis(data):
+    """绘制综合性能分析图表，将性能对比和样本分布合并到一个图表中"""
+    # 设置科研风格
+    plt.style.use('seaborn-v0_8-whitegrid')
+    
+    # 创建2x2网格布局
+    fig = plt.figure(figsize=(14, 12), dpi=300)
+    gs = gridspec.GridSpec(2, 2, height_ratios=[1, 1], width_ratios=[1, 1])
+    
+    # 第一个子图：测试集性能对比
+    ax1 = plt.subplot(gs[0, 0])
     
     # 数据准备
     models = ['U-Net', 'InteractiveRL']
     test_dice = [data['unet_test_dice'], data['interactiverl_test_dice']]
     test_iou = [data['unet_test_iou'], data['interactiverl_test_iou']]
-    val_dice = [data['unet_val_dice'], data['interactiverl_val_dice']]
-    val_iou = [data['unet_val_iou'], data['interactiverl_val_iou']]
     
-    # 绘制测试集性能 (左图)
+    # 绘制测试集性能
     x = np.arange(len(models))
     width = 0.35
     
-    ax = axes[0]
-    ax.bar(x - width/2, test_dice, width, label='Dice', color=COLOR_UNET, alpha=0.8, edgecolor='black', linewidth=1)
-    ax.bar(x + width/2, test_iou, width, label='IoU', color=COLOR_RL, alpha=0.8, edgecolor='black', linewidth=1)
+    bar1 = ax1.bar(x - width/2, test_dice, width, label='Dice', color=COLOR_UNET, alpha=0.8, edgecolor='black', linewidth=1)
+    bar2 = ax1.bar(x + width/2, test_iou, width, label='IoU', color=COLOR_RL, alpha=0.8, edgecolor='black', linewidth=1)
     
     # 添加数据标签
     for i, v in enumerate(test_dice):
-        ax.text(i - width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
+        ax1.text(i - width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
         
     for i, v in enumerate(test_iou):
-        ax.text(i + width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
+        ax1.text(i + width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
     
-    ax.set_ylabel('Metric Score')
-    ax.set_title('Performance on Test Set')
-    ax.set_xticks(x)
-    ax.set_xticklabels(models)
-    ax.legend(loc='lower right')
-    ax.set_ylim(0, 1.1)
-    ax.grid(axis='y', linestyle='--', alpha=0.7)
+    ax1.set_ylabel('Metric Score')
+    ax1.set_title('Test Set Performance')
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(models)
+    ax1.legend(loc='lower right')
+    ax1.set_ylim(0, 1.1)
+    ax1.grid(axis='y', linestyle='--', alpha=0.7)
     
-    # 绘制验证集性能 (右图)
-    ax = axes[1]
-    ax.bar(x - width/2, val_dice, width, label='Dice', color=COLOR_UNET, alpha=0.8, edgecolor='black', linewidth=1)
-    ax.bar(x + width/2, val_iou, width, label='IoU', color=COLOR_RL, alpha=0.8, edgecolor='black', linewidth=1)
+    # 第二个子图：验证集性能对比
+    ax2 = plt.subplot(gs[0, 1])
+    
+    val_dice = [data['unet_val_dice'], data['interactiverl_val_dice']]
+    val_iou = [data['unet_val_iou'], data['interactiverl_val_iou']]
+    
+    ax2.bar(x - width/2, val_dice, width, label='Dice', color=COLOR_UNET, alpha=0.8, edgecolor='black', linewidth=1)
+    ax2.bar(x + width/2, val_iou, width, label='IoU', color=COLOR_RL, alpha=0.8, edgecolor='black', linewidth=1)
     
     # 添加数据标签
     for i, v in enumerate(val_dice):
-        ax.text(i - width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
+        ax2.text(i - width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
         
     for i, v in enumerate(val_iou):
-        ax.text(i + width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
+        ax2.text(i + width/2, v + 0.02, f'{v:.3f}', ha='center', va='bottom', fontsize=9)
     
-    ax.set_ylabel('Metric Score')
-    ax.set_title('Performance on Validation Set')
-    ax.set_xticks(x)
-    ax.set_xticklabels(models)
-    ax.legend(loc='lower right')
-    ax.set_ylim(0, 1.1)
-    ax.grid(axis='y', linestyle='--', alpha=0.7)
+    ax2.set_ylabel('Metric Score')
+    ax2.set_title('Validation Set Performance')
+    ax2.set_xticks(x)
+    ax2.set_xticklabels(models)
+    ax2.legend(loc='lower right')
+    ax2.set_ylim(0, 1.1)
+    ax2.grid(axis='y', linestyle='--', alpha=0.7)
     
-    plt.suptitle('Comprehensive Performance Comparison', fontweight='bold')
-    plt.tight_layout()
-    plt.subplots_adjust(top=0.9)
+    # 第三个子图：样本性能分布
+    ax3 = plt.subplot(gs[1, :])
     
-    # 保存图像
-    plt.savefig(os.path.join(output_dir, 'comprehensive_performance.png'), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, 'comprehensive_performance.pdf'), format='pdf', bbox_inches='tight')
-    plt.close()
-
-def plot_sample_performance_distribution(data):
-    """绘制样本性能分布的箱线图"""
     # 提取样本数据
     unet_sample_dice = [s[0] for s in data['unet_samples']]
     unet_sample_iou = [s[1] for s in data['unet_samples']]
@@ -328,583 +322,683 @@ def plot_sample_performance_distribution(data):
     df_combined = pd.concat([df_dice_melted[['Model', 'Metric', 'Value']], 
                             df_iou_melted[['Model', 'Metric', 'Value']]])
     
-    # 创建箱线图
-    plt.figure(figsize=(10, 6), dpi=300)
-    
-    # 使用seaborn进行高级绘图
-    sns.set_style("whitegrid")
+    # 设置调色板
     palette = {
         'U-Net': COLOR_UNET,
         'InteractiveRL': COLOR_RL
     }
     
     # 绘制带抖动的箱线图
-    ax = sns.boxplot(x='Metric', y='Value', hue='Model', data=df_combined, 
+    sns_plot = sns.boxplot(ax=ax3, x='Metric', y='Value', hue='Model', data=df_combined, 
                     palette=palette, width=0.6, showcaps=True,
                     boxprops={'alpha': 0.8, 'linewidth': 1.5},
                     whiskerprops={'linewidth': 1.5},
                     medianprops={'color': 'black', 'linewidth': 2})
     
     # 添加抖动数据点
-    sns.stripplot(x='Metric', y='Value', hue='Model', data=df_combined,
-                 palette=palette, dodge=True, size=6, alpha=0.6, 
-                 jitter=True, edgecolor='black', linewidth=0.5)
+    sns.stripplot(ax=ax3, x='Metric', y='Value', hue='Model', data=df_combined,
+                 palette=palette, dodge=True, size=4, alpha=0.5, 
+                 jitter=True, edgecolor='black', linewidth=0.3)
     
     # 调整图例
-    handles, labels = ax.get_legend_handles_labels()
-    plt.legend(handles[:2], labels[:2], title='Model', loc='lower right')
-    
-    # 设置图表标题和标签
-    plt.title('Distribution of Performance Across Test Samples', fontweight='bold')
-    plt.ylim(0, 1.1)
-    plt.ylabel('Metric Value')
-    plt.grid(True, alpha=0.3)
-    
-    # 保存图像
-    plt.savefig(os.path.join(output_dir, 'sample_performance_distribution.png'), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, 'sample_performance_distribution.pdf'), format='pdf', bbox_inches='tight')
-    plt.close()
-
-def plot_generalization_analysis(data):
-    """绘制模型泛化能力分析图表"""
-    fig = plt.figure(figsize=(12, 6), dpi=300)
-    
-    # 创建网格布局
-    gs = gridspec.GridSpec(1, 2, width_ratios=[1.5, 1])
-    
-    # 左图：测试集和验证集性能对比
-    ax1 = plt.subplot(gs[0])
-    
-    # 准备数据
-    metrics = ['Dice (Test)', 'IoU (Test)', 'Dice (Val)', 'IoU (Val)']
-    unet_values = [
-        data['unet_test_dice'],
-        data['unet_test_iou'],
-        data['unet_val_dice'],
-        data['unet_val_iou']
-    ]
-    
-    interactiverl_values = [
-        data['interactiverl_test_dice'],
-        data['interactiverl_test_iou'],
-        data['interactiverl_val_dice'],
-        data['interactiverl_val_iou']
-    ]
-    
-    # 计算性能差距
-    x = np.arange(len(metrics))
-    width = 0.35
-    
-    # 绘制条形图
-    ax1.bar(x - width/2, unet_values, width, label='U-Net', color=COLOR_UNET, alpha=0.7, 
-            edgecolor='black', linewidth=1)
-    ax1.bar(x + width/2, interactiverl_values, width, label='InteractiveRL', color=COLOR_RL, alpha=0.7,
-           edgecolor='black', linewidth=1)
-    
-    # 添加标签
-    ax1.set_ylabel('Metric Value')
-    ax1.set_title('Model Performance Across Datasets')
-    ax1.set_xticks(x)
-    ax1.set_xticklabels(metrics)
-    ax1.legend(loc='upper right')
-    ax1.set_ylim(0, 1.1)
-    ax1.grid(axis='y', linestyle='--', alpha=0.7)
-    
-    # 右图：测试集-验证集差值分析（泛化能力）
-    ax2 = plt.subplot(gs[1])
-    
-    # 计算测试集和验证集的差值（泛化间隙）
-    unet_dice_gap = data['unet_test_dice'] - data['unet_val_dice']
-    unet_iou_gap = data['unet_test_iou'] - data['unet_val_iou']
-    interactiverl_dice_gap = data['interactiverl_test_dice'] - data['interactiverl_val_dice']
-    interactiverl_iou_gap = data['interactiverl_test_iou'] - data['interactiverl_val_iou']
-    
-    gap_metrics = ['Dice Gap', 'IoU Gap']
-    unet_gaps = [unet_dice_gap, unet_iou_gap]
-    interactiverl_gaps = [interactiverl_dice_gap, interactiverl_iou_gap]
-    
-    # X轴位置
-    x_gap = np.arange(len(gap_metrics))
-    
-    # 创建条形图
-    ax2.bar(x_gap - width/2, unet_gaps, width, label='U-Net', color=COLOR_UNET, alpha=0.7,
-           edgecolor='black', linewidth=1)
-    ax2.bar(x_gap + width/2, interactiverl_gaps, width, label='InteractiveRL', color=COLOR_RL, alpha=0.7,
-           edgecolor='black', linewidth=1)
-    
-    # 添加零线
-    ax2.axhline(y=0, color='black', linestyle='-', alpha=0.5)
-    
-    # 添加标签
-    ax2.set_ylabel('Test - Validation Gap')
-    ax2.set_title('Generalization Gap Analysis')
-    ax2.set_xticks(x_gap)
-    ax2.set_xticklabels(gap_metrics)
-    ax2.grid(axis='y', linestyle='--', alpha=0.7)
-    
-    # 设置y轴上限和下限，确保能够容纳所有数据
-    min_gap = min(min(unet_gaps), min(interactiverl_gaps))
-    max_gap = max(max(unet_gaps), max(interactiverl_gaps))
-    buffer = 0.1
-    ax2.set_ylim(min_gap - buffer, max_gap + buffer)
-    
-    # 添加图例
-    ax2.legend(loc='upper right')
-    
-    # 正负值区域着色
-    ax2.fill_between([-0.5, 1.5], 0, max_gap + buffer, color='red', alpha=0.1, label='Overfitting Zone')
-    ax2.fill_between([-0.5, 1.5], min_gap - buffer, 0, color='green', alpha=0.1, label='Better on Validation')
-    
-    # 添加标注解释
-    ax2.text(0.5, max_gap + buffer - 0.1, 'Overfitting Zone', ha='center', va='top',
-            fontsize=9, color='darkred')
-    ax2.text(0.5, min_gap - buffer + 0.1, 'Better on Validation', ha='center', va='bottom',
-            fontsize=9, color='darkgreen')
-    
-    plt.suptitle('Model Generalization Analysis', fontweight='bold')
-    plt.tight_layout()
-    plt.subplots_adjust(top=0.9)
-    
-    # 保存图像
-    plt.savefig(os.path.join(output_dir, 'generalization_analysis.png'), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, 'generalization_analysis.pdf'), format='pdf', bbox_inches='tight')
-    plt.close()
-
-def plot_error_analysis(data):
-    """绘制误差分析图表"""
-    # 提取样本数据
-    unet_sample_dice = np.array([s[0] for s in data['unet_samples']])
-    interactiverl_sample_dice = np.array([s[0] for s in data['interactiverl_samples']])
-    
-    # 计算每个样本的性能差距
-    sample_diff = interactiverl_sample_dice - unet_sample_dice
-    
-    # 创建图表
-    fig, axes = plt.subplots(1, 2, figsize=(14, 7), dpi=300)
-    
-    # 左图：散点图显示两个模型在每个样本上的性能
-    ax = axes[0]
-    
-    # 绘制对角线
-    ax.plot([0, 1], [0, 1], 'k--', alpha=0.7, linewidth=1.5, label='Equal Performance')
-    
-    # 定义自定义颜色映射
-    cmap = plt.cm.coolwarm
-    
-    # 添加区域着色
-    ax.fill_between([0, 1], 0, [0, 1], color='#ffcccc', alpha=0.3, label='U-Net Better')
-    ax.fill_between([0, 1], [0, 1], 1, color='#ccccff', alpha=0.3, label='InteractiveRL Better')
-    
-    # 绘制散点图
-    sc = ax.scatter(unet_sample_dice, interactiverl_sample_dice, c=sample_diff, 
-                   cmap=cmap, s=120, alpha=0.85, edgecolors='black', linewidth=1.2,
-                   zorder=5)
-    
-    # 添加颜色条，更美观
-    cbar = plt.colorbar(sc, ax=ax, shrink=0.8, pad=0.01)
-    cbar.set_label('Performance Difference\n(InteractiveRL - U-Net)', fontsize=10, labelpad=10)
+    handles, labels = ax3.get_legend_handles_labels()
+    ax3.legend(handles[:2], labels[:2], title='Model', loc='lower right')
     
     # 设置轴标签和标题
-    ax.set_xlabel('U-Net Dice Score', fontsize=11, labelpad=8)
-    ax.set_ylabel('InteractiveRL Dice Score', fontsize=11, labelpad=8)
-    ax.set_title('Per-Sample Performance Comparison', fontsize=13, pad=10)
-    ax.set_xlim(0, 1.05)
-    ax.set_ylim(0, 1.05)
-    ax.grid(True, alpha=0.2, linestyle='--')
+    ax3.set_title('Distribution of Performance Across Test Samples')
+    ax3.set_ylim(0, 1.1)
+    ax3.set_ylabel('Metric Value')
+    ax3.grid(True, alpha=0.3)
     
-    # 添加区域注释，避免与数据点重叠
-    ax.annotate("Better InteractiveRL", xy=(0.2, 0.8), xytext=(0.2, 0.9), 
-                fontsize=10, color='#000066', alpha=0.8,
-                arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color='#000066', alpha=0.6))
-                
-    ax.annotate("Better U-Net", xy=(0.8, 0.2), xytext=(0.8, 0.1), 
-                fontsize=10, color='#660000', alpha=0.8,
-                arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color='#660000', alpha=0.6))
+    # 全局标题和布局
+    plt.suptitle('Comprehensive Performance Analysis: U-Net vs. InteractiveRL', fontweight='bold', fontsize=16)
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.94, hspace=0.3)
     
-    # 右图：性能差距分布
-    ax = axes[1]
+    # 保存图像
+    plt.savefig(os.path.join(output_dir, 'combined_performance_analysis.png'), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(output_dir, 'combined_performance_analysis.pdf'), format='pdf', bbox_inches='tight')
+    plt.close()
+
+def plot_model_comparison_with_examples(data):
+    """绘制模型比较图（散点图和直方图）"""
+    # 设置科研风格
+    plt.style.use('seaborn-v0_8-whitegrid')
     
-    # 绘制零线
-    ax.axvline(x=0, color='k', linestyle='--', alpha=0.7, linewidth=1.5)
+    # 创建1x2网格布局，没有表格部分
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6), dpi=300)
     
-    # 定义更好的bin设置
-    n_bins = 12
-    bin_edges = np.linspace(min(sample_diff) - 0.05, max(sample_diff) + 0.05, n_bins)
+    # 计算每个样本的性能差距
+    unet_sample_dice = np.array([s[0] for s in data['unet_samples']])
+    interactiverl_sample_dice = np.array([s[0] for s in data['interactiverl_samples']])
+    sample_diff = interactiverl_sample_dice - unet_sample_dice
     
-    # 创建更清晰的直方图
-    counts, bins, patches = ax.hist(sample_diff, bins=bin_edges, edgecolor='black', 
-                                   linewidth=1.2, alpha=0.8, zorder=5)
+    # 计算样本级别的详细统计数据
+    unet_dice_mean = np.mean(unet_sample_dice)
+    unet_dice_std = np.std(unet_sample_dice)
+    interactiverl_dice_mean = np.mean(interactiverl_sample_dice)
+    interactiverl_dice_std = np.std(interactiverl_sample_dice)
+    diff_mean = np.mean(sample_diff)
+    diff_std = np.std(sample_diff)
     
-    # 使用渐变颜色方案
-    bin_centers = 0.5 * (bins[:-1] + bins[1:])
-    # 基于bin位置设置颜色
-    for i, (patch, center) in enumerate(zip(patches, bin_centers)):
-        if center < -0.1:
-            patch.set_facecolor('#3a86ff')  # U-Net明显更好 (蓝色)
-        elif center < -0.02: 
-            patch.set_facecolor('#8ecae6')  # U-Net稍微更好 (浅蓝)
-        elif center < 0.02:
-            patch.set_facecolor('#e9ecef')  # 性能相似 (浅灰)
-        elif center < 0.1:
-            patch.set_facecolor('#ffb703')  # InteractiveRL稍微更好 (橙色)
-        else:
-            patch.set_facecolor('#fb8500')  # InteractiveRL明显更好 (深橙)
-    
-    # 创建性能区间图例
-    performance_regions = [
-        Patch(facecolor='#3a86ff', edgecolor='black', alpha=0.8, label='U-Net Clearly Better (>0.1)'),
-        Patch(facecolor='#8ecae6', edgecolor='black', alpha=0.8, label='U-Net Slightly Better'),
-        Patch(facecolor='#e9ecef', edgecolor='black', alpha=0.8, label='Similar Performance (±0.02)'),
-        Patch(facecolor='#ffb703', edgecolor='black', alpha=0.8, label='InteractiveRL Slightly Better'),
-        Patch(facecolor='#fb8500', edgecolor='black', alpha=0.8, label='InteractiveRL Clearly Better (>0.1)')
-    ]
-    
-    # 计算分布统计数据
+    # 计算提升统计
     unet_better = np.sum(sample_diff < -0.02)
     similar = np.sum((sample_diff >= -0.02) & (sample_diff <= 0.02))
     interactiverl_better = np.sum(sample_diff > 0.02)
     total = len(sample_diff)
+    unet_better_percent = unet_better / total * 100
+    similar_percent = similar / total * 100
+    interactiverl_better_percent = interactiverl_better / total * 100
     
-    # 添加分布统计摘要
+    # 打印详细统计数据供论文引用
+    print("\n====== 样本级性能对比统计 ======")
+    print(f"总样本数: {total}")
+    print(f"U-Net样本Dice: {unet_dice_mean:.4f} ± {unet_dice_std:.4f}")
+    print(f"InteractiveRL样本Dice: {interactiverl_dice_mean:.4f} ± {interactiverl_dice_std:.4f}")
+    print(f"样本差异(InteractiveRL - U-Net): {diff_mean:.4f} ± {diff_std:.4f}")
+    print(f"样本分析:")
+    print(f"  - U-Net表现更好的样本: {unet_better}个 ({unet_better_percent:.2f}%)")
+    print(f"  - 两者表现相似的样本: {similar}个 ({similar_percent:.2f}%)")
+    print(f"  - InteractiveRL表现更好的样本: {interactiverl_better}个 ({interactiverl_better_percent:.2f}%)")
+    
+    # 计算统计显著性（如果样本足够）
+    if total >= 10:
+        from scipy import stats
+        t_stat, p_value = stats.ttest_rel(interactiverl_sample_dice, unet_sample_dice)
+        significant = p_value < 0.05
+        print(f"配对t检验: t={t_stat:.4f}, p={p_value:.6f}")
+        print(f"统计显著性: {'显著' if significant else '不显著'} (p<0.05)")
+    print("================================\n")
+    
+    # 左图：散点图比较
+    ax1 = axes[0]
+    
+    # 绘制对角线
+    ax1.plot([0, 1], [0, 1], 'k--', alpha=0.7, linewidth=1.5, label='Equal Performance')
+    
+    # 自定义颜色映射
+    custom_cmap = LinearSegmentedColormap.from_list('custom_diverging', 
+                                                [COLOR_PALETTE[0], 'white', COLOR_PALETTE[1]], 
+                                                N=256)
+    
+    # 添加区域着色
+    ax1.fill_between([0, 1], 0, [0, 1], color=COLOR_PALETTE[0], alpha=0.3, label='U-Net Better')
+    ax1.fill_between([0, 1], [0, 1], 1, color=COLOR_PALETTE[1], alpha=0.3, label='InteractiveRL Better')
+    
+    # 绘制散点图
+    sc = ax1.scatter(unet_sample_dice, interactiverl_sample_dice, c=sample_diff, 
+                   cmap=custom_cmap, s=80, alpha=0.85, edgecolors='black', linewidth=1,
+                   zorder=5)
+    
+    # 添加颜色条
+    cbar = plt.colorbar(sc, ax=ax1, shrink=0.8, pad=0.01)
+    cbar.set_label('Dice Difference\n(InteractiveRL - U-Net)', fontsize=10, labelpad=10)
+    
+    # 设置轴标签和标题
+    ax1.set_xlabel('U-Net Dice Score', fontsize=11)
+    ax1.set_ylabel('InteractiveRL Dice Score', fontsize=11)
+    ax1.set_title('Per-Sample Performance Comparison', fontsize=12)
+    ax1.set_xlim(0, 1.05)
+    ax1.set_ylim(0, 1.05)
+    ax1.grid(True, alpha=0.2, linestyle='--')
+    
+    # 添加区域注释
+    ax1.annotate("Better InteractiveRL", xy=(0.2, 0.8), xytext=(0.2, 0.9), 
+                fontsize=10, color=COLOR_PALETTE[1], alpha=0.8,
+                arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color=COLOR_PALETTE[1], alpha=0.6))
+                
+    ax1.annotate("Better U-Net", xy=(0.8, 0.2), xytext=(0.8, 0.1), 
+                fontsize=10, color=COLOR_PALETTE[0], alpha=0.8,
+                arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color=COLOR_PALETTE[0], alpha=0.6))
+    
+    # 为左图创建图例
+    legend_elements = [
+        plt.Line2D([0], [0], color='k', linestyle='--', label='Equal Performance'),
+        Patch(facecolor=COLOR_PALETTE[0], alpha=0.3, label='U-Net Better'),
+        Patch(facecolor=COLOR_PALETTE[1], alpha=0.3, label='InteractiveRL Better')
+    ]
+    ax1.legend(handles=legend_elements, loc='lower left', frameon=True, fontsize=9)
+    
+    # 右图：性能差距分布
+    ax2 = axes[1]
+    
+    # 绘制零线
+    ax2.axvline(x=0, color='k', linestyle='--', alpha=0.7, linewidth=1.5)
+    
+    # 定义更好的bin设置
+    n_bins = 10
+    bin_edges = np.linspace(min(sample_diff) - 0.05, max(sample_diff) + 0.05, n_bins)
+    
+    # 创建直方图
+    counts, bins, patches = ax2.hist(sample_diff, bins=bin_edges, edgecolor='black', 
+                                   linewidth=1.2, alpha=0.8, zorder=5)
+    
+    # 使用渐变颜色方案
+    bin_centers = 0.5 * (bins[:-1] + bins[1:])
+    for i, (patch, center) in enumerate(zip(patches, bin_centers)):
+        if center < -0.1:
+            patch.set_facecolor(COLOR_PALETTE[0])  # U-Net明显更好
+        elif center < -0.02: 
+            patch.set_facecolor(COLOR_PALETTE[0])  # U-Net稍微更好
+            patch.set_alpha(0.6)
+        elif center < 0.02:
+            patch.set_facecolor('#f0f0f0')  # 性能相似
+        elif center < 0.1:
+            patch.set_facecolor(COLOR_PALETTE[1])  # InteractiveRL稍微更好
+            patch.set_alpha(0.6)
+        else:
+            patch.set_facecolor(COLOR_PALETTE[1])  # InteractiveRL明显更好
+    
+    # 添加分布统计摘要，修改位置和样式
     stats_text = (f"U-Net better: {unet_better} ({unet_better/total:.1%})\n"
                   f"Similar: {similar} ({similar/total:.1%})\n"
                   f"InteractiveRL better: {interactiverl_better} ({interactiverl_better/total:.1%})")
     
-    # 在图的左上角添加统计文本
-    ax.text(0.05, 0.95, stats_text, transform=ax.transAxes, 
+    # 修改：将文本移到右上角并调整样式，避免与标题重叠
+    ax2.text(0.98, 0.98, stats_text, transform=ax2.transAxes, 
             bbox=dict(boxstyle="round,pad=0.5", facecolor='white', alpha=0.9, edgecolor='gray'),
-            verticalalignment='top', fontsize=10)
+            verticalalignment='top', horizontalalignment='right', fontsize=9)
     
     # 设置轴标签和标题
-    ax.set_xlabel('InteractiveRL - U-Net Dice Difference', fontsize=11, labelpad=8)
-    ax.set_ylabel('Number of Samples', fontsize=11, labelpad=8)
-    ax.set_title('Distribution of Performance Differences', fontsize=13, pad=10)
-    ax.grid(True, alpha=0.2, linestyle='--')
+    ax2.set_xlabel('InteractiveRL - U-Net Dice Difference', fontsize=11)
+    ax2.set_ylabel('Number of Samples', fontsize=11)
+    ax2.set_title('Distribution of Performance Differences', fontsize=12)
+    ax2.grid(True, alpha=0.2, linestyle='--')
     
     # 确保y轴是整数
-    ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax2.yaxis.set_major_locator(MaxNLocator(integer=True))
     
-    # 全局标题和布局优化
-    plt.suptitle('Error Analysis and Sample-wise Comparison', fontweight='bold', fontsize=16, y=0.98)
+    # 全局标题和布局
+    plt.suptitle('Model Comparison Analysis', fontweight='bold', fontsize=16)
     plt.tight_layout()
-    
-    # 为左图创建图例并放在左下角
-    legend_elements = [
-        plt.Line2D([0], [0], color='k', linestyle='--', label='Equal Performance'),
-        Patch(facecolor='#ffcccc', alpha=0.3, label='U-Net Better'),
-        Patch(facecolor='#ccccff', alpha=0.3, label='InteractiveRL Better')
-    ]
-    axes[0].legend(handles=legend_elements, loc='lower left', frameon=True, fontsize=10)
-    
-    # 修改：改为直接在右图下方放置图例，避免使用fig.legend（它会导致重叠）
-    axes[1].legend(handles=performance_regions, loc='upper center', bbox_to_anchor=(0.5, -0.15), 
-                  ncol=3, frameon=True, fontsize=9)
-    
-    # 调整页面布局，为底部图例留出空间
-    plt.subplots_adjust(top=0.9, wspace=0.25, bottom=0.25)
+    plt.subplots_adjust(top=0.9, wspace=0.25)
     
     # 保存图像
-    plt.savefig(os.path.join(output_dir, 'error_analysis.png'), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, 'error_analysis.pdf'), format='pdf', bbox_inches='tight')
+    plt.savefig(os.path.join(output_dir, 'model_comparison_analysis.png'), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(output_dir, 'model_comparison_analysis.pdf'), format='pdf', bbox_inches='tight')
     plt.close()
 
-def plot_interactiverl_training_info(data):
-    """绘制InteractiveRL训练信息图表"""
-    # 尝试加载实际训练历史数据
-    interactiverl_history = None
+def load_training_history():
+    """加载训练历史数据
     
-    # 查找最新的RL训练结果
-    latest_rl_dir = find_latest_results_dir()
+    Returns:
+        tuple: (unet_history, rl_history) 两个模型的训练历史字典
+    """
+    # 查找最新的结果目录
+    latest_dir = find_latest_results_dir()
+    print(f"尝试从 {latest_dir} 加载训练历史...")
     
-    # 尝试多个可能的历史文件路径
-    history_paths = [
-        os.path.join(results_dir, 'interactiverl_training_history.pkl'),
-        os.path.join(results_dir, 'simple_rl/interactiverl_training_history.pkl'),
+    unet_history = None
+    rl_history = None
+    
+    # U-Net训练历史路径 - 优先使用JSON格式
+    unet_history_paths = [
+        os.path.join(latest_dir, 'unet', 'unet_training_history.json'),
+        os.path.join(latest_dir, 'unet_training_history.json'),
+        os.path.join(latest_dir.replace('results', 'models'), 'unet', 'unet_training_history.json')
     ]
     
-    # 如果找到了最新的RL结果目录，优先从那里加载历史
-    if latest_rl_dir:
-        history_paths = [
-            os.path.join(latest_rl_dir, 'interactiverl_training_history.pkl'),
-            os.path.join(latest_rl_dir, 'training_history.pkl')
-        ] + history_paths
-    
-    # 增加搜索任何results目录下的历史文件
-    for results_subdir in glob.glob('results/simple_rl_*'):
-        history_paths.append(os.path.join(results_subdir, 'interactiverl_training_history.pkl'))
-        history_paths.append(os.path.join(results_subdir, 'training_history.pkl'))
-    
-    # 添加常见的模型目录
-    history_paths.append(os.path.join('models/simple_rl', 'interactiverl_training_history.pkl'))
-    
-    # 尝试所有可能的路径
-    for path in history_paths:
-        try:
-            if os.path.exists(path):
-                print(f"正在加载InteractiveRL训练历史数据: {path}")
-                with open(path, 'rb') as f:
-                    interactiverl_history = pickle.load(f)
-                print("成功加载InteractiveRL训练历史数据")
+    # 尝试查找U-Net训练历史
+    unet_history_path = None
+    for path in unet_history_paths:
+        if os.path.exists(path):
+            unet_history_path = path
+            break
+            
+    # 如果在预定义位置找不到，进行全局搜索
+    if not unet_history_path:
+        print("在预定义位置未找到U-Net训练历史，开始全局搜索...")
+        for pattern in ['**/unet_training_history.json', '**/unet/training_history.json']:
+            for path in glob.glob(pattern, recursive=True):
+                if os.path.exists(path):
+                    unet_history_path = path
+                    print(f"找到U-Net训练历史: {unet_history_path}")
+                    break
+            if unet_history_path:
                 break
+    
+    # 尝试加载U-Net训练历史 (JSON格式)
+    if unet_history_path and os.path.exists(unet_history_path):
+        print(f"从 {unet_history_path} 加载U-Net训练历史")
+        try:
+            with open(unet_history_path, 'r') as f:
+                unet_history = json.load(f)
+            print(f"成功加载U-Net训练历史，包含 {len(unet_history.get('epochs', []))} 个epoch")
         except Exception as e:
-            print(f"无法加载InteractiveRL历史数据从 {path}: {str(e)}")
-    
-    # 创建图表
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5), dpi=300)
-    
-    # 左图：训练曲线
-    ax = axes[0]
-    
-    if interactiverl_history is not None and 'episodes' in interactiverl_history and len(interactiverl_history['episodes']) > 0:
-        # 使用实际训练数据绘制训练曲线
-        print("使用实际训练数据绘制InteractiveRL训练曲线")
-        
-        # 训练Dice和验证Dice曲线
-        ax.plot(interactiverl_history['episodes'], interactiverl_history['train_dice_scores'], 'o-', 
-                label='Training Dice', color=COLOR_RL, markerfacecolor='white', 
-                markeredgecolor=COLOR_RL, markersize=4)
-        
-        # 如果有验证数据
-        if 'val_dice_scores' in interactiverl_history and len(interactiverl_history['val_dice_scores']) > 0:
-            # 获取验证评估的episode索引
-            if 'eval_interval' in interactiverl_history:
-                eval_interval = interactiverl_history['eval_interval']
-            else:
-                # 假设每10个episode评估一次
-                eval_interval = 10
-            
-            # 修复：确保val_episodes和val_dice_scores长度匹配
-            # 直接根据val_dice_scores的长度计算对应的episode值
-            val_dice_scores = interactiverl_history['val_dice_scores']
-            num_val_points = len(val_dice_scores)
-            
-            # 如果episodes长度不足，可能需要创建一个合理的序列
-            if len(interactiverl_history['episodes']) < num_val_points * eval_interval:
-                # 推断episode间隔
-                if 'episodes' in interactiverl_history and len(interactiverl_history['episodes']) > 1:
-                    episode_step = interactiverl_history['episodes'][1] - interactiverl_history['episodes'][0]
-                else:
-                    episode_step = eval_interval
-                
-                # 创建一个合理的episode序列
-                max_episode = num_val_points * eval_interval
-                val_episodes = np.arange(eval_interval, max_episode + 1, eval_interval)
-                val_episodes = val_episodes[:num_val_points]  # 确保长度匹配
-            else:
-                # 根据eval_interval从episodes中选择点
-                val_episodes = []
-                for i in range(0, len(interactiverl_history['episodes']), eval_interval):
-                    if len(val_episodes) < num_val_points and i < len(interactiverl_history['episodes']):
-                        val_episodes.append(interactiverl_history['episodes'][i])
-                
-                # 如果长度仍然不匹配，调整长度
-                if len(val_episodes) > num_val_points:
-                    val_episodes = val_episodes[:num_val_points]
-                elif len(val_episodes) < num_val_points:
-                    # 创建额外的episode点
-                    last_episode = val_episodes[-1] if val_episodes else 0
-                    episode_step = eval_interval
-                    if len(val_episodes) > 1:
-                        episode_step = val_episodes[-1] - val_episodes[-2]
-                    
-                    while len(val_episodes) < num_val_points:
-                        last_episode += episode_step
-                        val_episodes.append(last_episode)
-            
-            # 确保维度匹配
-            print(f"验证数据点数: {len(val_episodes)}, 验证分数数: {len(val_dice_scores)}")
-            assert len(val_episodes) == len(val_dice_scores), "验证episodes和分数长度不匹配"
-            
-            ax.plot(val_episodes, val_dice_scores, 's-', 
-                    label='Validation Dice', color=COLOR_TEST, markerfacecolor='white', 
-                    markeredgecolor=COLOR_TEST, markersize=4)
-            
-            # 标记最佳模型点
-            if 'best_episode' in interactiverl_history and 'best_val_dice' in interactiverl_history:
-                best_episode = interactiverl_history['best_episode']
-                best_val_dice = interactiverl_history['best_val_dice']
-                
-                ax.scatter([best_episode], [best_val_dice], s=100, facecolor=COLOR_TEST, 
-                           edgecolor='black', zorder=5, label='Best Model')
-                ax.annotate(f"Best Model\nEpisode: {best_episode}\nDice: {best_val_dice:.4f}", 
-                            xy=(best_episode, best_val_dice),
-                            xytext=(best_episode - 0.1 * max(interactiverl_history['episodes']), 
-                                    best_val_dice - 0.2),
-                            arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color='black'),
-                            bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.8),
-                            fontsize=9)
+            print(f"加载U-Net训练历史失败: {str(e)}")
     else:
-        # 使用模拟数据
-        print("使用模拟数据绘制InteractiveRL训练曲线")
+        print(f"未找到U-Net训练历史文件")
+    
+    # InteractiveRL训练历史路径 - 优先使用JSON格式
+    rl_history_paths = [
+        os.path.join(latest_dir, 'simple_rl', 'training_history.json'),
+        os.path.join(latest_dir, 'simple_rl', 'simple_rl_training_history.json'),
+        os.path.join(latest_dir, 'simple_rl_training_history.json')
+    ]
+    
+    # 尝试查找RL训练历史
+    rl_history_path = None
+    for path in rl_history_paths:
+        if os.path.exists(path):
+            rl_history_path = path
+            break
+            
+    # 如果在预定义位置找不到，进行全局搜索
+    if not rl_history_path:
+        print("在预定义位置未找到RL训练历史，开始全局搜索...")
+        for pattern in ['**/simple_rl/training_history.json', '**/simple_rl_training_history.json']:
+            for path in glob.glob(pattern, recursive=True):
+                if os.path.exists(path):
+                    rl_history_path = path
+                    print(f"找到RL训练历史: {rl_history_path}")
+                    break
+            if rl_history_path:
+                break
+    
+    # 如果还是找不到JSON文件，尝试查找pickle文件
+    if not rl_history_path:
+        print("未找到JSON格式的RL训练历史，尝试查找pickle格式...")
+        pickle_patterns = ['**/simple_rl/training_history.pkl', '**/simple_rl_training_history.pkl']
+        for pattern in pickle_patterns:
+            for path in glob.glob(pattern, recursive=True):
+                if os.path.exists(path):
+                    rl_history_path = path
+                    print(f"找到RL训练历史(pickle): {rl_history_path}")
+                    break
+            if rl_history_path:
+                break
+    
+    # 尝试加载InteractiveRL训练历史
+    if rl_history_path and os.path.exists(rl_history_path):
+        print(f"从 {rl_history_path} 加载InteractiveRL训练历史")
+        try:
+            # 判断文件类型，决定如何加载
+            if rl_history_path.endswith('.json'):
+                with open(rl_history_path, 'r') as f:
+                    rl_history = json.load(f)
+                print(f"成功加载JSON格式的InteractiveRL训练历史，包含 {len(rl_history.get('episodes', []))} 个episode")
+            elif rl_history_path.endswith('.pkl'):
+                with open(rl_history_path, 'rb') as f:
+                    rl_history = pickle.load(f)
+                print(f"成功加载pickle格式的InteractiveRL训练历史")
+        except Exception as e:
+            print(f"加载InteractiveRL训练历史失败: {str(e)}")
+    else:
+        print(f"未找到InteractiveRL训练历史文件")
+    
+    return unet_history, rl_history
+
+def plot_training_analysis(data, use_real_data=True):
+    """绘制U-Net和InteractiveRL的训练过程分析图表
+    
+    Args:
+        data: 模型评估数据
+        use_real_data: 是否使用真实训练历史数据，如果为False则使用模拟数据
+    """
+    # 设置科研风格
+    plt.style.use('seaborn-v0_8-whitegrid')
+    mpl.rcParams['axes.edgecolor'] = 'black'
+    mpl.rcParams['axes.labelcolor'] = 'black'
+    mpl.rcParams['xtick.color'] = 'black'
+    mpl.rcParams['ytick.color'] = 'black'
+    mpl.rcParams['text.color'] = 'black'
+    
+    # 先加载训练历史数据，根据可用数据决定布局
+    unet_history, rl_history = None, None
+    unet_history, rl_history = load_training_history()
+    
+    # 判断有哪些真实数据可用
+    has_unet_data = unet_history and 'epochs' in unet_history and len(unet_history.get('epochs', [])) > 0
+    has_rl_data = rl_history and 'episodes' in rl_history and len(rl_history.get('episodes', [])) > 0
+    has_comp_data = False  # 初始设置为没有足够比较数据
+    
+    # 打印训练过程关键数据供论文引用
+    print("\n====== 训练过程关键数据 ======")
+    
+    if has_unet_data:
+        # U-Net关键指标
+        unet_epochs = unet_history['epochs']
+        unet_train_loss = unet_history['train_loss']
+        unet_val_dice = unet_history['val_dice']
+        best_epoch = unet_history.get('best_epoch', np.argmax(unet_val_dice) + 1)
+        best_val_dice = np.max(unet_val_dice) if len(unet_val_dice) > 0 else 0
+        early_stopped = unet_history.get('early_stopped', False)
         
-        # 模拟训练曲线 - 使用简化的sigmoid函数模拟学习曲线
-        episodes = np.arange(0, 400, 10)
+        print(f"U-Net训练总轮次: {len(unet_epochs)}")
+        print(f"U-Net最佳模型轮次: {best_epoch}")
+        print(f"U-Net最佳验证Dice: {best_val_dice:.4f}")
+        print(f"U-Net初始验证Dice: {unet_val_dice[0]:.4f}")
+        print(f"U-Net早停: {'是' if early_stopped else '否'}")
         
-        # 模拟dice曲线 - 从低值开始，逐渐上升到最终值
-        dice_scores = 0.98 / (1 + np.exp(-0.02 * (episodes - 150))) + 0.01
-        # 添加随机波动
-        np.random.seed(42)  # 固定随机数种子以确保可重复性
-        noise = np.random.normal(0, 0.03, size=len(episodes))
-        dice_scores = np.clip(dice_scores + noise, 0, 1)
+        # 计算收敛速度 - 达到最终性能的90%所需轮次
+        if len(unet_val_dice) > 0:
+            final_performance = best_val_dice
+            target_performance = 0.9 * final_performance
+            for i, dice in enumerate(unet_val_dice):
+                if dice >= target_performance:
+                    convergence_epoch = i + 1
+                    break
+            else:
+                convergence_epoch = len(unet_epochs)
+            
+            convergence_ratio = convergence_epoch / len(unet_epochs)
+            print(f"U-Net收敛速度: 第{convergence_epoch}轮达到最终性能的90% (总轮次的{convergence_ratio:.1%})")
+    else:
+        print("未找到U-Net训练历史数据")
+    
+    if has_rl_data:
+        # InteractiveRL关键指标
+        rl_episodes = rl_history['episodes']
+        best_episode = rl_history.get('best_episode', 0)
+        best_rl_dice = rl_history.get('best_val_dice', 0)
         
-        # 模拟IoU曲线 - 与dice相似但略低
-        iou_scores = 0.97 / (1 + np.exp(-0.02 * (episodes - 150))) + 0.01
-        # 添加随机波动
-        noise = np.random.normal(0, 0.03, size=len(episodes))
-        iou_scores = np.clip(iou_scores + noise, 0, 1)
+        # 获取验证性能曲线（如果有）
+        has_val_curve = False
+        if 'val_dice_scores' in rl_history and len(rl_history['val_dice_scores']) > 0:
+            val_dice = rl_history['val_dice_scores']
+            has_val_curve = True
+            initial_val_dice = val_dice[0] if len(val_dice) > 0 else 0
         
-        # 绘制曲线
-        ax.plot(episodes, dice_scores, 'o-', label='Training Dice', color=COLOR_RL, 
-               markerfacecolor='white', markeredgecolor=COLOR_RL, markersize=4)
-        ax.plot(episodes, iou_scores, 's-', label='Validation Dice', color=COLOR_TEST,
-               markerfacecolor='white', markeredgecolor=COLOR_TEST, markersize=4)
+        print(f"InteractiveRL训练总轮次: {len(rl_episodes)}")
+        print(f"InteractiveRL最佳模型轮次: {best_episode}")
+        print(f"InteractiveRL最佳验证Dice: {best_rl_dice:.4f}")
         
-        # 在最佳点(episode 380)处添加标注
-        best_episode = 380
-        # 找到最接近的索引
-        best_idx = np.argmin(np.abs(episodes - best_episode))
-        if best_idx < len(episodes):
-            ax.scatter(episodes[best_idx], dice_scores[best_idx], s=100, facecolor=COLOR_RL, 
-                      edgecolor='black', zorder=5, label='Best Model')
-            ax.annotate(f"Best Model\nEpisode: {best_episode}\nDice: {data['interactiverl_val_dice']:.4f}", 
-                        xy=(episodes[best_idx], dice_scores[best_idx]),
-                        xytext=(episodes[best_idx]-100, dice_scores[best_idx]-0.15),
+        if has_val_curve:
+            print(f"InteractiveRL初始验证Dice: {initial_val_dice:.4f}")
+            
+            # 计算收敛速度 - 达到最终性能的90%所需轮次
+            final_performance = best_rl_dice
+            target_performance = 0.9 * final_performance
+            
+            # 找出验证轮次所对应的episodes
+            eval_interval = rl_history.get('eval_interval', 5)
+            val_episodes = []
+            for i in range(len(val_dice)):
+                val_ep = (i+1) * eval_interval
+                if val_ep <= rl_episodes[-1]:
+                    val_episodes.append(val_ep)
+                else:
+                    break
+            
+            # 确保长度一致
+            min_len = min(len(val_episodes), len(val_dice))
+            val_episodes = val_episodes[:min_len]
+            val_dice = val_dice[:min_len]
+            
+            for i, dice in enumerate(val_dice):
+                if dice >= target_performance:
+                    convergence_episode = val_episodes[i]
+                    break
+            else:
+                convergence_episode = val_episodes[-1] if val_episodes else rl_episodes[-1]
+            
+            convergence_ratio = convergence_episode / rl_episodes[-1]
+            print(f"InteractiveRL收敛速度: 第{convergence_episode}轮达到最终性能的90% (总轮次的{convergence_ratio:.1%})")
+    else:
+        print("未找到InteractiveRL训练历史数据")
+    
+    # 如果两种模型数据都有，进行训练效率比较
+    if has_unet_data and has_rl_data:
+        print("\n训练效率比较:")
+        try:
+            # 尝试计算相对收敛速度
+            unet_steps_to_convergence = convergence_epoch
+            rl_steps_to_convergence = convergence_episode
+            
+            # 归一化到总训练轮次的比例
+            unet_norm_convergence = unet_steps_to_convergence / len(unet_epochs)
+            rl_norm_convergence = rl_steps_to_convergence / rl_episodes[-1]
+            
+            # 比较哪个模型收敛更快
+            if unet_norm_convergence < rl_norm_convergence:
+                print(f"U-Net收敛更快，达到最终性能90%所需的训练比例为{unet_norm_convergence:.2f}，而InteractiveRL为{rl_norm_convergence:.2f}")
+            else:
+                print(f"InteractiveRL收敛更快，达到最终性能90%所需的训练比例为{rl_norm_convergence:.2f}，而U-Net为{unet_norm_convergence:.2f}")
+        except:
+            print("无法计算收敛速度比较")
+    
+    print("=============================\n")
+    
+    # 创建动态布局
+    if has_unet_data and has_rl_data:
+        # 有两种模型的训练数据时创建2x1布局
+        fig = plt.figure(figsize=(14, 10), dpi=300)
+        gs = gridspec.GridSpec(2, 1, height_ratios=[1, 1])
+        print("使用2x1布局，显示U-Net和InteractiveRL训练历史")
+    elif has_unet_data or has_rl_data:
+        # 只有一种模型的训练数据时创建1x1布局
+        fig = plt.figure(figsize=(10, 6), dpi=300)
+        gs = gridspec.GridSpec(1, 1)
+        print("使用1x1布局，只显示单个模型训练历史")
+    else:
+        # 没有训练数据直接返回
+        print("没有找到任何训练历史数据，跳过训练过程分析图表")
+        return
+    
+    # 绘制U-Net训练曲线
+    if has_unet_data:
+        # 使用真实U-Net训练数据
+        print("使用真实U-Net训练数据绘制图表")
+        unet_epochs = unet_history['epochs']
+        unet_train_loss = unet_history['train_loss']
+        unet_val_dice = unet_history['val_dice']
+        
+        # 找到最佳模型点
+        if 'best_epoch' in unet_history:
+            best_unet_epoch = unet_history['best_epoch']
+        else:
+            # 如果未指定最佳epoch，找到验证Dice最高的epoch
+            best_unet_epoch = unet_epochs[np.argmax(unet_val_dice)] if len(unet_val_dice) > 0 else 0
+        
+        best_unet_dice = data['unet_val_dice']
+        
+        # 确定绘图位置
+        if has_rl_data:
+            ax1 = plt.subplot(gs[0, 0])  # 2x1布局的上半部分
+        else:
+            ax1 = plt.subplot(gs[0, 0])  # 1x1布局
+        
+        # 使用更明确的颜色和样式
+        l1 = ax1.plot(unet_epochs, unet_train_loss, '-', color=COLOR_UNET, alpha=0.7, 
+                    label='Train Loss', marker='o', markersize=3)
+        
+        # 确保坐标轴是黑色的
+        for spine in ax1.spines.values():
+            spine.set_color('black')
+            spine.set_linewidth(1.0)
+        
+        ax1.set_xlabel('Epoch', fontweight='bold', color='black')
+        ax1.set_ylabel('Loss', fontweight='bold', color='black')
+        ax1.tick_params(axis='both', colors='black', width=1.0)
+        ax1.set_title('U-Net Training Process', fontweight='bold')
+        ax1.grid(True, alpha=0.3, linestyle='-', color='lightgray')
+        
+        # 双Y轴显示Dice
+        ax1_2 = ax1.twinx()
+        l2 = ax1_2.plot(unet_epochs, unet_val_dice, '-', color=COLOR_RL, alpha=0.7, 
+                      label='Val. Dice', marker='s', markersize=4)
+        
+        # 确保右侧Y轴也是黑色的
+        for spine in ax1_2.spines.values():
+            spine.set_color('black')
+            spine.set_linewidth(1.0)
+        
+        ax1_2.set_ylabel('Dice Score', fontweight='bold', color='black')
+        ax1_2.tick_params(axis='y', colors='black', width=1.0)
+                
+        # 标记最佳模型点和早停点
+        try:
+            best_epoch_idx = list(unet_epochs).index(best_unet_epoch) if best_unet_epoch in unet_epochs else -1
+            
+            # 添加早停标记 - 使用最佳epoch后的耐心值来计算早停点
+            if 'early_stopped' in unet_history and unet_history['early_stopped'] and best_epoch_idx >= 0:
+                patience = 50  # U-Net默认耐心值
+                early_stop_epoch = min(best_unet_epoch + patience, max(unet_epochs)) if len(unet_epochs) > 0 else best_unet_epoch + patience
+                ax1.axvline(x=early_stop_epoch, color=COLOR_TEST, linestyle='--', linewidth=1.5)
+                ax1.text(early_stop_epoch + 1, max(unet_train_loss) * 0.9, f"Early Stop\nEpoch {early_stop_epoch}", 
+                      fontsize=9, color=COLOR_TEST,
+                      bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.8, edgecolor=COLOR_TEST))
+            
+            if best_epoch_idx >= 0:
+                ax1_2.scatter([best_unet_epoch], [unet_val_dice[best_epoch_idx]], s=100, facecolor='red', 
+                            edgecolor='black', zorder=5)
+                # 修正U-Net最佳点注释的位置
+                # 确保注释在y轴方向上不会超出图表，且与点有一定距离
+                y_pos = max(0.3, min(unet_val_dice[best_epoch_idx] - 0.2, 0.7))
+                # 确保注释不会超出左侧边界
+                x_pos = max(20, best_unet_epoch - 20)
+                
+                ax1_2.annotate(f"Best: Epoch {best_unet_epoch}\nDice: {best_unet_dice:.4f}", 
+                            xy=(best_unet_epoch, unet_val_dice[best_epoch_idx]),
+                            xytext=(x_pos, y_pos),
+                                arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color='black'),
+                                bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.8),
+                                fontsize=9)
+        except Exception as e:
+            print(f"添加U-Net最佳模型标记时出错: {str(e)}")
+        
+        # 合并图例
+        lns = l1 + l2
+        labs = [l.get_label() for l in lns]
+        ax1.legend(lns, labs, loc='upper right')
+    
+    # 绘制InteractiveRL训练曲线
+    if has_rl_data:
+        print("使用真实InteractiveRL训练数据绘制图表")
+        
+        # 确定绘图位置
+        if has_unet_data:
+            ax2 = plt.subplot(gs[1, 0])  # 2x1布局的下半部分
+        else:
+            ax2 = plt.subplot(gs[0, 0])  # 1x1布局
+        
+        # 获取训练数据
+        rl_episodes = rl_history['episodes']
+        print(f"RL Episodes: {len(rl_episodes)}")
+        
+        # 设置Y轴范围
+        ax2.set_ylim(0, 1.1)
+        
+        # 添加数据系列 - 训练Dice分数
+        if 'train_dice_scores' in rl_history and len(rl_history['train_dice_scores']) > 0:
+            train_dice = rl_history['train_dice_scores']
+            
+            # 确保长度一致
+            min_len = min(len(rl_episodes), len(train_dice))
+            ax2.plot(rl_episodes[:min_len], train_dice[:min_len], '-', color=COLOR_UNET, alpha=0.7, 
+                   label='Train Dice', marker='o', markersize=3)
+        
+        # 添加验证Dice分数
+        if 'val_dice_scores' in rl_history and len(rl_history['val_dice_scores']) > 0:
+            val_dice = rl_history['val_dice_scores']
+            
+            # 计算验证episodes
+            val_episodes = []
+            eval_interval = rl_history.get('eval_interval', 5)
+            for i in range(len(val_dice)):
+                val_ep = (i+1) * eval_interval
+                if val_ep <= rl_episodes[-1]:
+                    val_episodes.append(val_ep)
+                else:
+                    break
+            
+            # 确保长度一致
+            min_len = min(len(val_episodes), len(val_dice))
+            ax2.plot(val_episodes[:min_len], val_dice[:min_len], '-', color=COLOR_RL, alpha=0.8, 
+                   label='Val Dice', marker='s', markersize=4)
+            
+        # 添加奖励曲线
+        if 'train_rewards' in rl_history and len(rl_history['train_rewards']) > 0:
+            rewards = rl_history['train_rewards']
+            
+            # 创建第二Y轴显示奖励
+            ax2_2 = ax2.twinx()
+            
+            # 设置奖励的范围
+            reward_min = min(rewards) if rewards else -1
+            reward_max = max(rewards) if rewards else 1
+            margin = (reward_max - reward_min) * 0.1
+            ax2_2.set_ylim(reward_min - margin, reward_max + margin)
+            
+            # 画奖励曲线 - 使用黑色
+            min_len = min(len(rl_episodes), len(rewards))
+            ax2_2.plot(rl_episodes[:min_len], rewards[:min_len], '-', color='#000000', alpha=0.6, 
+                      label='Reward', linestyle='--')
+            
+            # 设置第二Y轴标签 - 黑色标签
+            ax2_2.set_ylabel('Reward', fontweight='bold', color='#000000')
+            ax2_2.tick_params(axis='y', colors='#000000')
+            
+        # 添加策略损失
+        if 'policy_losses' in rl_history and len(rl_history['policy_losses']) > 0:
+            policy_losses = rl_history['policy_losses']
+            value_losses = rl_history.get('value_losses', [0] * len(policy_losses))
+            
+            # 确保长度一致
+            min_len = min(len(rl_episodes), len(policy_losses))
+        
+            # 如果需要，可以在这里添加策略和价值损失图
+            
+        # 标记最佳模型点
+        if 'best_episode' in rl_history and 'best_val_dice' in rl_history:
+            best_rl_episode = rl_history['best_episode']
+            best_rl_dice = rl_history['best_val_dice']
+            
+            # 查找对应的验证Dice点
+            best_idx = -1
+            if val_episodes and best_rl_episode in val_episodes:
+                best_idx = val_episodes.index(best_rl_episode)
+            
+            if best_idx >= 0 and best_idx < len(val_dice):
+                # 在图上标记最佳点
+                ax2.scatter([best_rl_episode], [val_dice[best_idx]], s=100, facecolor='red', 
+                          edgecolor='black', zorder=5)
+                
+                # 添加注释 - 确保在图表区域内
+                y_pos = max(0.3, min(val_dice[best_idx] - 0.15, 0.8))
+                x_pos = max(5, best_rl_episode - 5)
+                ax2.annotate(f"Best: Episode {best_rl_episode}\nDice: {best_rl_dice:.4f}", 
+                           xy=(best_rl_episode, val_dice[best_idx]),
+                           xytext=(x_pos, y_pos),
                         arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color='black'),
                         bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.8),
                         fontsize=9)
-    
-    ax.set_xlabel('Training Episode')
-    ax.set_ylabel('Validation Metrics')
-    ax.set_title('InteractiveRL Training Progress')
-    ax.grid(True, alpha=0.3)
-    ax.legend(loc='lower right')
-    ax.set_ylim(0, 1.05)
-    
-    # 右图：比较U-Net和InteractiveRL的训练特性
-    ax = axes[1]
-    
-    # 从历史数据提取其他指标
-    if interactiverl_history is not None and 'steps_per_episode' in interactiverl_history and len(interactiverl_history['steps_per_episode']) > 0:
-        # 右上角额外图表：步数
-        avg_steps = np.mean(interactiverl_history['steps_per_episode'])
-        ax.text(0.95, 0.95, f"Avg Steps: {avg_steps:.1f}", transform=ax.transAxes,
-                ha='right', va='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
-    
-    # 定义比较特征
-    features = ['Training\nTime', 'Data\nRequirement', 'Domain\nAdaptation', 'Online\nLearning']
-    
-    # 模拟评分（1-5分，越高越好）
-    unet_scores = [3, 2, 2, 1]  # U-Net在这些方面的表现
-    rl_scores = [4, 4, 4, 5]    # InteractiveRL在这些方面的表现
-    
-    # 设置x坐标
-    x = np.arange(len(features))
-    width = 0.35
-    
-    # 绘制条形图
-    ax.bar(x - width/2, unet_scores, width, label='U-Net', color=COLOR_UNET, alpha=0.7, 
-           edgecolor='black', linewidth=1)
-    ax.bar(x + width/2, rl_scores, width, label='InteractiveRL', color=COLOR_RL, alpha=0.7,
-           edgecolor='black', linewidth=1)
-    
-    # 添加数值标签
-    for i, v in enumerate(unet_scores):
-        ax.text(i - width/2, v + 0.1, str(v), ha='center', va='bottom', fontsize=9)
+            else:
+                # 如果没有找到对应点，直接使用垂直线标记
+                ax2.axvline(x=best_rl_episode, color='r', linestyle='--', label=f'Best Episode: {best_rl_episode}')
+                # 确保文本位置在图表范围内
+                ax2.text(max(5, best_rl_episode+2), 0.8, f"Best: Episode {best_rl_episode}\nDice: {best_rl_dice:.4f}", 
+                       bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.8),
+                       fontsize=9)
         
-    for i, v in enumerate(rl_scores):
-        ax.text(i + width/2, v + 0.1, str(v), ha='center', va='bottom', fontsize=9)
+        # 设置轴标签和标题
+        ax2.set_xlabel('Episode', fontweight='bold', color='black')
+        ax2.set_ylabel('Dice Score', fontweight='bold', color='black')
+        ax2.set_title('InteractiveRL Training Process', fontweight='bold')
+        ax2.grid(True, alpha=0.3, linestyle='-', color='lightgray')
     
-    ax.set_ylabel('Rating (1-5)')
-    ax.set_title('Model Training Characteristics')
-    ax.set_xticks(x)
-    ax.set_xticklabels(features)
-    # 修改：将图例放在图表上方而不是右上角，避免与数据重叠
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
-    ax.set_ylim(0, 6)
-    ax.grid(axis='y', linestyle='--', alpha=0.3)
+        # 确保图例显示正确
+        lines, labels = ax2.get_legend_handles_labels()
+        if 'train_rewards' in rl_history and len(rl_history['train_rewards']) > 0:
+            lines2, labels2 = ax2_2.get_legend_handles_labels()
+            ax2.legend(lines + lines2, labels + labels2, loc='lower right')
+        else:
+            ax2.legend(loc='lower right')
     
-    plt.suptitle('InteractiveRL Training Analysis', fontweight='bold')
+    # 全局标题和布局
+    if has_unet_data and has_rl_data:
+        plt.suptitle('Training Process Analysis: U-Net vs. InteractiveRL', fontweight='bold', fontsize=16)
+    elif has_unet_data:
+        plt.suptitle('U-Net Training Process Analysis', fontweight='bold', fontsize=16)
+    elif has_rl_data:
+        plt.suptitle('InteractiveRL Training Process Analysis', fontweight='bold', fontsize=16)
+    
     plt.tight_layout()
-    plt.subplots_adjust(top=0.88)
+    plt.subplots_adjust(top=0.92, hspace=0.3)
     
     # 保存图像
-    plt.savefig(os.path.join(output_dir, 'interactiverl_training_analysis.png'), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, 'interactiverl_training_analysis.pdf'), format='pdf', bbox_inches='tight')
-    plt.close()
-
-def plot_unet_training_dynamics(data):
-    """绘制U-Net训练动态图"""
-    if data['unet_history'] is None:
-        print("无法绘制U-Net训练动态图，缺少历史数据")
-        return
-    
-    history = data['unet_history']
-    
-    # 创建图表
-    fig, axes = plt.subplots(2, 2, figsize=(12, 10), dpi=300)
-    
-    # 左上：损失曲线
-    ax = axes[0, 0]
-    ax.plot(history['epochs'], history['train_loss'], 'o-', label='Training Loss', color=COLOR_UNET, 
-           markerfacecolor='white', markeredgecolor=COLOR_UNET, markersize=8)
-    ax.plot(history['epochs'], history['val_loss'], 's-', label='Validation Loss', color=COLOR_TEST,
-           markerfacecolor='white', markeredgecolor=COLOR_TEST, markersize=8)
-    
-    ax.set_xlabel('Epoch')
-    ax.set_ylabel('Loss Value')
-    ax.set_title('Loss Evolution During Training')
-    ax.grid(True, alpha=0.3)
-    ax.legend(loc='upper right')
-    
-    # 右上：验证指标
-    ax = axes[0, 1]
-    ax.plot(history['epochs'], history['val_dice'], 'o-', label='Dice', color=COLOR_UNET,
-           markerfacecolor='white', markeredgecolor=COLOR_UNET, markersize=8)
-    ax.plot(history['epochs'], history['val_iou'], 's-', label='IoU', color=COLOR_RL,
-           markerfacecolor='white', markeredgecolor=COLOR_RL, markersize=8)
-    
-    ax.set_xlabel('Epoch')
-    ax.set_ylabel('Metric Value')
-    ax.set_title('Validation Metrics Over Time')
-    ax.grid(True, alpha=0.3)
-    ax.legend(loc='lower right')
-    
-    # 左下：学习率变化
-    ax = axes[1, 0]
-    ax.plot(history['epochs'], history['lr'], 'o-', color='purple',
-           markerfacecolor='white', markeredgecolor='purple', markersize=8)
-    
-    ax.set_xlabel('Epoch')
-    ax.set_ylabel('Learning Rate')
-    ax.set_title('Learning Rate Schedule')
-    ax.grid(True, alpha=0.3)
-    
-    # 使用对数刻度
-    ax.set_yscale('log')
-    
-    # 右下：每个Epoch的训练时间
-    ax = axes[1, 1]
-    bars = ax.bar(history['epochs'], history['time_per_epoch'], color=COLOR_UNET, alpha=0.7,
-                 edgecolor='black', linewidth=1)
-    
-    # 添加数值标签
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-               f'{height:.1f}s', ha='center', va='bottom', fontsize=9)
-    
-    ax.set_xlabel('Epoch')
-    ax.set_ylabel('Time (seconds)')
-    ax.set_title('Training Time per Epoch')
-    ax.grid(True, alpha=0.3)
-    
-    plt.suptitle('U-Net Training Dynamics Analysis', fontweight='bold')
-    plt.tight_layout()
-    plt.subplots_adjust(top=0.92)
-    
-    # 保存图像
-    plt.savefig(os.path.join(output_dir, 'unet_training_dynamics.png'), dpi=300, bbox_inches='tight')
-    plt.savefig(os.path.join(output_dir, 'unet_training_dynamics.pdf'), format='pdf', bbox_inches='tight')
+    plt.savefig(os.path.join(output_dir, 'training_analysis.png'), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(output_dir, 'training_analysis.pdf'), format='pdf', bbox_inches='tight')
     plt.close()
 
 def main():
@@ -914,24 +1008,16 @@ def main():
     # 加载数据
     data = load_comparison_data()
     
-    # 绘制图表
-    plot_comprehensive_performance_comparison(data)
-    print("生成了全面性能对比图")
+    # 生成合并的新图表，减少图表数量
+    plot_combined_performance_analysis(data)
+    print("生成了综合性能分析图")
     
-    plot_sample_performance_distribution(data)
-    print("生成了样本性能分布图")
+    plot_model_comparison_with_examples(data)
+    print("生成了模型比较分析图")
     
-    plot_generalization_analysis(data)
-    print("生成了泛化能力分析图")
-    
-    plot_error_analysis(data)
-    print("生成了误差分析图")
-    
-    plot_interactiverl_training_info(data)
-    print("生成了InteractiveRL训练信息图")
-    
-    plot_unet_training_dynamics(data)
-    print("生成了U-Net训练动态图")
+    # 尝试使用真实数据，如果失败使用模拟数据
+    plot_training_analysis(data, use_real_data=True)
+    print("生成了训练过程分析图")
     
     print(f"所有图表已保存至 {output_dir} 目录")
 

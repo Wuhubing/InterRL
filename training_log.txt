@@ -1,0 +1,1176 @@
+nohup: ignoring input
+Using device: cuda
+Found 612 image files in data/raw/Original
+Created dataset with 612 samples
+Split dataset: Train=428, Val=91, Test=93
+Dataset split: Train=428, Val=91, Test=93
+Split info saved to data/splits/dataset_split.json
+
+===== Training U-Net Model =====
+Training U-Net model...
+Starting optimized U-Net training, planning to train for 5000 epochs...
+/root/miniconda3/envs/wwb-567/lib/python3.8/site-packages/torch/optim/lr_scheduler.py:60: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+Epoch 1/5000, Train Loss: 0.6371, Val Loss: 0.6203, Val Dice: 0.0937, Val IoU: 0.0516, Time: 7.12s
+Saving new best model, validation loss: 0.6203
+Epoch 2/5000, Train Loss: 0.5700, Val Loss: 0.5717, Val Dice: 0.2991, Val IoU: 0.1840, Time: 6.42s
+Saving new best model, validation loss: 0.5717
+Epoch 3/5000, Train Loss: 0.5487, Val Loss: 0.5211, Val Dice: 0.5490, Val IoU: 0.3853, Time: 6.40s
+Saving new best model, validation loss: 0.5211
+Epoch 4/5000, Train Loss: 0.5245, Val Loss: 0.4998, Val Dice: 0.5656, Val IoU: 0.4010, Time: 6.44s
+Saving new best model, validation loss: 0.4998
+Epoch 5/5000, Train Loss: 0.5069, Val Loss: 0.4941, Val Dice: 0.5480, Val IoU: 0.3823, Time: 6.49s
+Saving new best model, validation loss: 0.4941
+Epoch 6/5000, Train Loss: 0.4842, Val Loss: 0.4681, Val Dice: 0.5580, Val IoU: 0.3913, Time: 6.42s
+Saving new best model, validation loss: 0.4681
+Epoch 7/5000, Train Loss: 0.4616, Val Loss: 0.4654, Val Dice: 0.5643, Val IoU: 0.3985, Time: 6.41s
+Saving new best model, validation loss: 0.4654
+Epoch 8/5000, Train Loss: 0.4434, Val Loss: 0.4266, Val Dice: 0.6421, Val IoU: 0.4808, Time: 6.39s
+Saving new best model, validation loss: 0.4266
+Epoch 9/5000, Train Loss: 0.4152, Val Loss: 0.4656, Val Dice: 0.5740, Val IoU: 0.4090, Time: 6.41s
+Validation loss not improved, counter: 1/10
+Epoch 10/5000, Train Loss: 0.4116, Val Loss: 0.4055, Val Dice: 0.6256, Val IoU: 0.4715, Time: 6.41s
+Saving new best model, validation loss: 0.4055
+Epoch 11/5000, Train Loss: 0.3818, Val Loss: 0.4198, Val Dice: 0.5708, Val IoU: 0.4216, Time: 6.43s
+Validation loss not improved, counter: 1/10
+Epoch 12/5000, Train Loss: 0.3588, Val Loss: 0.3708, Val Dice: 0.6749, Val IoU: 0.5262, Time: 6.42s
+Saving new best model, validation loss: 0.3708
+Epoch 13/5000, Train Loss: 0.3355, Val Loss: 0.3791, Val Dice: 0.6677, Val IoU: 0.5120, Time: 6.42s
+Validation loss not improved, counter: 1/10
+Epoch 14/5000, Train Loss: 0.3144, Val Loss: 0.3860, Val Dice: 0.6381, Val IoU: 0.4765, Time: 6.47s
+Validation loss not improved, counter: 2/10
+Epoch 15/5000, Train Loss: 0.2971, Val Loss: 0.3073, Val Dice: 0.7465, Val IoU: 0.6042, Time: 6.45s
+Saving new best model, validation loss: 0.3073
+Epoch 16/5000, Train Loss: 0.2745, Val Loss: 0.3662, Val Dice: 0.6057, Val IoU: 0.4567, Time: 6.42s
+Validation loss not improved, counter: 1/10
+Epoch 17/5000, Train Loss: 0.2559, Val Loss: 0.2852, Val Dice: 0.7557, Val IoU: 0.6207, Time: 6.44s
+Saving new best model, validation loss: 0.2852
+Epoch 18/5000, Train Loss: 0.2581, Val Loss: 0.3432, Val Dice: 0.6820, Val IoU: 0.5255, Time: 6.41s
+Validation loss not improved, counter: 1/10
+Epoch 19/5000, Train Loss: 0.2344, Val Loss: 0.2798, Val Dice: 0.7520, Val IoU: 0.6110, Time: 6.45s
+Saving new best model, validation loss: 0.2798
+Epoch 20/5000, Train Loss: 0.2102, Val Loss: 0.3774, Val Dice: 0.5559, Val IoU: 0.3974, Time: 6.44s
+Validation loss not improved, counter: 1/10
+Epoch 21/5000, Train Loss: 0.2045, Val Loss: 0.3635, Val Dice: 0.5720, Val IoU: 0.4192, Time: 6.46s
+Validation loss not improved, counter: 2/10
+Epoch 22/5000, Train Loss: 0.1858, Val Loss: 0.2432, Val Dice: 0.7694, Val IoU: 0.6356, Time: 6.42s
+Saving new best model, validation loss: 0.2432
+Epoch 23/5000, Train Loss: 0.1812, Val Loss: 0.3306, Val Dice: 0.6138, Val IoU: 0.4624, Time: 6.46s
+Validation loss not improved, counter: 1/10
+Epoch 24/5000, Train Loss: 0.1611, Val Loss: 0.2441, Val Dice: 0.7522, Val IoU: 0.6223, Time: 6.45s
+Validation loss not improved, counter: 2/10
+Epoch 25/5000, Train Loss: 0.1532, Val Loss: 0.3274, Val Dice: 0.6139, Val IoU: 0.4601, Time: 6.46s
+Validation loss not improved, counter: 3/10
+Epoch 26/5000, Train Loss: 0.1380, Val Loss: 0.2764, Val Dice: 0.7197, Val IoU: 0.5768, Time: 6.43s
+Validation loss not improved, counter: 4/10
+Epoch 27/5000, Train Loss: 0.1352, Val Loss: 0.1944, Val Dice: 0.8122, Val IoU: 0.6897, Time: 6.44s
+Saving new best model, validation loss: 0.1944
+Epoch 28/5000, Train Loss: 0.1253, Val Loss: 0.2055, Val Dice: 0.7836, Val IoU: 0.6684, Time: 6.48s
+Validation loss not improved, counter: 1/10
+Epoch 29/5000, Train Loss: 0.1157, Val Loss: 0.1950, Val Dice: 0.8098, Val IoU: 0.6851, Time: 6.44s
+Validation loss not improved, counter: 2/10
+Epoch 30/5000, Train Loss: 0.1107, Val Loss: 0.1810, Val Dice: 0.8242, Val IoU: 0.7077, Time: 6.46s
+Saving new best model, validation loss: 0.1810
+Epoch 31/5000, Train Loss: 0.0962, Val Loss: 0.1823, Val Dice: 0.8127, Val IoU: 0.6986, Time: 6.42s
+Validation loss not improved, counter: 1/10
+Epoch 32/5000, Train Loss: 0.0963, Val Loss: 0.1909, Val Dice: 0.7985, Val IoU: 0.6814, Time: 6.48s
+Validation loss not improved, counter: 2/10
+Epoch 33/5000, Train Loss: 0.0910, Val Loss: 0.1782, Val Dice: 0.8066, Val IoU: 0.6993, Time: 6.44s
+Saving new best model, validation loss: 0.1782
+Epoch 34/5000, Train Loss: 0.0866, Val Loss: 0.1772, Val Dice: 0.8191, Val IoU: 0.6988, Time: 6.44s
+Saving new best model, validation loss: 0.1772
+Epoch 35/5000, Train Loss: 0.0797, Val Loss: 0.1730, Val Dice: 0.8210, Val IoU: 0.7084, Time: 6.40s
+Saving new best model, validation loss: 0.1730
+Epoch 36/5000, Train Loss: 0.0799, Val Loss: 0.1664, Val Dice: 0.8282, Val IoU: 0.7148, Time: 6.44s
+Saving new best model, validation loss: 0.1664
+Epoch 37/5000, Train Loss: 0.0780, Val Loss: 0.1607, Val Dice: 0.8343, Val IoU: 0.7278, Time: 6.45s
+Saving new best model, validation loss: 0.1607
+Epoch 38/5000, Train Loss: 0.0728, Val Loss: 0.1605, Val Dice: 0.8350, Val IoU: 0.7259, Time: 6.42s
+Saving new best model, validation loss: 0.1605
+Epoch 39/5000, Train Loss: 0.0705, Val Loss: 0.1486, Val Dice: 0.8383, Val IoU: 0.7342, Time: 6.40s
+Saving new best model, validation loss: 0.1486
+Epoch 40/5000, Train Loss: 0.0692, Val Loss: 0.1448, Val Dice: 0.8526, Val IoU: 0.7479, Time: 6.42s
+Saving new best model, validation loss: 0.1448
+Epoch 41/5000, Train Loss: 0.0570, Val Loss: 0.1484, Val Dice: 0.8487, Val IoU: 0.7414, Time: 6.45s
+Validation loss not improved, counter: 1/10
+Epoch 42/5000, Train Loss: 0.0537, Val Loss: 0.1529, Val Dice: 0.8440, Val IoU: 0.7337, Time: 6.43s
+Validation loss not improved, counter: 2/10
+Epoch 43/5000, Train Loss: 0.0528, Val Loss: 0.1477, Val Dice: 0.8455, Val IoU: 0.7438, Time: 6.48s
+Validation loss not improved, counter: 3/10
+Epoch 44/5000, Train Loss: 0.0476, Val Loss: 0.1885, Val Dice: 0.7952, Val IoU: 0.6755, Time: 6.45s
+Validation loss not improved, counter: 4/10
+Epoch 45/5000, Train Loss: 0.0489, Val Loss: 0.1430, Val Dice: 0.8509, Val IoU: 0.7448, Time: 6.42s
+Saving new best model, validation loss: 0.1430
+Epoch 46/5000, Train Loss: 0.0500, Val Loss: 0.1670, Val Dice: 0.8328, Val IoU: 0.7218, Time: 6.43s
+Validation loss not improved, counter: 1/10
+Epoch 47/5000, Train Loss: 0.0493, Val Loss: 0.1697, Val Dice: 0.8140, Val IoU: 0.6949, Time: 6.43s
+Validation loss not improved, counter: 2/10
+Epoch 48/5000, Train Loss: 0.0416, Val Loss: 0.1471, Val Dice: 0.8479, Val IoU: 0.7446, Time: 6.46s
+Validation loss not improved, counter: 3/10
+Epoch 49/5000, Train Loss: 0.0379, Val Loss: 0.1819, Val Dice: 0.7999, Val IoU: 0.6877, Time: 6.42s
+Validation loss not improved, counter: 4/10
+Epoch 50/5000, Train Loss: 0.0396, Val Loss: 0.1417, Val Dice: 0.8495, Val IoU: 0.7473, Time: 6.45s
+Saving new best model, validation loss: 0.1417
+Epoch 51/5000, Train Loss: 0.0373, Val Loss: 0.1457, Val Dice: 0.8459, Val IoU: 0.7404, Time: 6.45s
+Validation loss not improved, counter: 1/10
+Epoch 52/5000, Train Loss: 0.0365, Val Loss: 0.1836, Val Dice: 0.7940, Val IoU: 0.6876, Time: 6.45s
+Validation loss not improved, counter: 2/10
+Epoch 53/5000, Train Loss: 0.0376, Val Loss: 0.1836, Val Dice: 0.7975, Val IoU: 0.6883, Time: 6.45s
+Validation loss not improved, counter: 3/10
+Epoch 54/5000, Train Loss: 0.0343, Val Loss: 0.1922, Val Dice: 0.7897, Val IoU: 0.6683, Time: 6.46s
+Validation loss not improved, counter: 4/10
+Epoch 55/5000, Train Loss: 0.0363, Val Loss: 0.1469, Val Dice: 0.8460, Val IoU: 0.7380, Time: 6.41s
+Validation loss not improved, counter: 5/10
+Epoch 56/5000, Train Loss: 0.0341, Val Loss: 0.1863, Val Dice: 0.8006, Val IoU: 0.6806, Time: 6.42s
+Validation loss not improved, counter: 6/10
+Epoch 57/5000, Train Loss: 0.0308, Val Loss: 0.1273, Val Dice: 0.8673, Val IoU: 0.7710, Time: 6.42s
+Saving new best model, validation loss: 0.1273
+Epoch 58/5000, Train Loss: 0.0285, Val Loss: 0.1239, Val Dice: 0.8723, Val IoU: 0.7779, Time: 6.38s
+Saving new best model, validation loss: 0.1239
+Epoch 59/5000, Train Loss: 0.0263, Val Loss: 0.1253, Val Dice: 0.8709, Val IoU: 0.7763, Time: 6.42s
+Validation loss not improved, counter: 1/10
+Epoch 60/5000, Train Loss: 0.0257, Val Loss: 0.1281, Val Dice: 0.8677, Val IoU: 0.7717, Time: 6.44s
+Validation loss not improved, counter: 2/10
+Epoch 61/5000, Train Loss: 0.0251, Val Loss: 0.1295, Val Dice: 0.8672, Val IoU: 0.7703, Time: 6.44s
+Validation loss not improved, counter: 3/10
+Epoch 62/5000, Train Loss: 0.0243, Val Loss: 0.1358, Val Dice: 0.8599, Val IoU: 0.7607, Time: 6.45s
+Validation loss not improved, counter: 4/10
+Epoch 63/5000, Train Loss: 0.0248, Val Loss: 0.1270, Val Dice: 0.8716, Val IoU: 0.7766, Time: 6.46s
+Validation loss not improved, counter: 5/10
+Epoch 64/5000, Train Loss: 0.0252, Val Loss: 0.1326, Val Dice: 0.8649, Val IoU: 0.7678, Time: 6.46s
+Validation loss not improved, counter: 6/10
+Epoch 65/5000, Train Loss: 0.0238, Val Loss: 0.1315, Val Dice: 0.8662, Val IoU: 0.7693, Time: 6.45s
+Validation loss not improved, counter: 7/10
+Epoch 66/5000, Train Loss: 0.0235, Val Loss: 0.1323, Val Dice: 0.8659, Val IoU: 0.7690, Time: 6.42s
+Validation loss not improved, counter: 8/10
+Epoch 67/5000, Train Loss: 0.0252, Val Loss: 0.1273, Val Dice: 0.8716, Val IoU: 0.7769, Time: 6.42s
+Validation loss not improved, counter: 9/10
+Epoch 68/5000, Train Loss: 0.0234, Val Loss: 0.1303, Val Dice: 0.8684, Val IoU: 0.7726, Time: 6.44s
+Validation loss not improved, counter: 10/10
+Early stopping triggered at epoch 68
+Loaded best model (Epoch 58)
+Optimized U-Net training completed, best model saved at epoch 58, validation Dice: 0.8723
+main.py:493: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(best_model_path)
+
+=============== Optimized U-Net training summary ===============
+Training epochs: 68/5000
+Best model epoch: 58
+Best validation Dice: 0.8723
+Best validation IoU: 0.7779
+Final validation Dice: 0.8684
+Final validation IoU: 0.7726
+Early stopping: True
+================================================
+
+Loading best U-Net model from epoch 58 for evaluation...
+Loaded best U-Net model, validation Dice: 0.8723, IoU: 0.7779
+U-Net Evaluation Results:
+  - Dice: 0.8226 ± 0.2240
+  - IoU: 0.7476 ± 0.2606
+
+===== Training SimpleRL Agent =====
+Found 612 images in data/raw/Original
+train split: 428 images
+Found 612 images in data/raw/Original
+val split: 92 images
+Loaded 428 training samples and 92 validation samples
+  0%|          | 0/5000 [00:00<?, ?it/s]  0%|          | 1/5000 [00:01<1:27:43,  1.05s/it]  0%|          | 3/5000 [00:01<27:37,  3.02it/s]    0%|          | 5/5000 [00:02<38:43,  2.15it/s]  0%|          | 7/5000 [00:02<25:03,  3.32it/s]  0%|          | 9/5000 [00:02<17:56,  4.63it/s]  0%|          | 11/5000 [00:02<15:36,  5.33it/s]  0%|          | 13/5000 [00:03<12:22,  6.72it/s]  0%|          | 15/5000 [00:03<11:46,  7.05it/s]  0%|          | 17/5000 [00:03<10:03,  8.25it/s]  0%|          | 19/5000 [00:03<08:52,  9.36it/s]  0%|          | 21/5000 [00:05<25:21,  3.27it/s]  0%|          | 23/5000 [00:05<19:15,  4.31it/s]  0%|          | 25/5000 [00:06<32:00,  2.59it/s]  1%|          | 27/5000 [00:06<24:17,  3.41it/s]  1%|          | 29/5000 [00:07<18:50,  4.40it/s]  1%|          | 31/5000 [00:07<16:32,  5.01it/s]  1%|          | 33/5000 [00:07<13:26,  6.16it/s]  1%|          | 35/5000 [00:07<12:46,  6.47it/s]  1%|          | 37/5000 [00:07<10:48,  7.65it/s]  1%|          | 39/5000 [00:08<09:28,  8.73it/s]  1%|          | 41/5000 [00:09<25:13,  3.28it/s]  1%|          | 43/5000 [00:09<19:36,  4.21it/s]  1%|          | 45/5000 [00:10<17:09,  4.81it/s]  1%|          | 47/5000 [00:10<13:54,  5.93it/s]  1%|          | 49/5000 [00:10<11:33,  7.14it/s]  1%|          | 51/5000 [00:11<22:52,  3.61it/s]  1%|          | 53/5000 [00:11<17:50,  4.62it/s]  1%|          | 55/5000 [00:11<15:51,  5.20it/s]  1%|          | 57/5000 [00:12<12:57,  6.36it/s]  1%|          | 59/5000 [00:12<10:53,  7.56it/s]  1%|          | 61/5000 [00:12<10:57,  7.51it/s]  1%|▏         | 63/5000 [00:12<09:32,  8.63it/s]  1%|▏         | 65/5000 [00:12<09:59,  8.23it/s]  1%|▏         | 67/5000 [00:13<08:58,  9.16it/s]  1%|▏         | 69/5000 [00:13<08:12, 10.01it/s]  1%|▏         | 71/5000 [00:13<09:09,  8.98it/s]  1%|▏         | 73/5000 [00:13<08:21,  9.82it/s]  2%|▏         | 75/5000 [00:13<09:09,  8.97it/s]  2%|▏         | 77/5000 [00:14<08:26,  9.71it/s]  2%|▏         | 79/5000 [00:14<07:52, 10.42it/s]  2%|▏         | 81/5000 [00:14<08:56,  9.18it/s]  2%|▏         | 83/5000 [00:14<08:12,  9.99it/s]  2%|▏         | 85/5000 [00:15<09:19,  8.78it/s]  2%|▏         | 87/5000 [00:15<08:29,  9.63it/s]  2%|▏         | 89/5000 [00:15<07:56, 10.30it/s]  2%|▏         | 91/5000 [00:15<09:14,  8.86it/s]  2%|▏         | 93/5000 [00:15<08:25,  9.70it/s]  2%|▏         | 95/5000 [00:16<09:34,  8.54it/s]  2%|▏         | 97/5000 [00:16<08:36,  9.49it/s]  2%|▏         | 99/5000 [00:16<07:50, 10.42it/s]  2%|▏         | 101/5000 [00:17<20:19,  4.02it/s]  2%|▏         | 103/5000 [00:17<16:06,  5.07it/s]  2%|▏         | 105/5000 [00:18<14:35,  5.59it/s]  2%|▏         | 107/5000 [00:18<12:03,  6.77it/s]  2%|▏         | 109/5000 [00:18<10:16,  7.94it/s]  2%|▏         | 111/5000 [00:18<10:33,  7.72it/s]  2%|▏         | 113/5000 [00:18<09:13,  8.83it/s]  2%|▏         | 115/5000 [00:19<09:47,  8.31it/s]  2%|▏         | 117/5000 [00:19<08:43,  9.33it/s]  2%|▏         | 119/5000 [00:19<07:56, 10.24it/s]  2%|▏         | 121/5000 [00:19<08:51,  9.17it/s]  2%|▏         | 123/5000 [00:19<08:01, 10.13it/s]  2%|▎         | 125/5000 [00:20<08:56,  9.08it/s]  3%|▎         | 127/5000 [00:20<08:07,  9.99it/s]  3%|▎         | 129/5000 [00:20<07:31, 10.78it/s]  3%|▎         | 131/5000 [00:21<24:09,  3.36it/s]  3%|▎         | 133/5000 [00:22<18:45,  4.32it/s]  3%|▎         | 135/5000 [00:22<16:25,  4.94it/s]  3%|▎         | 137/5000 [00:22<13:21,  6.06it/s]  3%|▎         | 139/5000 [00:22<11:11,  7.23it/s]  3%|▎         | 141/5000 [00:22<11:10,  7.24it/s]  3%|▎         | 143/5000 [00:23<09:39,  8.38it/s]  3%|▎         | 145/5000 [00:23<10:07,  7.99it/s]  3%|▎         | 147/5000 [00:23<08:59,  8.99it/s]  3%|▎         | 149/5000 [00:23<08:08,  9.93it/s]  3%|▎         | 151/5000 [00:24<20:20,  3.97it/s]  3%|▎         | 153/5000 [00:24<16:04,  5.03it/s]  3%|▎         | 155/5000 [00:25<14:35,  5.53it/s]  3%|▎         | 157/5000 [00:25<12:05,  6.67it/s]  3%|▎         | 159/5000 [00:25<10:23,  7.77it/s]  3%|▎         | 161/5000 [00:25<10:35,  7.61it/s]  3%|▎         | 163/5000 [00:26<09:14,  8.72it/s]  3%|▎         | 165/5000 [00:26<09:45,  8.26it/s]  3%|▎         | 166/5000 [00:26<09:37,  8.38it/s]  3%|▎         | 168/5000 [00:26<08:34,  9.39it/s]  3%|▎         | 170/5000 [00:26<09:26,  8.53it/s]  3%|▎         | 172/5000 [00:26<08:28,  9.50it/s]  3%|▎         | 174/5000 [00:27<07:50, 10.26it/s]  4%|▎         | 176/5000 [00:27<08:58,  8.95it/s]  4%|▎         | 178/5000 [00:27<08:12,  9.79it/s]  4%|▎         | 180/5000 [00:27<09:09,  8.77it/s]  4%|▎         | 182/5000 [00:28<08:18,  9.67it/s]  4%|▎         | 184/5000 [00:28<07:42, 10.40it/s]  4%|▎         | 186/5000 [00:28<08:52,  9.04it/s]  4%|▍         | 188/5000 [00:28<08:07,  9.87it/s]  4%|▍         | 190/5000 [00:28<09:00,  8.89it/s]  4%|▍         | 192/5000 [00:29<08:14,  9.71it/s]  4%|▍         | 194/5000 [00:29<07:55, 10.11it/s]  4%|▍         | 196/5000 [00:29<09:19,  8.59it/s]  4%|▍         | 198/5000 [00:29<09:02,  8.85it/s]  4%|▍         | 199/5000 [00:29<09:14,  8.65it/s]  4%|▍         | 200/5000 [00:31<25:05,  3.19it/s]  4%|▍         | 202/5000 [00:31<18:11,  4.40it/s]  4%|▍         | 204/5000 [00:31<14:01,  5.70it/s]Episode 5: Mean Reward = 12.7742, Mean Dice = 0.9552, Mean IoU = 0.9154, Time = 0.07s
+Validation: Mean Dice = 0.9185, Mean IoU = 0.8617
+New best model with validation Dice: 0.9185
+Episode 10: Mean Reward = 12.2177, Mean Dice = 0.8647, Mean IoU = 0.7864, Time = 0.07s
+Validation: Mean Dice = 0.9123, Mean IoU = 0.8436
+No improvement for 1 evaluation intervals. Best Val Dice: 0.9185
+Episode 15: Mean Reward = 11.2028, Mean Dice = 0.8045, Mean IoU = 0.7175, Time = 0.08s
+Validation: Mean Dice = 0.8714, Mean IoU = 0.7960
+No improvement for 2 evaluation intervals. Best Val Dice: 0.9185
+Episode 20: Mean Reward = 12.0817, Mean Dice = 0.8773, Mean IoU = 0.8100, Time = 0.08s
+Validation: Mean Dice = 0.9314, Mean IoU = 0.8717
+New best model with validation Dice: 0.9314
+Episode 25: Mean Reward = 11.5110, Mean Dice = 0.8866, Mean IoU = 0.8131, Time = 0.07s
+Validation: Mean Dice = 0.9839, Mean IoU = 0.9684
+New best model with validation Dice: 0.9839
+Episode 30: Mean Reward = 12.0279, Mean Dice = 0.9330, Mean IoU = 0.8771, Time = 0.07s
+Validation: Mean Dice = 0.9648, Mean IoU = 0.9336
+No improvement for 1 evaluation intervals. Best Val Dice: 0.9839
+Episode 35: Mean Reward = 10.2820, Mean Dice = 0.8285, Mean IoU = 0.7207, Time = 0.08s
+Validation: Mean Dice = 0.9810, Mean IoU = 0.9628
+No improvement for 2 evaluation intervals. Best Val Dice: 0.9839
+Episode 40: Mean Reward = 10.0134, Mean Dice = 0.8346, Mean IoU = 0.7246, Time = 0.08s
+Validation: Mean Dice = 0.9879, Mean IoU = 0.9761
+New best model with validation Dice: 0.9879
+Episode 45: Mean Reward = 8.1044, Mean Dice = 0.7290, Mean IoU = 0.5962, Time = 0.08s
+Validation: Mean Dice = 0.9769, Mean IoU = 0.9549
+No improvement for 1 evaluation intervals. Best Val Dice: 0.9879
+Episode 50: Mean Reward = 9.3753, Mean Dice = 0.7738, Mean IoU = 0.6810, Time = 0.07s
+Validation: Mean Dice = 0.9845, Mean IoU = 0.9696
+No improvement for 2 evaluation intervals. Best Val Dice: 0.9879
+Episode 55: Mean Reward = 10.7388, Mean Dice = 0.8656, Mean IoU = 0.7792, Time = 0.07s
+Validation: Mean Dice = 0.9860, Mean IoU = 0.9724
+No improvement for 3 evaluation intervals. Best Val Dice: 0.9879
+Episode 60: Mean Reward = 10.8632, Mean Dice = 0.8774, Mean IoU = 0.8031, Time = 0.07s
+Validation: Mean Dice = 0.9828, Mean IoU = 0.9663
+No improvement for 4 evaluation intervals. Best Val Dice: 0.9879
+Episode 65: Mean Reward = 10.8559, Mean Dice = 0.8768, Mean IoU = 0.8159, Time = 0.07s
+Validation: Mean Dice = 0.9772, Mean IoU = 0.9561
+No improvement for 5 evaluation intervals. Best Val Dice: 0.9879
+Episode 70: Mean Reward = 10.8307, Mean Dice = 0.8744, Mean IoU = 0.7860, Time = 0.07s
+Validation: Mean Dice = 0.9855, Mean IoU = 0.9715
+No improvement for 6 evaluation intervals. Best Val Dice: 0.9879
+Episode 75: Mean Reward = 10.5865, Mean Dice = 0.8435, Mean IoU = 0.7409, Time = 0.07s
+Validation: Mean Dice = 0.9840, Mean IoU = 0.9686
+No improvement for 7 evaluation intervals. Best Val Dice: 0.9879
+Episode 80: Mean Reward = 10.6000, Mean Dice = 0.8524, Mean IoU = 0.7556, Time = 0.08s
+Validation: Mean Dice = 0.9733, Mean IoU = 0.9486
+No improvement for 8 evaluation intervals. Best Val Dice: 0.9879
+Episode 85: Mean Reward = 9.8229, Mean Dice = 0.8165, Mean IoU = 0.7162, Time = 0.08s
+Validation: Mean Dice = 0.9768, Mean IoU = 0.9547
+No improvement for 9 evaluation intervals. Best Val Dice: 0.9879
+Episode 90: Mean Reward = 12.1825, Mean Dice = 0.9650, Mean IoU = 0.9329, Time = 0.08s
+Validation: Mean Dice = 0.9803, Mean IoU = 0.9614
+No improvement for 10 evaluation intervals. Best Val Dice: 0.9879
+Episode 95: Mean Reward = 10.2650, Mean Dice = 0.8586, Mean IoU = 0.7650, Time = 0.08s
+Validation: Mean Dice = 0.9685, Mean IoU = 0.9401
+No improvement for 11 evaluation intervals. Best Val Dice: 0.9879
+Episode 100: Mean Reward = 10.7410, Mean Dice = 0.8658, Mean IoU = 0.7665, Time = 0.07s
+Validation: Mean Dice = 0.9801, Mean IoU = 0.9610
+No improvement for 12 evaluation intervals. Best Val Dice: 0.9879
+Episode 105: Mean Reward = 12.0549, Mean Dice = 0.9529, Mean IoU = 0.9105, Time = 0.07s
+Validation: Mean Dice = 0.9701, Mean IoU = 0.9420
+No improvement for 13 evaluation intervals. Best Val Dice: 0.9879
+Episode 110: Mean Reward = 10.5729, Mean Dice = 0.8498, Mean IoU = 0.7455, Time = 0.07s
+Validation: Mean Dice = 0.9780, Mean IoU = 0.9571
+No improvement for 14 evaluation intervals. Best Val Dice: 0.9879
+Episode 115: Mean Reward = 11.8921, Mean Dice = 0.9269, Mean IoU = 0.8687, Time = 0.07s
+Validation: Mean Dice = 0.9838, Mean IoU = 0.9681
+No improvement for 15 evaluation intervals. Best Val Dice: 0.9879
+Episode 120: Mean Reward = 12.0421, Mean Dice = 0.9516, Mean IoU = 0.9092, Time = 0.07s
+Validation: Mean Dice = 0.9809, Mean IoU = 0.9625
+No improvement for 16 evaluation intervals. Best Val Dice: 0.9879
+Episode 125: Mean Reward = 12.1652, Mean Dice = 0.9633, Mean IoU = 0.9297, Time = 0.07s
+Validation: Mean Dice = 0.9825, Mean IoU = 0.9657
+No improvement for 17 evaluation intervals. Best Val Dice: 0.9879
+Episode 130: Mean Reward = 11.0875, Mean Dice = 0.8988, Mean IoU = 0.8326, Time = 0.07s
+Validation: Mean Dice = 0.9881, Mean IoU = 0.9764
+New best model with validation Dice: 0.9881
+Episode 135: Mean Reward = 9.9225, Mean Dice = 0.8259, Mean IoU = 0.7364, Time = 0.07s
+Validation: Mean Dice = 0.9739, Mean IoU = 0.9494
+No improvement for 1 evaluation intervals. Best Val Dice: 0.9881
+Episode 140: Mean Reward = 12.0054, Mean Dice = 0.9481, Mean IoU = 0.9019, Time = 0.07s
+Validation: Mean Dice = 0.9842, Mean IoU = 0.9692
+No improvement for 2 evaluation intervals. Best Val Dice: 0.9881
+Episode 145: Mean Reward = 10.2151, Mean Dice = 0.8538, Mean IoU = 0.7624, Time = 0.07s
+Validation: Mean Dice = 0.9780, Mean IoU = 0.9571
+No improvement for 3 evaluation intervals. Best Val Dice: 0.9881
+Episode 150: Mean Reward = 9.5393, Mean Dice = 0.7895, Mean IoU = 0.6679, Time = 0.08s
+Validation: Mean Dice = 0.9812, Mean IoU = 0.9632
+No improvement for 4 evaluation intervals. Best Val Dice: 0.9881
+Episode 155: Mean Reward = 11.2104, Mean Dice = 0.9105, Mean IoU = 0.8529, Time = 0.07s
+Validation: Mean Dice = 0.9721, Mean IoU = 0.9461
+No improvement for 5 evaluation intervals. Best Val Dice: 0.9881
+Episode 160: Mean Reward = 11.6030, Mean Dice = 0.9098, Mean IoU = 0.8366, Time = 0.07s
+Validation: Mean Dice = 0.9796, Mean IoU = 0.9601
+No improvement for 6 evaluation intervals. Best Val Dice: 0.9881
+Episode 165: Mean Reward = 11.0393, Mean Dice = 0.8942, Mean IoU = 0.8195, Time = 0.07s
+Validation: Mean Dice = 0.9691, Mean IoU = 0.9402
+No improvement for 7 evaluation intervals. Best Val Dice: 0.9881
+Episode 170: Mean Reward = 10.7321, Mean Dice = 0.8650, Mean IoU = 0.7744, Time = 0.07s
+Validation: Mean Dice = 0.9682, Mean IoU = 0.9387
+No improvement for 8 evaluation intervals. Best Val Dice: 0.9881
+Episode 175: Mean Reward = 8.5446, Mean Dice = 0.7328, Mean IoU = 0.6233, Time = 0.08s
+Validation: Mean Dice = 0.9699, Mean IoU = 0.9418
+No improvement for 9 evaluation intervals. Best Val Dice: 0.9881
+Episode 180: Mean Reward = 10.9406, Mean Dice = 0.8848, Mean IoU = 0.8070, Time = 0.08s
+Validation: Mean Dice = 0.9799, Mean IoU = 0.9609
+No improvement for 10 evaluation intervals. Best Val Dice: 0.9881
+Episode 185: Mean Reward = 11.3603, Mean Dice = 0.9248, Mean IoU = 0.8668, Time = 0.08s
+Validation: Mean Dice = 0.9601, Mean IoU = 0.9256
+No improvement for 11 evaluation intervals. Best Val Dice: 0.9881
+Episode 190: Mean Reward = 12.1225, Mean Dice = 0.9593, Mean IoU = 0.9229, Time = 0.07s
+Validation: Mean Dice = 0.9805, Mean IoU = 0.9617
+No improvement for 12 evaluation intervals. Best Val Dice: 0.9881
+Episode 195: Mean Reward = 11.8542, Mean Dice = 0.9337, Mean IoU = 0.8811, Time = 0.08s
+Validation: Mean Dice = 0.9788, Mean IoU = 0.9586
+No improvement for 13 evaluation intervals. Best Val Dice: 0.9881
+Episode 200: Mean Reward = 11.0047, Mean Dice = 0.8909, Mean IoU = 0.8118, Time = 0.07s
+Validation: Mean Dice = 0.9810, Mean IoU = 0.9628
+No improvement for 14 evaluation intervals. Best Val Dice: 0.9881
+Episode 205: Mean Reward = 10.2535, Mean Dice = 0.8575, Mean IoU = 0.7761, Time = 0.07s
+Validation: Mean Dice = 0.9706, Mean IoU = 0.9433
+  4%|▍         | 205/5000 [00:31<14:20,  5.57it/s]  4%|▍         | 207/5000 [00:31<11:20,  7.04it/s]  4%|▍         | 209/5000 [00:31<09:33,  8.36it/s]  4%|▍         | 211/5000 [00:32<10:00,  7.98it/s]  4%|▍         | 213/5000 [00:32<08:44,  9.13it/s]  4%|▍         | 215/5000 [00:32<09:25,  8.45it/s]  4%|▍         | 217/5000 [00:32<08:23,  9.50it/s]  4%|▍         | 219/5000 [00:32<07:39, 10.40it/s]  4%|▍         | 221/5000 [00:33<08:38,  9.21it/s]  4%|▍         | 223/5000 [00:33<07:52, 10.11it/s]  4%|▍         | 225/5000 [00:33<08:46,  9.07it/s]  5%|▍         | 227/5000 [00:33<07:57,  9.99it/s]  5%|▍         | 229/5000 [00:33<07:22, 10.78it/s]  5%|▍         | 231/5000 [00:34<08:26,  9.41it/s]  5%|▍         | 233/5000 [00:34<07:42, 10.32it/s]  5%|▍         | 235/5000 [00:34<08:47,  9.03it/s]  5%|▍         | 237/5000 [00:34<07:57,  9.97it/s]  5%|▍         | 239/5000 [00:34<07:22, 10.77it/s]  5%|▍         | 241/5000 [00:35<08:27,  9.38it/s]  5%|▍         | 243/5000 [00:35<07:44, 10.25it/s]  5%|▍         | 245/5000 [00:35<08:47,  9.02it/s]  5%|▍         | 247/5000 [00:35<07:57,  9.95it/s]  5%|▍         | 249/5000 [00:35<07:24, 10.69it/s]  5%|▌         | 251/5000 [00:37<19:32,  4.05it/s]  5%|▌         | 253/5000 [00:37<15:31,  5.10it/s]  5%|▌         | 255/5000 [00:37<14:08,  5.59it/s]  5%|▌         | 257/5000 [00:37<11:43,  6.74it/s]  5%|▌         | 259/5000 [00:37<10:00,  7.90it/s]  5%|▌         | 261/5000 [00:38<10:19,  7.65it/s]  5%|▌         | 263/5000 [00:38<09:00,  8.76it/s]  5%|▌         | 265/5000 [00:38<09:32,  8.26it/s]  5%|▌         | 267/5000 [00:38<08:46,  8.99it/s]  5%|▌         | 269/5000 [00:38<07:56,  9.93it/s]  5%|▌         | 271/5000 [00:39<08:49,  8.94it/s]  5%|▌         | 273/5000 [00:39<07:58,  9.87it/s]  6%|▌         | 275/5000 [00:39<08:50,  8.91it/s]  6%|▌         | 277/5000 [00:39<07:59,  9.86it/s]  6%|▌         | 279/5000 [00:39<07:23, 10.65it/s]  6%|▌         | 281/5000 [00:40<08:27,  9.29it/s]  6%|▌         | 283/5000 [00:40<07:43, 10.17it/s]  6%|▌         | 285/5000 [00:40<08:41,  9.04it/s]  6%|▌         | 287/5000 [00:40<07:56,  9.89it/s]  6%|▌         | 289/5000 [00:40<07:20, 10.69it/s]  6%|▌         | 291/5000 [00:41<08:26,  9.30it/s]  6%|▌         | 293/5000 [00:41<07:41, 10.20it/s]  6%|▌         | 295/5000 [00:41<08:38,  9.07it/s]  6%|▌         | 297/5000 [00:41<07:52,  9.96it/s]  6%|▌         | 299/5000 [00:41<07:18, 10.73it/s]  6%|▌         | 301/5000 [00:43<19:20,  4.05it/s]  6%|▌         | 303/5000 [00:43<15:20,  5.10it/s]  6%|▌         | 305/5000 [00:43<14:02,  5.57it/s]  6%|▌         | 307/5000 [00:43<11:40,  6.70it/s]  6%|▌         | 309/5000 [00:43<09:59,  7.83it/s]  6%|▌         | 311/5000 [00:44<10:16,  7.61it/s]  6%|▋         | 313/5000 [00:44<08:58,  8.70it/s]  6%|▋         | 315/5000 [00:44<09:51,  7.93it/s]  6%|▋         | 317/5000 [00:44<08:47,  8.88it/s]  6%|▋         | 319/5000 [00:44<08:01,  9.72it/s]  6%|▋         | 321/5000 [00:45<09:07,  8.55it/s]  6%|▋         | 323/5000 [00:45<08:18,  9.38it/s]  6%|▋         | 325/5000 [00:45<09:16,  8.40it/s]  7%|▋         | 327/5000 [00:45<08:21,  9.32it/s]  7%|▋         | 329/5000 [00:46<07:44, 10.06it/s]  7%|▋         | 331/5000 [00:46<08:51,  8.78it/s]  7%|▋         | 333/5000 [00:46<08:05,  9.62it/s]  7%|▋         | 335/5000 [00:46<09:06,  8.54it/s]  7%|▋         | 337/5000 [00:46<08:16,  9.39it/s]  7%|▋         | 339/5000 [00:47<07:39, 10.14it/s]  7%|▋         | 341/5000 [00:47<08:49,  8.80it/s]  7%|▋         | 343/5000 [00:47<08:02,  9.66it/s]  7%|▋         | 345/5000 [00:47<09:03,  8.56it/s]  7%|▋         | 347/5000 [00:47<08:11,  9.46it/s]  7%|▋         | 349/5000 [00:48<07:41, 10.08it/s]  7%|▋         | 351/5000 [00:49<19:18,  4.01it/s]  7%|▋         | 353/5000 [00:49<15:24,  5.02it/s]  7%|▋         | 355/5000 [00:49<14:11,  5.46it/s]  7%|▋         | 357/5000 [00:49<11:46,  6.57it/s]  7%|▋         | 359/5000 [00:50<10:08,  7.63it/s]  7%|▋         | 361/5000 [00:50<10:33,  7.32it/s]  7%|▋         | 363/5000 [00:50<09:14,  8.36it/s]  7%|▋         | 365/5000 [00:50<09:54,  7.79it/s]  7%|▋         | 367/5000 [00:51<08:49,  8.75it/s]  7%|▋         | 369/5000 [00:51<08:05,  9.53it/s]  7%|▋         | 371/5000 [00:51<09:08,  8.44it/s]  7%|▋         | 373/5000 [00:51<08:16,  9.32it/s]  8%|▊         | 375/5000 [00:53<23:35,  3.27it/s]  8%|▊         | 377/5000 [00:53<18:34,  4.15it/s]  8%|▊         | 379/5000 [00:53<14:57,  5.15it/s]  8%|▊         | 380/5000 [00:53<15:25,  4.99it/s]  8%|▊         | 382/5000 [00:53<12:21,  6.23it/s]  8%|▊         | 384/5000 [00:54<10:21,  7.43it/s]  8%|▊         | 386/5000 [00:54<10:44,  7.16it/s]  8%|▊         | 388/5000 [00:54<09:21,  8.22it/s]  8%|▊         | 390/5000 [00:54<10:01,  7.67it/s]  8%|▊         | 392/5000 [00:55<08:52,  8.65it/s]  8%|▊         | 394/5000 [00:55<08:04,  9.52it/s]  8%|▊         | 396/5000 [00:55<09:10,  8.36it/s]  8%|▊         | 398/5000 [00:55<08:15,  9.29it/s]  8%|▊         | 400/5000 [00:56<19:36,  3.91it/s]  8%|▊         | 402/5000 [00:57<15:38,  4.90it/s]  8%|▊         | 404/5000 [00:57<12:50,  5.96it/s]No improvement for 15 evaluation intervals. Best Val Dice: 0.9881
+Episode 210: Mean Reward = 8.4759, Mean Dice = 0.7644, Mean IoU = 0.6328, Time = 0.07s
+Validation: Mean Dice = 0.9656, Mean IoU = 0.9345
+No improvement for 16 evaluation intervals. Best Val Dice: 0.9881
+Episode 215: Mean Reward = 11.8305, Mean Dice = 0.9315, Mean IoU = 0.8756, Time = 0.07s
+Validation: Mean Dice = 0.9691, Mean IoU = 0.9409
+No improvement for 17 evaluation intervals. Best Val Dice: 0.9881
+Episode 220: Mean Reward = 11.0303, Mean Dice = 0.8934, Mean IoU = 0.8193, Time = 0.07s
+Validation: Mean Dice = 0.9744, Mean IoU = 0.9507
+No improvement for 18 evaluation intervals. Best Val Dice: 0.9881
+Episode 225: Mean Reward = 11.6736, Mean Dice = 0.9165, Mean IoU = 0.8510, Time = 0.07s
+Validation: Mean Dice = 0.9864, Mean IoU = 0.9732
+No improvement for 19 evaluation intervals. Best Val Dice: 0.9881
+Episode 230: Mean Reward = 11.4458, Mean Dice = 0.9329, Mean IoU = 0.8851, Time = 0.07s
+Validation: Mean Dice = 0.9821, Mean IoU = 0.9650
+No improvement for 20 evaluation intervals. Best Val Dice: 0.9881
+Episode 235: Mean Reward = 12.0339, Mean Dice = 0.9508, Mean IoU = 0.9101, Time = 0.08s
+Validation: Mean Dice = 0.9703, Mean IoU = 0.9429
+No improvement for 21 evaluation intervals. Best Val Dice: 0.9881
+Episode 240: Mean Reward = 11.9389, Mean Dice = 0.9418, Mean IoU = 0.8931, Time = 0.07s
+Validation: Mean Dice = 0.9783, Mean IoU = 0.9575
+No improvement for 22 evaluation intervals. Best Val Dice: 0.9881
+Episode 245: Mean Reward = 10.9202, Mean Dice = 0.8829, Mean IoU = 0.7986, Time = 0.07s
+Validation: Mean Dice = 0.9787, Mean IoU = 0.9585
+No improvement for 23 evaluation intervals. Best Val Dice: 0.9881
+Episode 250: Mean Reward = 12.0457, Mean Dice = 0.9520, Mean IoU = 0.9086, Time = 0.07s
+Validation: Mean Dice = 0.9870, Mean IoU = 0.9744
+No improvement for 24 evaluation intervals. Best Val Dice: 0.9881
+Episode 255: Mean Reward = 10.4124, Mean Dice = 0.8345, Mean IoU = 0.7350, Time = 0.07s
+Validation: Mean Dice = 0.9628, Mean IoU = 0.9290
+No improvement for 25 evaluation intervals. Best Val Dice: 0.9881
+Episode 260: Mean Reward = 9.9157, Mean Dice = 0.8253, Mean IoU = 0.7166, Time = 0.07s
+Validation: Mean Dice = 0.9854, Mean IoU = 0.9712
+No improvement for 26 evaluation intervals. Best Val Dice: 0.9881
+Episode 265: Mean Reward = 11.8391, Mean Dice = 0.9323, Mean IoU = 0.8779, Time = 0.07s
+Validation: Mean Dice = 0.9852, Mean IoU = 0.9709
+No improvement for 27 evaluation intervals. Best Val Dice: 0.9881
+Episode 270: Mean Reward = 9.8764, Mean Dice = 0.8216, Mean IoU = 0.7109, Time = 0.07s
+Validation: Mean Dice = 0.9784, Mean IoU = 0.9579
+No improvement for 28 evaluation intervals. Best Val Dice: 0.9881
+Episode 275: Mean Reward = 11.2522, Mean Dice = 0.8950, Mean IoU = 0.8203, Time = 0.07s
+Validation: Mean Dice = 0.9738, Mean IoU = 0.9493
+No improvement for 29 evaluation intervals. Best Val Dice: 0.9881
+Episode 280: Mean Reward = 11.4207, Mean Dice = 0.9305, Mean IoU = 0.8790, Time = 0.07s
+Validation: Mean Dice = 0.9597, Mean IoU = 0.9249
+No improvement for 30 evaluation intervals. Best Val Dice: 0.9881
+Episode 285: Mean Reward = 11.2801, Mean Dice = 0.9171, Mean IoU = 0.8556, Time = 0.07s
+Validation: Mean Dice = 0.9751, Mean IoU = 0.9518
+No improvement for 31 evaluation intervals. Best Val Dice: 0.9881
+Episode 290: Mean Reward = 10.7777, Mean Dice = 0.8693, Mean IoU = 0.7828, Time = 0.07s
+Validation: Mean Dice = 0.9774, Mean IoU = 0.9560
+No improvement for 32 evaluation intervals. Best Val Dice: 0.9881
+Episode 295: Mean Reward = 11.7354, Mean Dice = 0.9224, Mean IoU = 0.8608, Time = 0.07s
+Validation: Mean Dice = 0.9733, Mean IoU = 0.9482
+No improvement for 33 evaluation intervals. Best Val Dice: 0.9881
+Episode 300: Mean Reward = 11.9202, Mean Dice = 0.9400, Mean IoU = 0.8890, Time = 0.07s
+Validation: Mean Dice = 0.9770, Mean IoU = 0.9552
+No improvement for 34 evaluation intervals. Best Val Dice: 0.9881
+Episode 305: Mean Reward = 11.8832, Mean Dice = 0.9365, Mean IoU = 0.8821, Time = 0.07s
+Validation: Mean Dice = 0.9808, Mean IoU = 0.9626
+No improvement for 35 evaluation intervals. Best Val Dice: 0.9881
+Episode 310: Mean Reward = 10.2675, Mean Dice = 0.8588, Mean IoU = 0.7751, Time = 0.07s
+Validation: Mean Dice = 0.9834, Mean IoU = 0.9674
+No improvement for 36 evaluation intervals. Best Val Dice: 0.9881
+Episode 315: Mean Reward = 11.0791, Mean Dice = 0.8980, Mean IoU = 0.8225, Time = 0.08s
+Validation: Mean Dice = 0.9829, Mean IoU = 0.9665
+No improvement for 37 evaluation intervals. Best Val Dice: 0.9881
+Episode 320: Mean Reward = 10.2316, Mean Dice = 0.8554, Mean IoU = 0.7587, Time = 0.08s
+Validation: Mean Dice = 0.9812, Mean IoU = 0.9631
+No improvement for 38 evaluation intervals. Best Val Dice: 0.9881
+Episode 325: Mean Reward = 12.1764, Mean Dice = 0.9644, Mean IoU = 0.9317, Time = 0.08s
+Validation: Mean Dice = 0.9483, Mean IoU = 0.9049
+No improvement for 39 evaluation intervals. Best Val Dice: 0.9881
+Episode 330: Mean Reward = 11.2627, Mean Dice = 0.9155, Mean IoU = 0.8549, Time = 0.08s
+Validation: Mean Dice = 0.9554, Mean IoU = 0.9167
+No improvement for 40 evaluation intervals. Best Val Dice: 0.9881
+Episode 335: Mean Reward = 12.1840, Mean Dice = 0.9651, Mean IoU = 0.9328, Time = 0.07s
+Validation: Mean Dice = 0.9671, Mean IoU = 0.9363
+No improvement for 41 evaluation intervals. Best Val Dice: 0.9881
+Episode 340: Mean Reward = 10.2803, Mean Dice = 0.8219, Mean IoU = 0.7290, Time = 0.08s
+Validation: Mean Dice = 0.9731, Mean IoU = 0.9478
+No improvement for 42 evaluation intervals. Best Val Dice: 0.9881
+Episode 345: Mean Reward = 12.2539, Mean Dice = 0.9718, Mean IoU = 0.9452, Time = 0.08s
+Validation: Mean Dice = 0.9786, Mean IoU = 0.9583
+No improvement for 43 evaluation intervals. Best Val Dice: 0.9881
+Episode 350: Mean Reward = 12.0581, Mean Dice = 0.9479, Mean IoU = 0.9012, Time = 0.08s
+Validation: Mean Dice = 0.9792, Mean IoU = 0.9592
+No improvement for 44 evaluation intervals. Best Val Dice: 0.9881
+Episode 355: Mean Reward = 11.9301, Mean Dice = 0.9410, Mean IoU = 0.8893, Time = 0.07s
+Validation: Mean Dice = 0.9689, Mean IoU = 0.9401
+No improvement for 45 evaluation intervals. Best Val Dice: 0.9881
+Episode 360: Mean Reward = 11.3275, Mean Dice = 0.8868, Mean IoU = 0.8010, Time = 0.07s
+Validation: Mean Dice = 0.9749, Mean IoU = 0.9514
+No improvement for 46 evaluation intervals. Best Val Dice: 0.9881
+Episode 365: Mean Reward = 11.7434, Mean Dice = 0.9127, Mean IoU = 0.8417, Time = 0.07s
+Validation: Mean Dice = 0.9760, Mean IoU = 0.9532
+No improvement for 47 evaluation intervals. Best Val Dice: 0.9881
+Episode 370: Mean Reward = 9.9359, Mean Dice = 0.8071, Mean IoU = 0.7094, Time = 0.08s
+Validation: Mean Dice = 0.9787, Mean IoU = 0.9582
+No improvement for 48 evaluation intervals. Best Val Dice: 0.9881
+Episode 375: Mean Reward = 11.7375, Mean Dice = 0.9226, Mean IoU = 0.8638, Time = 0.07s
+Validation: Mean Dice = 0.9917, Mean IoU = 0.9836
+New best model with validation Dice: 0.9917
+Episode 380: Mean Reward = 8.8621, Mean Dice = 0.7631, Mean IoU = 0.6406, Time = 0.08s
+Validation: Mean Dice = 0.9773, Mean IoU = 0.9559
+No improvement for 1 evaluation intervals. Best Val Dice: 0.9917
+Episode 385: Mean Reward = 11.8047, Mean Dice = 0.9290, Mean IoU = 0.8731, Time = 0.08s
+Validation: Mean Dice = 0.9775, Mean IoU = 0.9562
+No improvement for 2 evaluation intervals. Best Val Dice: 0.9917
+Episode 390: Mean Reward = 10.4572, Mean Dice = 0.8769, Mean IoU = 0.7938, Time = 0.08s
+Validation: Mean Dice = 0.9807, Mean IoU = 0.9622
+No improvement for 3 evaluation intervals. Best Val Dice: 0.9917
+Episode 395: Mean Reward = 10.2831, Mean Dice = 0.8222, Mean IoU = 0.7300, Time = 0.07s
+Validation: Mean Dice = 0.9841, Mean IoU = 0.9687
+No improvement for 4 evaluation intervals. Best Val Dice: 0.9917
+Episode 400: Mean Reward = 11.1482, Mean Dice = 0.9046, Mean IoU = 0.8358, Time = 0.08s
+Validation: Mean Dice = 0.9773, Mean IoU = 0.9559
+No improvement for 5 evaluation intervals. Best Val Dice: 0.9917
+Episode 405: Mean Reward = 9.6553, Mean Dice = 0.8005, Mean IoU = 0.7038, Time = 0.08s
+Validation: Mean Dice = 0.9740, Mean IoU = 0.9496
+No improvement for 6 evaluation intervals. Best Val Dice: 0.9917
+  8%|▊         | 405/5000 [00:57<13:37,  5.62it/s]  8%|▊         | 407/5000 [00:57<11:11,  6.84it/s]  8%|▊         | 409/5000 [00:57<09:35,  7.97it/s]  8%|▊         | 411/5000 [00:58<10:12,  7.49it/s]  8%|▊         | 413/5000 [00:58<08:57,  8.54it/s]  8%|▊         | 415/5000 [00:58<09:43,  7.85it/s]  8%|▊         | 417/5000 [00:58<08:41,  8.79it/s]  8%|▊         | 419/5000 [00:58<07:55,  9.63it/s]  8%|▊         | 421/5000 [00:59<09:03,  8.43it/s]  8%|▊         | 423/5000 [00:59<08:11,  9.32it/s]  8%|▊         | 425/5000 [00:59<09:10,  8.31it/s]  9%|▊         | 427/5000 [00:59<08:16,  9.21it/s]  9%|▊         | 429/5000 [00:59<07:39,  9.95it/s]  9%|▊         | 431/5000 [01:00<08:47,  8.66it/s]  9%|▊         | 433/5000 [01:00<08:01,  9.48it/s]  9%|▊         | 435/5000 [01:00<09:35,  7.93it/s]  9%|▊         | 437/5000 [01:00<08:35,  8.85it/s]  9%|▉         | 439/5000 [01:01<07:51,  9.66it/s]  9%|▉         | 441/5000 [01:01<08:57,  8.48it/s]  9%|▉         | 443/5000 [01:01<08:07,  9.35it/s]  9%|▉         | 445/5000 [01:01<09:07,  8.32it/s]  9%|▉         | 447/5000 [01:02<08:18,  9.13it/s]  9%|▉         | 449/5000 [01:02<07:40,  9.88it/s]  9%|▉         | 451/5000 [01:03<19:02,  3.98it/s]  9%|▉         | 453/5000 [01:03<15:10,  4.99it/s]  9%|▉         | 455/5000 [01:03<14:04,  5.38it/s]  9%|▉         | 457/5000 [01:04<11:44,  6.45it/s]  9%|▉         | 459/5000 [01:04<10:03,  7.52it/s]  9%|▉         | 461/5000 [01:04<10:31,  7.19it/s]  9%|▉         | 463/5000 [01:04<09:11,  8.23it/s]  9%|▉         | 465/5000 [01:04<09:51,  7.66it/s]  9%|▉         | 467/5000 [01:05<08:46,  8.61it/s]  9%|▉         | 469/5000 [01:05<07:59,  9.44it/s]  9%|▉         | 471/5000 [01:05<09:05,  8.30it/s]  9%|▉         | 473/5000 [01:05<08:11,  9.21it/s] 10%|▉         | 475/5000 [01:06<09:07,  8.27it/s] 10%|▉         | 477/5000 [01:06<08:12,  9.18it/s] 10%|▉         | 479/5000 [01:06<07:33,  9.97it/s] 10%|▉         | 481/5000 [01:06<08:45,  8.60it/s] 10%|▉         | 483/5000 [01:06<07:57,  9.45it/s] 10%|▉         | 485/5000 [01:07<08:58,  8.39it/s] 10%|▉         | 487/5000 [01:07<08:07,  9.25it/s] 10%|▉         | 489/5000 [01:07<07:31,  9.98it/s] 10%|▉         | 491/5000 [01:07<08:41,  8.65it/s] 10%|▉         | 493/5000 [01:07<07:58,  9.43it/s] 10%|▉         | 495/5000 [01:08<08:59,  8.36it/s] 10%|▉         | 497/5000 [01:08<08:08,  9.22it/s] 10%|▉         | 499/5000 [01:08<07:31,  9.96it/s] 10%|█         | 501/5000 [01:09<18:48,  3.99it/s] 10%|█         | 503/5000 [01:09<14:59,  5.00it/s] 10%|█         | 505/5000 [01:10<13:57,  5.37it/s] 10%|█         | 507/5000 [01:10<11:38,  6.43it/s] 10%|█         | 509/5000 [01:10<10:01,  7.47it/s] 10%|█         | 511/5000 [01:10<10:29,  7.13it/s] 10%|█         | 512/5000 [01:11<10:00,  7.48it/s] 10%|█         | 513/5000 [01:11<09:31,  7.85it/s] 10%|█         | 515/5000 [01:11<10:28,  7.13it/s] 10%|█         | 517/5000 [01:11<09:01,  8.28it/s] 10%|█         | 519/5000 [01:11<08:04,  9.24it/s] 10%|█         | 521/5000 [01:12<09:13,  8.09it/s] 10%|█         | 523/5000 [01:12<08:19,  8.96it/s] 10%|█         | 525/5000 [01:12<09:21,  7.97it/s] 11%|█         | 527/5000 [01:12<08:23,  8.88it/s] 11%|█         | 529/5000 [01:12<07:42,  9.66it/s] 11%|█         | 531/5000 [01:13<08:51,  8.41it/s] 11%|█         | 533/5000 [01:13<08:02,  9.26it/s] 11%|█         | 535/5000 [01:13<09:03,  8.21it/s] 11%|█         | 537/5000 [01:13<08:11,  9.08it/s] 11%|█         | 539/5000 [01:14<07:36,  9.77it/s] 11%|█         | 541/5000 [01:14<08:49,  8.42it/s] 11%|█         | 543/5000 [01:14<08:02,  9.24it/s] 11%|█         | 545/5000 [01:14<09:03,  8.19it/s] 11%|█         | 547/5000 [01:14<08:13,  9.03it/s] 11%|█         | 549/5000 [01:15<07:36,  9.75it/s] 11%|█         | 551/5000 [01:16<19:06,  3.88it/s] 11%|█         | 553/5000 [01:16<15:24,  4.81it/s] 11%|█         | 555/5000 [01:16<14:22,  5.15it/s] 11%|█         | 557/5000 [01:17<11:56,  6.20it/s] 11%|█         | 559/5000 [01:17<10:10,  7.27it/s] 11%|█         | 561/5000 [01:17<10:32,  7.02it/s] 11%|█▏        | 563/5000 [01:17<09:12,  8.03it/s] 11%|█▏        | 565/5000 [01:18<09:48,  7.53it/s] 11%|█▏        | 567/5000 [01:18<08:40,  8.51it/s] 11%|█▏        | 569/5000 [01:18<07:51,  9.40it/s] 11%|█▏        | 571/5000 [01:18<08:46,  8.40it/s] 11%|█▏        | 573/5000 [01:18<07:55,  9.31it/s] 12%|█▏        | 575/5000 [01:19<08:47,  8.39it/s] 12%|█▏        | 577/5000 [01:19<08:00,  9.21it/s] 12%|█▏        | 579/5000 [01:19<07:24,  9.95it/s] 12%|█▏        | 581/5000 [01:19<08:25,  8.75it/s] 12%|█▏        | 583/5000 [01:19<07:41,  9.56it/s] 12%|█▏        | 585/5000 [01:20<08:39,  8.50it/s] 12%|█▏        | 587/5000 [01:20<07:51,  9.35it/s] 12%|█▏        | 589/5000 [01:20<07:21, 10.00it/s] 12%|█▏        | 591/5000 [01:20<08:28,  8.67it/s] 12%|█▏        | 593/5000 [01:20<07:42,  9.52it/s] 12%|█▏        | 595/5000 [01:21<08:36,  8.53it/s] 12%|█▏        | 597/5000 [01:21<07:48,  9.40it/s] 12%|█▏        | 599/5000 [01:21<07:14, 10.14it/s] 12%|█▏        | 601/5000 [01:22<18:51,  3.89it/s] 12%|█▏        | 603/5000 [01:22<14:57,  4.90it/s] 12%|█▏        | 605/5000 [01:23<13:43,  5.34it/s] 12%|█▏        | 607/5000 [01:23<11:26,  6.40it/s] 12%|█▏        | 609/5000 [01:23<09:47,  7.47it/s]Episode 410: Mean Reward = 10.1247, Mean Dice = 0.8452, Mean IoU = 0.7529, Time = 0.08s
+Validation: Mean Dice = 0.9870, Mean IoU = 0.9744
+No improvement for 7 evaluation intervals. Best Val Dice: 0.9917
+Episode 415: Mean Reward = 11.2919, Mean Dice = 0.9183, Mean IoU = 0.8569, Time = 0.08s
+Validation: Mean Dice = 0.9692, Mean IoU = 0.9407
+No improvement for 8 evaluation intervals. Best Val Dice: 0.9917
+Episode 420: Mean Reward = 11.0098, Mean Dice = 0.8914, Mean IoU = 0.8142, Time = 0.08s
+Validation: Mean Dice = 0.9862, Mean IoU = 0.9728
+No improvement for 9 evaluation intervals. Best Val Dice: 0.9917
+Episode 425: Mean Reward = 10.6933, Mean Dice = 0.8613, Mean IoU = 0.7923, Time = 0.07s
+Validation: Mean Dice = 0.9818, Mean IoU = 0.9643
+No improvement for 10 evaluation intervals. Best Val Dice: 0.9917
+Episode 430: Mean Reward = 12.0007, Mean Dice = 0.9477, Mean IoU = 0.9024, Time = 0.08s
+Validation: Mean Dice = 0.9541, Mean IoU = 0.9126
+No improvement for 11 evaluation intervals. Best Val Dice: 0.9917
+Episode 435: Mean Reward = 10.7496, Mean Dice = 0.8666, Mean IoU = 0.7908, Time = 0.08s
+Validation: Mean Dice = 0.9835, Mean IoU = 0.9676
+No improvement for 12 evaluation intervals. Best Val Dice: 0.9917
+Episode 440: Mean Reward = 12.2885, Mean Dice = 0.9751, Mean IoU = 0.9516, Time = 0.08s
+Validation: Mean Dice = 0.9805, Mean IoU = 0.9619
+No improvement for 13 evaluation intervals. Best Val Dice: 0.9917
+Episode 445: Mean Reward = 11.7183, Mean Dice = 0.9208, Mean IoU = 0.8559, Time = 0.08s
+Validation: Mean Dice = 0.9808, Mean IoU = 0.9625
+No improvement for 14 evaluation intervals. Best Val Dice: 0.9917
+Episode 450: Mean Reward = 10.6503, Mean Dice = 0.8572, Mean IoU = 0.7843, Time = 0.07s
+Validation: Mean Dice = 0.9629, Mean IoU = 0.9290
+No improvement for 15 evaluation intervals. Best Val Dice: 0.9917
+Episode 455: Mean Reward = 12.0723, Mean Dice = 0.9545, Mean IoU = 0.9145, Time = 0.08s
+Validation: Mean Dice = 0.9778, Mean IoU = 0.9569
+No improvement for 16 evaluation intervals. Best Val Dice: 0.9917
+Episode 460: Mean Reward = 11.0418, Mean Dice = 0.8945, Mean IoU = 0.8278, Time = 0.08s
+Validation: Mean Dice = 0.9798, Mean IoU = 0.9606
+No improvement for 17 evaluation intervals. Best Val Dice: 0.9917
+Episode 465: Mean Reward = 11.2899, Mean Dice = 0.9181, Mean IoU = 0.8581, Time = 0.08s
+Validation: Mean Dice = 0.9754, Mean IoU = 0.9522
+No improvement for 18 evaluation intervals. Best Val Dice: 0.9917
+Episode 470: Mean Reward = 10.7413, Mean Dice = 0.8658, Mean IoU = 0.7843, Time = 0.08s
+Validation: Mean Dice = 0.9827, Mean IoU = 0.9661
+No improvement for 19 evaluation intervals. Best Val Dice: 0.9917
+Episode 475: Mean Reward = 12.0251, Mean Dice = 0.9500, Mean IoU = 0.9055, Time = 0.07s
+Validation: Mean Dice = 0.9803, Mean IoU = 0.9614
+No improvement for 20 evaluation intervals. Best Val Dice: 0.9917
+Episode 480: Mean Reward = 12.0358, Mean Dice = 0.9510, Mean IoU = 0.9078, Time = 0.08s
+Validation: Mean Dice = 0.9814, Mean IoU = 0.9635
+No improvement for 21 evaluation intervals. Best Val Dice: 0.9917
+Episode 485: Mean Reward = 11.7774, Mean Dice = 0.9264, Mean IoU = 0.8669, Time = 0.07s
+Validation: Mean Dice = 0.9901, Mean IoU = 0.9805
+No improvement for 22 evaluation intervals. Best Val Dice: 0.9917
+Episode 490: Mean Reward = 10.0463, Mean Dice = 0.8377, Mean IoU = 0.7368, Time = 0.08s
+Validation: Mean Dice = 0.9771, Mean IoU = 0.9555
+No improvement for 23 evaluation intervals. Best Val Dice: 0.9917
+Episode 495: Mean Reward = 10.9653, Mean Dice = 0.8872, Mean IoU = 0.8056, Time = 0.08s
+Validation: Mean Dice = 0.9482, Mean IoU = 0.9029
+No improvement for 24 evaluation intervals. Best Val Dice: 0.9917
+Episode 500: Mean Reward = 9.8630, Mean Dice = 0.8203, Mean IoU = 0.7277, Time = 0.08s
+Validation: Mean Dice = 0.9604, Mean IoU = 0.9250
+No improvement for 25 evaluation intervals. Best Val Dice: 0.9917
+Episode 505: Mean Reward = 11.8895, Mean Dice = 0.9371, Mean IoU = 0.8867, Time = 0.08s
+Validation: Mean Dice = 0.9849, Mean IoU = 0.9703
+No improvement for 26 evaluation intervals. Best Val Dice: 0.9917
+Episode 510: Mean Reward = 10.8041, Mean Dice = 0.8718, Mean IoU = 0.7890, Time = 0.08s
+Validation: Mean Dice = 0.9770, Mean IoU = 0.9552
+No improvement for 27 evaluation intervals. Best Val Dice: 0.9917
+Episode 515: Mean Reward = 12.1503, Mean Dice = 0.9619, Mean IoU = 0.9275, Time = 0.08s
+Validation: Mean Dice = 0.9811, Mean IoU = 0.9629
+No improvement for 28 evaluation intervals. Best Val Dice: 0.9917
+Episode 520: Mean Reward = 9.8982, Mean Dice = 0.8236, Mean IoU = 0.7326, Time = 0.08s
+Validation: Mean Dice = 0.9826, Mean IoU = 0.9658
+No improvement for 29 evaluation intervals. Best Val Dice: 0.9917
+Episode 525: Mean Reward = 11.0199, Mean Dice = 0.8981, Mean IoU = 0.8209, Time = 0.08s
+Validation: Mean Dice = 0.9817, Mean IoU = 0.9643
+No improvement for 30 evaluation intervals. Best Val Dice: 0.9917
+Episode 530: Mean Reward = 11.0282, Mean Dice = 0.8932, Mean IoU = 0.8250, Time = 0.08s
+Validation: Mean Dice = 0.9859, Mean IoU = 0.9723
+No improvement for 31 evaluation intervals. Best Val Dice: 0.9917
+Episode 535: Mean Reward = 11.6484, Mean Dice = 0.9141, Mean IoU = 0.8490, Time = 0.08s
+Validation: Mean Dice = 0.9834, Mean IoU = 0.9674
+No improvement for 32 evaluation intervals. Best Val Dice: 0.9917
+Episode 540: Mean Reward = 11.9711, Mean Dice = 0.9449, Mean IoU = 0.8976, Time = 0.08s
+Validation: Mean Dice = 0.9804, Mean IoU = 0.9617
+No improvement for 33 evaluation intervals. Best Val Dice: 0.9917
+Episode 545: Mean Reward = 12.0671, Mean Dice = 0.9507, Mean IoU = 0.9062, Time = 0.08s
+Validation: Mean Dice = 0.9830, Mean IoU = 0.9667
+No improvement for 34 evaluation intervals. Best Val Dice: 0.9917
+Episode 550: Mean Reward = 10.9977, Mean Dice = 0.8798, Mean IoU = 0.7936, Time = 0.08s
+Validation: Mean Dice = 0.9852, Mean IoU = 0.9708
+No improvement for 35 evaluation intervals. Best Val Dice: 0.9917
+Episode 555: Mean Reward = 10.8699, Mean Dice = 0.8781, Mean IoU = 0.8272, Time = 0.07s
+Validation: Mean Dice = 0.9807, Mean IoU = 0.9623
+No improvement for 36 evaluation intervals. Best Val Dice: 0.9917
+Episode 560: Mean Reward = 11.5144, Mean Dice = 0.9038, Mean IoU = 0.8479, Time = 0.08s
+Validation: Mean Dice = 0.9748, Mean IoU = 0.9511
+No improvement for 37 evaluation intervals. Best Val Dice: 0.9917
+Episode 565: Mean Reward = 10.8759, Mean Dice = 0.8692, Mean IoU = 0.8040, Time = 0.08s
+Validation: Mean Dice = 0.9751, Mean IoU = 0.9518
+No improvement for 38 evaluation intervals. Best Val Dice: 0.9917
+Episode 570: Mean Reward = 12.3828, Mean Dice = 0.9736, Mean IoU = 0.9487, Time = 0.07s
+Validation: Mean Dice = 0.9765, Mean IoU = 0.9542
+No improvement for 39 evaluation intervals. Best Val Dice: 0.9917
+Episode 575: Mean Reward = 10.7406, Mean Dice = 0.8658, Mean IoU = 0.7826, Time = 0.07s
+Validation: Mean Dice = 0.9544, Mean IoU = 0.9132
+No improvement for 40 evaluation intervals. Best Val Dice: 0.9917
+Episode 580: Mean Reward = 12.0941, Mean Dice = 0.9525, Mean IoU = 0.9109, Time = 0.07s
+Validation: Mean Dice = 0.9749, Mean IoU = 0.9512
+No improvement for 41 evaluation intervals. Best Val Dice: 0.9917
+Episode 585: Mean Reward = 11.8731, Mean Dice = 0.9355, Mean IoU = 0.8826, Time = 0.07s
+Validation: Mean Dice = 0.9812, Mean IoU = 0.9635
+No improvement for 42 evaluation intervals. Best Val Dice: 0.9917
+Episode 590: Mean Reward = 10.6418, Mean Dice = 0.8587, Mean IoU = 0.7658, Time = 0.08s
+Validation: Mean Dice = 0.9872, Mean IoU = 0.9747
+No improvement for 43 evaluation intervals. Best Val Dice: 0.9917
+Episode 595: Mean Reward = 10.9787, Mean Dice = 0.8884, Mean IoU = 0.8102, Time = 0.07s
+Validation: Mean Dice = 0.9650, Mean IoU = 0.9331
+No improvement for 44 evaluation intervals. Best Val Dice: 0.9917
+Episode 600: Mean Reward = 12.0327, Mean Dice = 0.9507, Mean IoU = 0.9064, Time = 0.07s
+Validation: Mean Dice = 0.9822, Mean IoU = 0.9651
+No improvement for 45 evaluation intervals. Best Val Dice: 0.9917
+Episode 605: Mean Reward = 11.3955, Mean Dice = 0.9281, Mean IoU = 0.8750, Time = 0.07s
+Validation: Mean Dice = 0.9869, Mean IoU = 0.9741
+No improvement for 46 evaluation intervals. Best Val Dice: 0.9917
+ 12%|█▏        | 611/5000 [01:23<10:06,  7.24it/s] 12%|█▏        | 613/5000 [01:24<08:49,  8.28it/s] 12%|█▏        | 615/5000 [01:24<09:23,  7.77it/s] 12%|█▏        | 617/5000 [01:24<08:22,  8.73it/s] 12%|█▏        | 619/5000 [01:24<07:39,  9.53it/s] 12%|█▏        | 621/5000 [01:24<08:34,  8.51it/s] 12%|█▏        | 623/5000 [01:25<07:46,  9.38it/s] 12%|█▎        | 625/5000 [01:25<08:42,  8.38it/s] 13%|█▎        | 627/5000 [01:25<07:53,  9.24it/s] 13%|█▎        | 629/5000 [01:25<07:18,  9.97it/s] 13%|█▎        | 631/5000 [01:26<08:22,  8.70it/s] 13%|█▎        | 633/5000 [01:26<07:36,  9.56it/s] 13%|█▎        | 635/5000 [01:26<08:31,  8.54it/s] 13%|█▎        | 637/5000 [01:26<07:46,  9.35it/s] 13%|█▎        | 639/5000 [01:26<07:14, 10.04it/s] 13%|█▎        | 641/5000 [01:27<08:29,  8.56it/s] 13%|█▎        | 643/5000 [01:27<07:55,  9.16it/s] 13%|█▎        | 645/5000 [01:27<08:51,  8.20it/s] 13%|█▎        | 647/5000 [01:27<07:58,  9.10it/s] 13%|█▎        | 649/5000 [01:27<07:21,  9.86it/s] 13%|█▎        | 651/5000 [01:29<18:44,  3.87it/s] 13%|█▎        | 653/5000 [01:29<14:57,  4.84it/s] 13%|█▎        | 655/5000 [01:29<13:50,  5.23it/s] 13%|█▎        | 657/5000 [01:29<11:31,  6.28it/s] 13%|█▎        | 659/5000 [01:30<09:53,  7.31it/s] 13%|█▎        | 661/5000 [01:30<10:24,  6.94it/s] 13%|█▎        | 663/5000 [01:30<09:10,  7.87it/s] 13%|█▎        | 665/5000 [01:30<09:56,  7.27it/s] 13%|█▎        | 667/5000 [01:31<08:47,  8.21it/s] 13%|█▎        | 669/5000 [01:31<08:07,  8.88it/s] 13%|█▎        | 670/5000 [01:31<09:37,  7.50it/s] 13%|█▎        | 672/5000 [01:31<08:28,  8.51it/s] 13%|█▎        | 674/5000 [01:31<07:41,  9.38it/s] 14%|█▎        | 676/5000 [01:32<08:52,  8.11it/s] 14%|█▎        | 678/5000 [01:32<08:04,  8.93it/s] 14%|█▎        | 680/5000 [01:32<09:35,  7.51it/s] 14%|█▎        | 681/5000 [01:32<09:20,  7.70it/s] 14%|█▎        | 683/5000 [01:32<08:30,  8.46it/s] 14%|█▎        | 684/5000 [01:33<08:29,  8.47it/s] 14%|█▎        | 685/5000 [01:33<12:39,  5.68it/s] 14%|█▎        | 686/5000 [01:33<12:16,  5.86it/s] 14%|█▍        | 688/5000 [01:33<09:56,  7.23it/s] 14%|█▍        | 690/5000 [01:34<10:13,  7.02it/s] 14%|█▍        | 692/5000 [01:34<08:43,  8.22it/s] 14%|█▍        | 694/5000 [01:34<07:47,  9.20it/s] 14%|█▍        | 695/5000 [01:34<09:21,  7.66it/s] 14%|█▍        | 697/5000 [01:34<08:10,  8.78it/s] 14%|█▍        | 699/5000 [01:34<07:24,  9.68it/s] 14%|█▍        | 701/5000 [01:36<18:59,  3.77it/s] 14%|█▍        | 703/5000 [01:36<14:57,  4.79it/s] 14%|█▍        | 705/5000 [01:36<13:53,  5.15it/s] 14%|█▍        | 707/5000 [01:36<11:25,  6.27it/s] 14%|█▍        | 709/5000 [01:37<09:43,  7.36it/s] 14%|█▍        | 711/5000 [01:37<10:01,  7.13it/s] 14%|█▍        | 713/5000 [01:37<08:47,  8.12it/s] 14%|█▍        | 715/5000 [01:37<09:23,  7.60it/s] 14%|█▍        | 717/5000 [01:37<08:20,  8.55it/s] 14%|█▍        | 719/5000 [01:38<07:38,  9.35it/s] 14%|█▍        | 721/5000 [01:38<08:35,  8.30it/s] 14%|█▍        | 723/5000 [01:38<07:47,  9.15it/s] 14%|█▍        | 725/5000 [01:38<08:39,  8.22it/s] 15%|█▍        | 727/5000 [01:39<07:50,  9.08it/s] 15%|█▍        | 729/5000 [01:39<07:14,  9.83it/s] 15%|█▍        | 731/5000 [01:39<08:16,  8.60it/s] 15%|█▍        | 733/5000 [01:39<07:32,  9.42it/s] 15%|█▍        | 735/5000 [01:39<08:30,  8.35it/s] 15%|█▍        | 737/5000 [01:40<07:42,  9.21it/s] 15%|█▍        | 739/5000 [01:40<07:09,  9.92it/s] 15%|█▍        | 741/5000 [01:40<08:15,  8.60it/s] 15%|█▍        | 743/5000 [01:40<07:34,  9.37it/s] 15%|█▍        | 745/5000 [01:41<08:31,  8.33it/s] 15%|█▍        | 747/5000 [01:41<07:43,  9.18it/s] 15%|█▍        | 749/5000 [01:41<07:10,  9.87it/s] 15%|█▌        | 751/5000 [01:42<18:03,  3.92it/s] 15%|█▌        | 753/5000 [01:42<14:23,  4.92it/s] 15%|█▌        | 755/5000 [01:43<13:15,  5.33it/s] 15%|█▌        | 757/5000 [01:43<11:02,  6.41it/s] 15%|█▌        | 759/5000 [01:43<09:31,  7.42it/s] 15%|█▌        | 761/5000 [01:43<09:53,  7.14it/s] 15%|█▌        | 763/5000 [01:43<08:42,  8.12it/s] 15%|█▌        | 765/5000 [01:44<09:19,  7.58it/s] 15%|█▌        | 767/5000 [01:44<08:17,  8.51it/s] 15%|█▌        | 769/5000 [01:44<07:33,  9.32it/s] 15%|█▌        | 771/5000 [01:44<08:31,  8.27it/s] 15%|█▌        | 773/5000 [01:45<07:43,  9.12it/s] 16%|█▌        | 775/5000 [01:45<08:36,  8.18it/s] 16%|█▌        | 777/5000 [01:45<07:48,  9.02it/s] 16%|█▌        | 779/5000 [01:45<07:12,  9.76it/s] 16%|█▌        | 781/5000 [01:45<08:16,  8.49it/s] 16%|█▌        | 783/5000 [01:46<07:33,  9.30it/s] 16%|█▌        | 785/5000 [01:46<08:33,  8.21it/s] 16%|█▌        | 787/5000 [01:46<07:46,  9.03it/s] 16%|█▌        | 789/5000 [01:46<07:12,  9.74it/s] 16%|█▌        | 791/5000 [01:47<08:15,  8.50it/s] 16%|█▌        | 793/5000 [01:47<07:30,  9.33it/s] 16%|█▌        | 795/5000 [01:47<08:26,  8.30it/s] 16%|█▌        | 797/5000 [01:47<07:40,  9.12it/s] 16%|█▌        | 799/5000 [01:47<07:06,  9.86it/s] 16%|█▌        | 801/5000 [01:49<17:51,  3.92it/s] 16%|█▌        | 803/5000 [01:49<14:14,  4.91it/s] 16%|█▌        | 805/5000 [01:49<13:07,  5.33it/s] 16%|█▌        | 807/5000 [01:49<10:55,  6.39it/s] 16%|█▌        | 809/5000 [01:49<09:24,  7.42it/s]Episode 610: Mean Reward = 11.3438, Mean Dice = 0.8851, Mean IoU = 0.7967, Time = 0.07s
+Validation: Mean Dice = 0.9692, Mean IoU = 0.9409
+No improvement for 47 evaluation intervals. Best Val Dice: 0.9917
+Episode 615: Mean Reward = 11.6318, Mean Dice = 0.9125, Mean IoU = 0.8417, Time = 0.07s
+Validation: Mean Dice = 0.9860, Mean IoU = 0.9724
+No improvement for 48 evaluation intervals. Best Val Dice: 0.9917
+Episode 620: Mean Reward = 9.7205, Mean Dice = 0.8067, Mean IoU = 0.6938, Time = 0.07s
+Validation: Mean Dice = 0.9820, Mean IoU = 0.9648
+No improvement for 49 evaluation intervals. Best Val Dice: 0.9917
+Episode 625: Mean Reward = 11.0133, Mean Dice = 0.8917, Mean IoU = 0.8176, Time = 0.07s
+Validation: Mean Dice = 0.9770, Mean IoU = 0.9551
+No improvement for 50 evaluation intervals. Best Val Dice: 0.9917
+Episode 630: Mean Reward = 11.6702, Mean Dice = 0.9162, Mean IoU = 0.8514, Time = 0.07s
+Validation: Mean Dice = 0.9787, Mean IoU = 0.9585
+No improvement for 51 evaluation intervals. Best Val Dice: 0.9917
+Episode 635: Mean Reward = 11.7403, Mean Dice = 0.9229, Mean IoU = 0.8585, Time = 0.07s
+Validation: Mean Dice = 0.9605, Mean IoU = 0.9241
+No improvement for 52 evaluation intervals. Best Val Dice: 0.9917
+Episode 640: Mean Reward = 9.8120, Mean Dice = 0.8154, Mean IoU = 0.7274, Time = 0.08s
+Validation: Mean Dice = 0.9757, Mean IoU = 0.9527
+No improvement for 53 evaluation intervals. Best Val Dice: 0.9917
+Episode 645: Mean Reward = 10.9983, Mean Dice = 0.8903, Mean IoU = 0.8123, Time = 0.07s
+Validation: Mean Dice = 0.9823, Mean IoU = 0.9654
+No improvement for 54 evaluation intervals. Best Val Dice: 0.9917
+Episode 650: Mean Reward = 12.0689, Mean Dice = 0.9542, Mean IoU = 0.9134, Time = 0.07s
+Validation: Mean Dice = 0.9733, Mean IoU = 0.9483
+No improvement for 55 evaluation intervals. Best Val Dice: 0.9917
+Episode 655: Mean Reward = 11.2150, Mean Dice = 0.9109, Mean IoU = 0.8516, Time = 0.08s
+Validation: Mean Dice = 0.9880, Mean IoU = 0.9764
+No improvement for 56 evaluation intervals. Best Val Dice: 0.9917
+Episode 660: Mean Reward = 11.9392, Mean Dice = 0.9418, Mean IoU = 0.8922, Time = 0.08s
+Validation: Mean Dice = 0.9662, Mean IoU = 0.9355
+No improvement for 57 evaluation intervals. Best Val Dice: 0.9917
+Episode 665: Mean Reward = 11.1882, Mean Dice = 0.9084, Mean IoU = 0.8393, Time = 0.08s
+Validation: Mean Dice = 0.9620, Mean IoU = 0.9293
+No improvement for 58 evaluation intervals. Best Val Dice: 0.9917
+Episode 670: Mean Reward = 11.1563, Mean Dice = 0.9054, Mean IoU = 0.8377, Time = 0.08s
+Validation: Mean Dice = 0.9647, Mean IoU = 0.9325
+No improvement for 59 evaluation intervals. Best Val Dice: 0.9917
+Episode 675: Mean Reward = 11.7090, Mean Dice = 0.9199, Mean IoU = 0.8546, Time = 0.08s
+Validation: Mean Dice = 0.9823, Mean IoU = 0.9653
+No improvement for 60 evaluation intervals. Best Val Dice: 0.9917
+Episode 680: Mean Reward = 11.8242, Mean Dice = 0.9309, Mean IoU = 0.8729, Time = 0.08s
+Validation: Mean Dice = 0.9786, Mean IoU = 0.9582
+No improvement for 61 evaluation intervals. Best Val Dice: 0.9917
+Episode 685: Mean Reward = 11.8812, Mean Dice = 0.9363, Mean IoU = 0.8812, Time = 0.08s
+Validation: Mean Dice = 0.9755, Mean IoU = 0.9527
+No improvement for 62 evaluation intervals. Best Val Dice: 0.9917
+Episode 690: Mean Reward = 11.7470, Mean Dice = 0.9235, Mean IoU = 0.8615, Time = 0.07s
+Validation: Mean Dice = 0.9844, Mean IoU = 0.9694
+No improvement for 63 evaluation intervals. Best Val Dice: 0.9917
+Episode 695: Mean Reward = 11.7918, Mean Dice = 0.9278, Mean IoU = 0.8697, Time = 0.07s
+Validation: Mean Dice = 0.9884, Mean IoU = 0.9770
+No improvement for 64 evaluation intervals. Best Val Dice: 0.9917
+Episode 700: Mean Reward = 11.1828, Mean Dice = 0.9079, Mean IoU = 0.8386, Time = 0.07s
+Validation: Mean Dice = 0.9904, Mean IoU = 0.9811
+No improvement for 65 evaluation intervals. Best Val Dice: 0.9917
+Episode 705: Mean Reward = 12.2020, Mean Dice = 0.9669, Mean IoU = 0.9363, Time = 0.08s
+Validation: Mean Dice = 0.9810, Mean IoU = 0.9631
+No improvement for 66 evaluation intervals. Best Val Dice: 0.9917
+Episode 710: Mean Reward = 12.0917, Mean Dice = 0.9564, Mean IoU = 0.9177, Time = 0.07s
+Validation: Mean Dice = 0.9845, Mean IoU = 0.9695
+No improvement for 67 evaluation intervals. Best Val Dice: 0.9917
+Episode 715: Mean Reward = 11.7171, Mean Dice = 0.9207, Mean IoU = 0.8564, Time = 0.07s
+Validation: Mean Dice = 0.9860, Mean IoU = 0.9723
+No improvement for 68 evaluation intervals. Best Val Dice: 0.9917
+Episode 720: Mean Reward = 11.9224, Mean Dice = 0.9402, Mean IoU = 0.8945, Time = 0.07s
+Validation: Mean Dice = 0.9829, Mean IoU = 0.9663
+No improvement for 69 evaluation intervals. Best Val Dice: 0.9917
+Episode 725: Mean Reward = 12.2045, Mean Dice = 0.9671, Mean IoU = 0.9365, Time = 0.07s
+Validation: Mean Dice = 0.9737, Mean IoU = 0.9488
+No improvement for 70 evaluation intervals. Best Val Dice: 0.9917
+Episode 730: Mean Reward = 12.1663, Mean Dice = 0.9635, Mean IoU = 0.9304, Time = 0.07s
+Validation: Mean Dice = 0.9834, Mean IoU = 0.9675
+No improvement for 71 evaluation intervals. Best Val Dice: 0.9917
+Episode 735: Mean Reward = 12.0698, Mean Dice = 0.9543, Mean IoU = 0.9131, Time = 0.07s
+Validation: Mean Dice = 0.9751, Mean IoU = 0.9518
+No improvement for 72 evaluation intervals. Best Val Dice: 0.9917
+Episode 740: Mean Reward = 12.0315, Mean Dice = 0.9506, Mean IoU = 0.9073, Time = 0.07s
+Validation: Mean Dice = 0.9736, Mean IoU = 0.9486
+No improvement for 73 evaluation intervals. Best Val Dice: 0.9917
+Episode 745: Mean Reward = 12.0963, Mean Dice = 0.9568, Mean IoU = 0.9184, Time = 0.07s
+Validation: Mean Dice = 0.9754, Mean IoU = 0.9521
+No improvement for 74 evaluation intervals. Best Val Dice: 0.9917
+Episode 750: Mean Reward = 10.8926, Mean Dice = 0.8802, Mean IoU = 0.8056, Time = 0.07s
+Validation: Mean Dice = 0.9831, Mean IoU = 0.9668
+No improvement for 75 evaluation intervals. Best Val Dice: 0.9917
+Episode 755: Mean Reward = 11.1342, Mean Dice = 0.9033, Mean IoU = 0.8336, Time = 0.07s
+Validation: Mean Dice = 0.9783, Mean IoU = 0.9576
+No improvement for 76 evaluation intervals. Best Val Dice: 0.9917
+Episode 760: Mean Reward = 12.1443, Mean Dice = 0.9614, Mean IoU = 0.9265, Time = 0.07s
+Validation: Mean Dice = 0.9662, Mean IoU = 0.9354
+No improvement for 77 evaluation intervals. Best Val Dice: 0.9917
+Episode 765: Mean Reward = 11.8062, Mean Dice = 0.9292, Mean IoU = 0.8728, Time = 0.07s
+Validation: Mean Dice = 0.9773, Mean IoU = 0.9561
+No improvement for 78 evaluation intervals. Best Val Dice: 0.9917
+Episode 770: Mean Reward = 11.9359, Mean Dice = 0.9415, Mean IoU = 0.8921, Time = 0.07s
+Validation: Mean Dice = 0.9784, Mean IoU = 0.9576
+No improvement for 79 evaluation intervals. Best Val Dice: 0.9917
+Episode 775: Mean Reward = 9.7518, Mean Dice = 0.8097, Mean IoU = 0.6932, Time = 0.07s
+Validation: Mean Dice = 0.9804, Mean IoU = 0.9616
+No improvement for 80 evaluation intervals. Best Val Dice: 0.9917
+Episode 780: Mean Reward = 11.8330, Mean Dice = 0.9317, Mean IoU = 0.8758, Time = 0.08s
+Validation: Mean Dice = 0.9745, Mean IoU = 0.9504
+No improvement for 81 evaluation intervals. Best Val Dice: 0.9917
+Episode 785: Mean Reward = 11.0177, Mean Dice = 0.8922, Mean IoU = 0.8210, Time = 0.08s
+Validation: Mean Dice = 0.9867, Mean IoU = 0.9737
+No improvement for 82 evaluation intervals. Best Val Dice: 0.9917
+Episode 790: Mean Reward = 12.3044, Mean Dice = 0.9766, Mean IoU = 0.9545, Time = 0.07s
+Validation: Mean Dice = 0.9803, Mean IoU = 0.9614
+No improvement for 83 evaluation intervals. Best Val Dice: 0.9917
+Episode 795: Mean Reward = 11.8227, Mean Dice = 0.9307, Mean IoU = 0.8734, Time = 0.07s
+Validation: Mean Dice = 0.9775, Mean IoU = 0.9561
+No improvement for 84 evaluation intervals. Best Val Dice: 0.9917
+Episode 800: Mean Reward = 10.7667, Mean Dice = 0.8683, Mean IoU = 0.7917, Time = 0.07s
+Validation: Mean Dice = 0.9790, Mean IoU = 0.9590
+No improvement for 85 evaluation intervals. Best Val Dice: 0.9917
+Episode 805: Mean Reward = 11.0769, Mean Dice = 0.8978, Mean IoU = 0.8253, Time = 0.07s
+Validation: Mean Dice = 0.9778, Mean IoU = 0.9567
+No improvement for 86 evaluation intervals. Best Val Dice: 0.9917
+ 16%|█▌        | 811/5000 [01:50<09:45,  7.16it/s] 16%|█▋        | 813/5000 [01:50<08:36,  8.11it/s] 16%|█▋        | 815/5000 [01:50<09:15,  7.54it/s] 16%|█▋        | 817/5000 [01:50<08:13,  8.47it/s] 16%|█▋        | 819/5000 [01:51<07:29,  9.30it/s] 16%|█▋        | 821/5000 [01:51<08:25,  8.27it/s] 16%|█▋        | 823/5000 [01:51<07:37,  9.14it/s] 16%|█▋        | 825/5000 [01:51<08:28,  8.21it/s] 17%|█▋        | 827/5000 [01:51<07:44,  8.98it/s] 17%|█▋        | 829/5000 [01:52<07:09,  9.72it/s] 17%|█▋        | 831/5000 [01:52<08:10,  8.49it/s] 17%|█▋        | 833/5000 [01:52<07:31,  9.23it/s] 17%|█▋        | 835/5000 [01:52<08:29,  8.18it/s] 17%|█▋        | 837/5000 [01:53<07:40,  9.03it/s] 17%|█▋        | 839/5000 [01:53<07:06,  9.75it/s] 17%|█▋        | 841/5000 [01:53<08:10,  8.49it/s] 17%|█▋        | 843/5000 [01:53<07:27,  9.28it/s] 17%|█▋        | 845/5000 [01:54<08:24,  8.24it/s] 17%|█▋        | 847/5000 [01:54<07:37,  9.07it/s] 17%|█▋        | 849/5000 [01:54<07:04,  9.78it/s] 17%|█▋        | 851/5000 [01:55<17:52,  3.87it/s] 17%|█▋        | 853/5000 [01:55<14:13,  4.86it/s] 17%|█▋        | 855/5000 [01:56<13:05,  5.28it/s] 17%|█▋        | 857/5000 [01:56<10:53,  6.34it/s] 17%|█▋        | 859/5000 [01:56<09:21,  7.38it/s] 17%|█▋        | 861/5000 [01:56<09:42,  7.11it/s] 17%|█▋        | 863/5000 [01:56<08:33,  8.06it/s] 17%|█▋        | 865/5000 [01:57<09:14,  7.46it/s] 17%|█▋        | 867/5000 [01:57<08:16,  8.32it/s] 17%|█▋        | 869/5000 [01:57<07:37,  9.02it/s] 17%|█▋        | 871/5000 [01:57<08:44,  7.87it/s] 17%|█▋        | 873/5000 [01:58<08:01,  8.57it/s] 18%|█▊        | 875/5000 [01:58<09:03,  7.60it/s] 18%|█▊        | 877/5000 [01:58<08:17,  8.28it/s] 18%|█▊        | 879/5000 [01:58<07:42,  8.90it/s] 18%|█▊        | 880/5000 [01:59<09:18,  7.38it/s] 18%|█▊        | 882/5000 [01:59<08:19,  8.24it/s] 18%|█▊        | 884/5000 [01:59<07:41,  8.92it/s] 18%|█▊        | 885/5000 [01:59<09:24,  7.30it/s] 18%|█▊        | 887/5000 [01:59<08:20,  8.22it/s] 18%|█▊        | 889/5000 [02:00<07:40,  8.93it/s] 18%|█▊        | 890/5000 [02:00<09:22,  7.30it/s] 18%|█▊        | 892/5000 [02:00<08:20,  8.21it/s] 18%|█▊        | 894/5000 [02:00<07:40,  8.92it/s] 18%|█▊        | 895/5000 [02:00<09:22,  7.29it/s] 18%|█▊        | 897/5000 [02:01<08:19,  8.21it/s] 18%|█▊        | 899/5000 [02:01<07:40,  8.90it/s] 18%|█▊        | 900/5000 [02:02<22:20,  3.06it/s] 18%|█▊        | 902/5000 [02:02<16:41,  4.09it/s] 18%|█▊        | 904/5000 [02:02<13:11,  5.17it/s] 18%|█▊        | 905/5000 [02:03<13:55,  4.90it/s] 18%|█▊        | 907/5000 [02:03<11:06,  6.14it/s] 18%|█▊        | 909/5000 [02:03<09:17,  7.34it/s] 18%|█▊        | 910/5000 [02:03<10:27,  6.52it/s] 18%|█▊        | 912/5000 [02:03<08:47,  7.75it/s] 18%|█▊        | 914/5000 [02:04<07:47,  8.75it/s] 18%|█▊        | 915/5000 [02:04<09:14,  7.36it/s] 18%|█▊        | 917/5000 [02:04<08:01,  8.48it/s] 18%|█▊        | 919/5000 [02:04<07:14,  9.39it/s] 18%|█▊        | 921/5000 [02:04<08:17,  8.20it/s] 18%|█▊        | 923/5000 [02:05<07:27,  9.10it/s] 18%|█▊        | 925/5000 [02:05<08:24,  8.08it/s] 19%|█▊        | 927/5000 [02:05<07:36,  8.93it/s] 19%|█▊        | 929/5000 [02:05<07:02,  9.65it/s] 19%|█▊        | 931/5000 [02:06<08:04,  8.40it/s] 19%|█▊        | 933/5000 [02:06<07:21,  9.21it/s] 19%|█▊        | 935/5000 [02:06<08:18,  8.15it/s] 19%|█▊        | 937/5000 [02:06<07:31,  8.99it/s] 19%|█▉        | 939/5000 [02:06<06:58,  9.70it/s] 19%|█▉        | 941/5000 [02:07<08:02,  8.41it/s] 19%|█▉        | 943/5000 [02:07<07:21,  9.19it/s] 19%|█▉        | 945/5000 [02:07<08:17,  8.15it/s] 19%|█▉        | 947/5000 [02:07<07:31,  8.97it/s] 19%|█▉        | 949/5000 [02:07<07:00,  9.63it/s] 19%|█▉        | 951/5000 [02:09<17:38,  3.83it/s] 19%|█▉        | 953/5000 [02:09<14:07,  4.78it/s] 19%|█▉        | 955/5000 [02:09<13:21,  5.05it/s] 19%|█▉        | 956/5000 [02:09<12:31,  5.38it/s] 19%|█▉        | 958/5000 [02:10<10:16,  6.56it/s] 19%|█▉        | 960/5000 [02:10<10:17,  6.54it/s] 19%|█▉        | 962/5000 [02:10<08:51,  7.60it/s] 19%|█▉        | 964/5000 [02:10<07:53,  8.52it/s] 19%|█▉        | 965/5000 [02:10<09:14,  7.28it/s] 19%|█▉        | 967/5000 [02:11<08:03,  8.34it/s] 19%|█▉        | 969/5000 [02:11<07:17,  9.22it/s] 19%|█▉        | 971/5000 [02:11<08:16,  8.12it/s] 19%|█▉        | 973/5000 [02:11<07:27,  9.00it/s] 20%|█▉        | 975/5000 [02:12<08:24,  7.98it/s] 20%|█▉        | 977/5000 [02:12<07:37,  8.80it/s] 20%|█▉        | 979/5000 [02:12<07:05,  9.46it/s] 20%|█▉        | 981/5000 [02:12<08:09,  8.21it/s] 20%|█▉        | 983/5000 [02:12<07:25,  9.02it/s] 20%|█▉        | 985/5000 [02:13<08:21,  8.00it/s] 20%|█▉        | 987/5000 [02:13<07:35,  8.81it/s] 20%|█▉        | 989/5000 [02:13<07:02,  9.50it/s] 20%|█▉        | 991/5000 [02:13<08:04,  8.28it/s] 20%|█▉        | 993/5000 [02:14<07:23,  9.03it/s] 20%|█▉        | 995/5000 [02:14<08:19,  8.02it/s] 20%|█▉        | 997/5000 [02:14<07:33,  8.84it/s] 20%|█▉        | 999/5000 [02:14<06:59,  9.55it/s] 20%|██        | 1001/5000 [02:16<17:44,  3.76it/s] 20%|██        | 1003/5000 [02:16<14:16,  4.67it/s] 20%|██        | 1005/5000 [02:16<13:23,  4.97it/s] 20%|██        | 1007/5000 [02:16<11:13,  5.93it/s] 20%|██        | 1009/5000 [02:16<09:38,  6.90it/s]Episode 810: Mean Reward = 12.0079, Mean Dice = 0.9484, Mean IoU = 0.9031, Time = 0.07s
+Validation: Mean Dice = 0.9785, Mean IoU = 0.9581
+No improvement for 87 evaluation intervals. Best Val Dice: 0.9917
+Episode 815: Mean Reward = 12.0404, Mean Dice = 0.9515, Mean IoU = 0.9080, Time = 0.07s
+Validation: Mean Dice = 0.9771, Mean IoU = 0.9552
+No improvement for 88 evaluation intervals. Best Val Dice: 0.9917
+Episode 820: Mean Reward = 12.1945, Mean Dice = 0.9661, Mean IoU = 0.9361, Time = 0.07s
+Validation: Mean Dice = 0.9776, Mean IoU = 0.9562
+No improvement for 89 evaluation intervals. Best Val Dice: 0.9917
+Episode 825: Mean Reward = 11.9907, Mean Dice = 0.9467, Mean IoU = 0.9005, Time = 0.07s
+Validation: Mean Dice = 0.9790, Mean IoU = 0.9591
+No improvement for 90 evaluation intervals. Best Val Dice: 0.9917
+Episode 830: Mean Reward = 12.0795, Mean Dice = 0.9552, Mean IoU = 0.9154, Time = 0.07s
+Validation: Mean Dice = 0.9799, Mean IoU = 0.9609
+No improvement for 91 evaluation intervals. Best Val Dice: 0.9917
+Episode 835: Mean Reward = 12.0946, Mean Dice = 0.9566, Mean IoU = 0.9183, Time = 0.07s
+Validation: Mean Dice = 0.9810, Mean IoU = 0.9628
+No improvement for 92 evaluation intervals. Best Val Dice: 0.9917
+Episode 840: Mean Reward = 11.4556, Mean Dice = 0.9339, Mean IoU = 0.8850, Time = 0.07s
+Validation: Mean Dice = 0.9861, Mean IoU = 0.9726
+No improvement for 93 evaluation intervals. Best Val Dice: 0.9917
+Episode 845: Mean Reward = 11.9317, Mean Dice = 0.9411, Mean IoU = 0.8909, Time = 0.07s
+Validation: Mean Dice = 0.9845, Mean IoU = 0.9694
+No improvement for 94 evaluation intervals. Best Val Dice: 0.9917
+Episode 850: Mean Reward = 12.2232, Mean Dice = 0.9689, Mean IoU = 0.9398, Time = 0.07s
+Validation: Mean Dice = 0.9717, Mean IoU = 0.9451
+No improvement for 95 evaluation intervals. Best Val Dice: 0.9917
+Episode 855: Mean Reward = 11.9812, Mean Dice = 0.9458, Mean IoU = 0.8997, Time = 0.07s
+Validation: Mean Dice = 0.9893, Mean IoU = 0.9789
+No improvement for 96 evaluation intervals. Best Val Dice: 0.9917
+Episode 860: Mean Reward = 11.5656, Mean Dice = 0.9062, Mean IoU = 0.8331, Time = 0.07s
+Validation: Mean Dice = 0.9735, Mean IoU = 0.9485
+No improvement for 97 evaluation intervals. Best Val Dice: 0.9917
+Episode 865: Mean Reward = 12.1854, Mean Dice = 0.9653, Mean IoU = 0.9339, Time = 0.07s
+Validation: Mean Dice = 0.9872, Mean IoU = 0.9747
+No improvement for 98 evaluation intervals. Best Val Dice: 0.9917
+Episode 870: Mean Reward = 12.1674, Mean Dice = 0.9636, Mean IoU = 0.9300, Time = 0.08s
+Validation: Mean Dice = 0.9778, Mean IoU = 0.9568
+No improvement for 99 evaluation intervals. Best Val Dice: 0.9917
+Episode 875: Mean Reward = 12.3216, Mean Dice = 0.9783, Mean IoU = 0.9576, Time = 0.08s
+Validation: Mean Dice = 0.9792, Mean IoU = 0.9594
+No improvement for 100 evaluation intervals. Best Val Dice: 0.9917
+Episode 880: Mean Reward = 10.8717, Mean Dice = 0.8783, Mean IoU = 0.7975, Time = 0.08s
+Validation: Mean Dice = 0.9665, Mean IoU = 0.9360
+No improvement for 101 evaluation intervals. Best Val Dice: 0.9917
+Episode 885: Mean Reward = 12.0515, Mean Dice = 0.9525, Mean IoU = 0.9117, Time = 0.08s
+Validation: Mean Dice = 0.9783, Mean IoU = 0.9577
+No improvement for 102 evaluation intervals. Best Val Dice: 0.9917
+Episode 890: Mean Reward = 11.8253, Mean Dice = 0.9310, Mean IoU = 0.8764, Time = 0.08s
+Validation: Mean Dice = 0.9757, Mean IoU = 0.9527
+No improvement for 103 evaluation intervals. Best Val Dice: 0.9917
+Episode 895: Mean Reward = 12.1188, Mean Dice = 0.9589, Mean IoU = 0.9217, Time = 0.08s
+Validation: Mean Dice = 0.9697, Mean IoU = 0.9428
+No improvement for 104 evaluation intervals. Best Val Dice: 0.9917
+Episode 900: Mean Reward = 11.1995, Mean Dice = 0.9095, Mean IoU = 0.8439, Time = 0.08s
+Validation: Mean Dice = 0.9774, Mean IoU = 0.9559
+No improvement for 105 evaluation intervals. Best Val Dice: 0.9917
+Episode 905: Mean Reward = 12.1124, Mean Dice = 0.9583, Mean IoU = 0.9208, Time = 0.08s
+Validation: Mean Dice = 0.9760, Mean IoU = 0.9533
+No improvement for 106 evaluation intervals. Best Val Dice: 0.9917
+Episode 910: Mean Reward = 11.8854, Mean Dice = 0.9367, Mean IoU = 0.8843, Time = 0.07s
+Validation: Mean Dice = 0.9620, Mean IoU = 0.9272
+No improvement for 107 evaluation intervals. Best Val Dice: 0.9917
+Episode 915: Mean Reward = 10.1335, Mean Dice = 0.8461, Mean IoU = 0.7441, Time = 0.07s
+Validation: Mean Dice = 0.9869, Mean IoU = 0.9743
+No improvement for 108 evaluation intervals. Best Val Dice: 0.9917
+Episode 920: Mean Reward = 11.9755, Mean Dice = 0.9453, Mean IoU = 0.8971, Time = 0.07s
+Validation: Mean Dice = 0.9831, Mean IoU = 0.9669
+No improvement for 109 evaluation intervals. Best Val Dice: 0.9917
+Episode 925: Mean Reward = 11.7875, Mean Dice = 0.9274, Mean IoU = 0.8674, Time = 0.07s
+Validation: Mean Dice = 0.9794, Mean IoU = 0.9599
+No improvement for 110 evaluation intervals. Best Val Dice: 0.9917
+Episode 930: Mean Reward = 11.0009, Mean Dice = 0.8906, Mean IoU = 0.8081, Time = 0.07s
+Validation: Mean Dice = 0.9789, Mean IoU = 0.9586
+No improvement for 111 evaluation intervals. Best Val Dice: 0.9917
+Episode 935: Mean Reward = 12.1394, Mean Dice = 0.9609, Mean IoU = 0.9268, Time = 0.07s
+Validation: Mean Dice = 0.9754, Mean IoU = 0.9530
+No improvement for 112 evaluation intervals. Best Val Dice: 0.9917
+Episode 940: Mean Reward = 11.3965, Mean Dice = 0.9282, Mean IoU = 0.8769, Time = 0.07s
+Validation: Mean Dice = 0.9786, Mean IoU = 0.9582
+No improvement for 113 evaluation intervals. Best Val Dice: 0.9917
+Episode 945: Mean Reward = 10.8163, Mean Dice = 0.8730, Mean IoU = 0.7944, Time = 0.08s
+Validation: Mean Dice = 0.9812, Mean IoU = 0.9631
+No improvement for 114 evaluation intervals. Best Val Dice: 0.9917
+Episode 950: Mean Reward = 12.2004, Mean Dice = 0.9667, Mean IoU = 0.9358, Time = 0.08s
+Validation: Mean Dice = 0.9612, Mean IoU = 0.9278
+No improvement for 115 evaluation intervals. Best Val Dice: 0.9917
+Episode 955: Mean Reward = 10.9666, Mean Dice = 0.8873, Mean IoU = 0.8082, Time = 0.07s
+Validation: Mean Dice = 0.9866, Mean IoU = 0.9737
+No improvement for 116 evaluation intervals. Best Val Dice: 0.9917
+Episode 960: Mean Reward = 11.1054, Mean Dice = 0.9005, Mean IoU = 0.8240, Time = 0.07s
+Validation: Mean Dice = 0.9657, Mean IoU = 0.9340
+No improvement for 117 evaluation intervals. Best Val Dice: 0.9917
+Episode 965: Mean Reward = 12.1490, Mean Dice = 0.9618, Mean IoU = 0.9273, Time = 0.07s
+Validation: Mean Dice = 0.9866, Mean IoU = 0.9736
+No improvement for 118 evaluation intervals. Best Val Dice: 0.9917
+Episode 970: Mean Reward = 11.4001, Mean Dice = 0.9286, Mean IoU = 0.8761, Time = 0.07s
+Validation: Mean Dice = 0.9782, Mean IoU = 0.9577
+No improvement for 119 evaluation intervals. Best Val Dice: 0.9917
+Episode 975: Mean Reward = 11.9735, Mean Dice = 0.9451, Mean IoU = 0.8992, Time = 0.07s
+Validation: Mean Dice = 0.9817, Mean IoU = 0.9643
+No improvement for 120 evaluation intervals. Best Val Dice: 0.9917
+Episode 980: Mean Reward = 12.0236, Mean Dice = 0.9499, Mean IoU = 0.9049, Time = 0.07s
+Validation: Mean Dice = 0.9730, Mean IoU = 0.9484
+No improvement for 121 evaluation intervals. Best Val Dice: 0.9917
+Episode 985: Mean Reward = 12.3044, Mean Dice = 0.9766, Mean IoU = 0.9550, Time = 0.07s
+Validation: Mean Dice = 0.9740, Mean IoU = 0.9496
+No improvement for 122 evaluation intervals. Best Val Dice: 0.9917
+Episode 990: Mean Reward = 11.2760, Mean Dice = 0.9168, Mean IoU = 0.8562, Time = 0.07s
+Validation: Mean Dice = 0.9863, Mean IoU = 0.9730
+No improvement for 123 evaluation intervals. Best Val Dice: 0.9917
+Episode 995: Mean Reward = 12.1026, Mean Dice = 0.9574, Mean IoU = 0.9206, Time = 0.07s
+Validation: Mean Dice = 0.9604, Mean IoU = 0.9263
+No improvement for 124 evaluation intervals. Best Val Dice: 0.9917
+Episode 1000: Mean Reward = 12.0998, Mean Dice = 0.9571, Mean IoU = 0.9211, Time = 0.07s
+Validation: Mean Dice = 0.9776, Mean IoU = 0.9563
+No improvement for 125 evaluation intervals. Best Val Dice: 0.9917
+Episode 1005: Mean Reward = 11.5289, Mean Dice = 0.9409, Mean IoU = 0.8961, Time = 0.08s
+Validation: Mean Dice = 0.9853, Mean IoU = 0.9711
+No improvement for 126 evaluation intervals. Best Val Dice: 0.9917
+ 20%|██        | 1010/5000 [02:17<10:51,  6.13it/s] 20%|██        | 1012/5000 [02:17<09:15,  7.18it/s] 20%|██        | 1014/5000 [02:17<08:15,  8.04it/s] 20%|██        | 1015/5000 [02:17<09:46,  6.80it/s] 20%|██        | 1017/5000 [02:17<08:27,  7.85it/s] 20%|██        | 1019/5000 [02:18<07:39,  8.67it/s] 20%|██        | 1020/5000 [02:18<09:19,  7.11it/s] 20%|██        | 1022/5000 [02:18<08:10,  8.12it/s] 20%|██        | 1024/5000 [02:18<07:29,  8.85it/s] 20%|██        | 1025/5000 [02:18<09:09,  7.23it/s] 21%|██        | 1027/5000 [02:19<07:58,  8.30it/s] 21%|██        | 1029/5000 [02:19<07:13,  9.16it/s] 21%|██        | 1030/5000 [02:19<08:52,  7.46it/s] 21%|██        | 1032/5000 [02:19<07:48,  8.47it/s] 21%|██        | 1034/5000 [02:19<07:06,  9.29it/s] 21%|██        | 1035/5000 [02:20<08:46,  7.54it/s] 21%|██        | 1037/5000 [02:20<07:41,  8.59it/s] 21%|██        | 1038/5000 [02:20<07:35,  8.69it/s] 21%|██        | 1040/5000 [02:20<08:50,  7.46it/s] 21%|██        | 1042/5000 [02:20<07:47,  8.47it/s] 21%|██        | 1044/5000 [02:21<07:09,  9.21it/s] 21%|██        | 1045/5000 [02:21<08:47,  7.50it/s] 21%|██        | 1047/5000 [02:21<07:42,  8.54it/s] 21%|██        | 1049/5000 [02:21<07:02,  9.35it/s] 21%|██        | 1050/5000 [02:22<19:52,  3.31it/s] 21%|██        | 1052/5000 [02:23<14:58,  4.40it/s] 21%|██        | 1054/5000 [02:23<11:57,  5.50it/s] 21%|██        | 1055/5000 [02:23<12:54,  5.10it/s] 21%|██        | 1057/5000 [02:23<10:24,  6.31it/s] 21%|██        | 1059/5000 [02:23<08:54,  7.38it/s] 21%|██        | 1060/5000 [02:24<10:11,  6.44it/s] 21%|██        | 1062/5000 [02:24<08:36,  7.62it/s] 21%|██▏       | 1064/5000 [02:24<07:36,  8.61it/s] 21%|██▏       | 1065/5000 [02:24<09:10,  7.15it/s] 21%|██▏       | 1067/5000 [02:24<07:58,  8.22it/s] 21%|██▏       | 1069/5000 [02:25<07:15,  9.03it/s] 21%|██▏       | 1070/5000 [02:25<08:51,  7.39it/s] 21%|██▏       | 1072/5000 [02:25<07:48,  8.39it/s] 21%|██▏       | 1074/5000 [02:25<07:07,  9.18it/s] 22%|██▏       | 1075/5000 [02:25<09:03,  7.22it/s] 22%|██▏       | 1076/5000 [02:25<08:30,  7.68it/s] 22%|██▏       | 1077/5000 [02:26<08:02,  8.13it/s] 22%|██▏       | 1079/5000 [02:26<07:10,  9.11it/s] 22%|██▏       | 1080/5000 [02:26<09:05,  7.19it/s] 22%|██▏       | 1082/5000 [02:26<07:47,  8.38it/s] 22%|██▏       | 1084/5000 [02:26<07:05,  9.20it/s] 22%|██▏       | 1085/5000 [02:27<08:55,  7.31it/s] 22%|██▏       | 1087/5000 [02:27<07:49,  8.33it/s] 22%|██▏       | 1089/5000 [02:27<07:12,  9.04it/s] 22%|██▏       | 1090/5000 [02:27<08:55,  7.30it/s] 22%|██▏       | 1092/5000 [02:27<07:47,  8.37it/s] 22%|██▏       | 1094/5000 [02:28<07:06,  9.16it/s] 22%|██▏       | 1095/5000 [02:28<08:47,  7.40it/s] 22%|██▏       | 1097/5000 [02:28<07:43,  8.43it/s] 22%|██▏       | 1099/5000 [02:28<07:03,  9.22it/s] 22%|██▏       | 1100/5000 [02:29<19:58,  3.25it/s] 22%|██▏       | 1102/5000 [02:29<14:56,  4.35it/s] 22%|██▏       | 1104/5000 [02:30<11:52,  5.47it/s] 22%|██▏       | 1105/5000 [02:30<12:37,  5.14it/s] 22%|██▏       | 1107/5000 [02:30<10:12,  6.35it/s] 22%|██▏       | 1109/5000 [02:30<08:52,  7.31it/s] 22%|██▏       | 1110/5000 [02:31<10:16,  6.31it/s] 22%|██▏       | 1112/5000 [02:31<08:41,  7.46it/s] 22%|██▏       | 1114/5000 [02:31<07:41,  8.43it/s] 22%|██▏       | 1115/5000 [02:31<09:13,  7.02it/s] 22%|██▏       | 1117/5000 [02:31<07:57,  8.12it/s] 22%|██▏       | 1119/5000 [02:31<07:16,  8.90it/s] 22%|██▏       | 1120/5000 [02:32<09:13,  7.01it/s] 22%|██▏       | 1122/5000 [02:32<08:09,  7.92it/s] 22%|██▏       | 1123/5000 [02:32<07:54,  8.17it/s] 22%|██▏       | 1124/5000 [02:32<07:35,  8.51it/s] 22%|██▎       | 1125/5000 [02:32<09:38,  6.70it/s] 23%|██▎       | 1127/5000 [02:33<08:09,  7.91it/s] 23%|██▎       | 1128/5000 [02:33<07:50,  8.24it/s] 23%|██▎       | 1130/5000 [02:33<09:07,  7.07it/s] 23%|██▎       | 1132/5000 [02:33<08:06,  7.95it/s] 23%|██▎       | 1134/5000 [02:33<07:30,  8.59it/s] 23%|██▎       | 1135/5000 [02:34<09:13,  6.98it/s] 23%|██▎       | 1137/5000 [02:34<08:09,  7.90it/s] 23%|██▎       | 1139/5000 [02:34<07:26,  8.66it/s] 23%|██▎       | 1140/5000 [02:34<09:07,  7.05it/s] 23%|██▎       | 1142/5000 [02:34<08:07,  7.91it/s] 23%|██▎       | 1144/5000 [02:35<07:25,  8.66it/s] 23%|██▎       | 1145/5000 [02:35<09:06,  7.06it/s] 23%|██▎       | 1147/5000 [02:35<08:02,  7.98it/s] 23%|██▎       | 1149/5000 [02:35<07:31,  8.53it/s] 23%|██▎       | 1150/5000 [02:37<21:07,  3.04it/s] 23%|██▎       | 1151/5000 [02:37<18:36,  3.45it/s] 23%|██▎       | 1152/5000 [02:37<15:43,  4.08it/s] 23%|██▎       | 1154/5000 [02:37<11:46,  5.44it/s] 23%|██▎       | 1155/5000 [02:37<12:45,  5.02it/s] 23%|██▎       | 1157/5000 [02:37<10:05,  6.34it/s] 23%|██▎       | 1159/5000 [02:38<08:31,  7.50it/s] 23%|██▎       | 1160/5000 [02:38<10:02,  6.38it/s] 23%|██▎       | 1162/5000 [02:38<08:37,  7.42it/s] 23%|██▎       | 1164/5000 [02:38<07:44,  8.26it/s] 23%|██▎       | 1165/5000 [02:38<09:15,  6.91it/s] 23%|██▎       | 1167/5000 [02:39<07:57,  8.02it/s] 23%|██▎       | 1169/5000 [02:39<07:10,  8.89it/s] 23%|██▎       | 1170/5000 [02:39<08:48,  7.25it/s] 23%|██▎       | 1172/5000 [02:39<07:41,  8.29it/s] 23%|██▎       | 1174/5000 [02:39<07:05,  8.99it/s] 24%|██▎       | 1175/5000 [02:40<08:45,  7.28it/s] 24%|██▎       | 1177/5000 [02:40<07:42,  8.27it/s] 24%|██▎       | 1179/5000 [02:40<07:05,  8.97it/s] 24%|██▎       | 1180/5000 [02:40<08:46,  7.26it/s] 24%|██▎       | 1182/5000 [02:40<07:39,  8.31it/s] 24%|██▎       | 1183/5000 [02:41<07:27,  8.54it/s] 24%|██▎       | 1185/5000 [02:41<08:39,  7.35it/s] 24%|██▎       | 1187/5000 [02:41<07:41,  8.27it/s] 24%|██▍       | 1189/5000 [02:41<07:16,  8.74it/s] 24%|██▍       | 1190/5000 [02:42<09:07,  6.95it/s] 24%|██▍       | 1192/5000 [02:42<07:56,  7.99it/s] 24%|██▍       | 1194/5000 [02:42<07:11,  8.81it/s] 24%|██▍       | 1195/5000 [02:42<08:53,  7.13it/s] 24%|██▍       | 1197/5000 [02:42<07:45,  8.17it/s] 24%|██▍       | 1199/5000 [02:43<07:03,  8.97it/s] 24%|██▍       | 1200/5000 [02:44<19:26,  3.26it/s] 24%|██▍       | 1202/5000 [02:44<14:34,  4.34it/s] 24%|██▍       | 1204/5000 [02:44<11:34,  5.47it/s]Episode 1010: Mean Reward = 11.1389, Mean Dice = 0.9037, Mean IoU = 0.8337, Time = 0.08s
+Validation: Mean Dice = 0.9773, Mean IoU = 0.9557
+No improvement for 127 evaluation intervals. Best Val Dice: 0.9917
+Episode 1015: Mean Reward = 9.6083, Mean Dice = 0.7960, Mean IoU = 0.6853, Time = 0.08s
+Validation: Mean Dice = 0.9726, Mean IoU = 0.9467
+No improvement for 128 evaluation intervals. Best Val Dice: 0.9917
+Episode 1020: Mean Reward = 11.7453, Mean Dice = 0.9234, Mean IoU = 0.8611, Time = 0.08s
+Validation: Mean Dice = 0.9780, Mean IoU = 0.9572
+No improvement for 129 evaluation intervals. Best Val Dice: 0.9917
+Episode 1025: Mean Reward = 12.0454, Mean Dice = 0.9519, Mean IoU = 0.9096, Time = 0.08s
+Validation: Mean Dice = 0.9832, Mean IoU = 0.9671
+No improvement for 130 evaluation intervals. Best Val Dice: 0.9917
+Episode 1030: Mean Reward = 11.2255, Mean Dice = 0.9120, Mean IoU = 0.8500, Time = 0.08s
+Validation: Mean Dice = 0.9649, Mean IoU = 0.9324
+No improvement for 131 evaluation intervals. Best Val Dice: 0.9917
+Episode 1035: Mean Reward = 11.8055, Mean Dice = 0.9291, Mean IoU = 0.8705, Time = 0.07s
+Validation: Mean Dice = 0.9792, Mean IoU = 0.9593
+No improvement for 132 evaluation intervals. Best Val Dice: 0.9917
+Episode 1040: Mean Reward = 12.1830, Mean Dice = 0.9650, Mean IoU = 0.9326, Time = 0.08s
+Validation: Mean Dice = 0.9583, Mean IoU = 0.9204
+No improvement for 133 evaluation intervals. Best Val Dice: 0.9917
+Episode 1045: Mean Reward = 12.0519, Mean Dice = 0.9526, Mean IoU = 0.9105, Time = 0.08s
+Validation: Mean Dice = 0.9731, Mean IoU = 0.9481
+No improvement for 134 evaluation intervals. Best Val Dice: 0.9917
+Episode 1050: Mean Reward = 12.1623, Mean Dice = 0.9631, Mean IoU = 0.9290, Time = 0.07s
+Validation: Mean Dice = 0.9810, Mean IoU = 0.9628
+No improvement for 135 evaluation intervals. Best Val Dice: 0.9917
+Episode 1055: Mean Reward = 10.9820, Mean Dice = 0.8888, Mean IoU = 0.8258, Time = 0.08s
+Validation: Mean Dice = 0.9852, Mean IoU = 0.9708
+No improvement for 136 evaluation intervals. Best Val Dice: 0.9917
+Episode 1060: Mean Reward = 11.8703, Mean Dice = 0.9353, Mean IoU = 0.8800, Time = 0.07s
+Validation: Mean Dice = 0.9795, Mean IoU = 0.9601
+No improvement for 137 evaluation intervals. Best Val Dice: 0.9917
+Episode 1065: Mean Reward = 12.0991, Mean Dice = 0.9571, Mean IoU = 0.9182, Time = 0.07s
+Validation: Mean Dice = 0.9814, Mean IoU = 0.9638
+No improvement for 138 evaluation intervals. Best Val Dice: 0.9917
+Episode 1070: Mean Reward = 12.0414, Mean Dice = 0.9516, Mean IoU = 0.9119, Time = 0.07s
+Validation: Mean Dice = 0.9747, Mean IoU = 0.9507
+No improvement for 139 evaluation intervals. Best Val Dice: 0.9917
+Episode 1075: Mean Reward = 12.1585, Mean Dice = 0.9627, Mean IoU = 0.9289, Time = 0.08s
+Validation: Mean Dice = 0.9828, Mean IoU = 0.9663
+No improvement for 140 evaluation intervals. Best Val Dice: 0.9917
+Episode 1080: Mean Reward = 12.0297, Mean Dice = 0.9505, Mean IoU = 0.9072, Time = 0.08s
+Validation: Mean Dice = 0.9882, Mean IoU = 0.9766
+No improvement for 141 evaluation intervals. Best Val Dice: 0.9917
+Episode 1085: Mean Reward = 11.9032, Mean Dice = 0.9384, Mean IoU = 0.8887, Time = 0.08s
+Validation: Mean Dice = 0.9861, Mean IoU = 0.9727
+No improvement for 142 evaluation intervals. Best Val Dice: 0.9917
+Episode 1090: Mean Reward = 12.1959, Mean Dice = 0.9663, Mean IoU = 0.9355, Time = 0.08s
+Validation: Mean Dice = 0.9657, Mean IoU = 0.9353
+No improvement for 143 evaluation intervals. Best Val Dice: 0.9917
+Episode 1095: Mean Reward = 11.9244, Mean Dice = 0.9404, Mean IoU = 0.8888, Time = 0.07s
+Validation: Mean Dice = 0.9707, Mean IoU = 0.9434
+No improvement for 144 evaluation intervals. Best Val Dice: 0.9917
+Episode 1100: Mean Reward = 12.0450, Mean Dice = 0.9519, Mean IoU = 0.9092, Time = 0.08s
+Validation: Mean Dice = 0.9897, Mean IoU = 0.9796
+No improvement for 145 evaluation intervals. Best Val Dice: 0.9917
+Episode 1105: Mean Reward = 11.8877, Mean Dice = 0.9369, Mean IoU = 0.8822, Time = 0.07s
+Validation: Mean Dice = 0.9734, Mean IoU = 0.9484
+No improvement for 146 evaluation intervals. Best Val Dice: 0.9917
+Episode 1110: Mean Reward = 12.2293, Mean Dice = 0.9695, Mean IoU = 0.9415, Time = 0.08s
+Validation: Mean Dice = 0.9790, Mean IoU = 0.9590
+No improvement for 147 evaluation intervals. Best Val Dice: 0.9917
+Episode 1115: Mean Reward = 11.6807, Mean Dice = 0.9172, Mean IoU = 0.8556, Time = 0.08s
+Validation: Mean Dice = 0.9790, Mean IoU = 0.9589
+No improvement for 148 evaluation intervals. Best Val Dice: 0.9917
+Episode 1120: Mean Reward = 11.9904, Mean Dice = 0.9467, Mean IoU = 0.9011, Time = 0.08s
+Validation: Mean Dice = 0.9859, Mean IoU = 0.9723
+No improvement for 149 evaluation intervals. Best Val Dice: 0.9917
+Episode 1125: Mean Reward = 12.2108, Mean Dice = 0.9677, Mean IoU = 0.9379, Time = 0.08s
+Validation: Mean Dice = 0.9801, Mean IoU = 0.9609
+No improvement for 150 evaluation intervals. Best Val Dice: 0.9917
+Episode 1130: Mean Reward = 11.3232, Mean Dice = 0.9213, Mean IoU = 0.8621, Time = 0.08s
+Validation: Mean Dice = 0.9854, Mean IoU = 0.9713
+No improvement for 151 evaluation intervals. Best Val Dice: 0.9917
+Episode 1135: Mean Reward = 12.2452, Mean Dice = 0.9710, Mean IoU = 0.9438, Time = 0.08s
+Validation: Mean Dice = 0.9660, Mean IoU = 0.9344
+No improvement for 152 evaluation intervals. Best Val Dice: 0.9917
+Episode 1140: Mean Reward = 11.3132, Mean Dice = 0.9203, Mean IoU = 0.8608, Time = 0.08s
+Validation: Mean Dice = 0.9831, Mean IoU = 0.9668
+No improvement for 153 evaluation intervals. Best Val Dice: 0.9917
+Episode 1145: Mean Reward = 12.0385, Mean Dice = 0.9513, Mean IoU = 0.9088, Time = 0.08s
+Validation: Mean Dice = 0.9765, Mean IoU = 0.9542
+No improvement for 154 evaluation intervals. Best Val Dice: 0.9917
+Episode 1150: Mean Reward = 12.3047, Mean Dice = 0.9662, Mean IoU = 0.9353, Time = 0.08s
+Validation: Mean Dice = 0.9805, Mean IoU = 0.9619
+No improvement for 155 evaluation intervals. Best Val Dice: 0.9917
+Episode 1155: Mean Reward = 12.0812, Mean Dice = 0.9554, Mean IoU = 0.9152, Time = 0.08s
+Validation: Mean Dice = 0.9833, Mean IoU = 0.9671
+No improvement for 156 evaluation intervals. Best Val Dice: 0.9917
+Episode 1160: Mean Reward = 11.0712, Mean Dice = 0.8973, Mean IoU = 0.8274, Time = 0.08s
+Validation: Mean Dice = 0.9775, Mean IoU = 0.9564
+No improvement for 157 evaluation intervals. Best Val Dice: 0.9917
+Episode 1165: Mean Reward = 11.7578, Mean Dice = 0.9246, Mean IoU = 0.8650, Time = 0.07s
+Validation: Mean Dice = 0.9651, Mean IoU = 0.9327
+No improvement for 158 evaluation intervals. Best Val Dice: 0.9917
+Episode 1170: Mean Reward = 12.2135, Mean Dice = 0.9679, Mean IoU = 0.9385, Time = 0.07s
+Validation: Mean Dice = 0.9818, Mean IoU = 0.9645
+No improvement for 159 evaluation intervals. Best Val Dice: 0.9917
+Episode 1175: Mean Reward = 11.8002, Mean Dice = 0.9286, Mean IoU = 0.8707, Time = 0.08s
+Validation: Mean Dice = 0.9703, Mean IoU = 0.9429
+No improvement for 160 evaluation intervals. Best Val Dice: 0.9917
+Episode 1180: Mean Reward = 12.1233, Mean Dice = 0.9594, Mean IoU = 0.9224, Time = 0.08s
+Validation: Mean Dice = 0.9720, Mean IoU = 0.9455
+No improvement for 161 evaluation intervals. Best Val Dice: 0.9917
+Episode 1185: Mean Reward = 11.8783, Mean Dice = 0.9360, Mean IoU = 0.8819, Time = 0.07s
+Validation: Mean Dice = 0.9842, Mean IoU = 0.9689
+No improvement for 162 evaluation intervals. Best Val Dice: 0.9917
+Episode 1190: Mean Reward = 11.8983, Mean Dice = 0.9379, Mean IoU = 0.8861, Time = 0.10s
+Validation: Mean Dice = 0.9810, Mean IoU = 0.9628
+No improvement for 163 evaluation intervals. Best Val Dice: 0.9917
+Episode 1195: Mean Reward = 12.1935, Mean Dice = 0.9660, Mean IoU = 0.9345, Time = 0.08s
+Validation: Mean Dice = 0.9783, Mean IoU = 0.9576
+No improvement for 164 evaluation intervals. Best Val Dice: 0.9917
+Episode 1200: Mean Reward = 11.0429, Mean Dice = 0.8946, Mean IoU = 0.8264, Time = 0.08s
+Validation: Mean Dice = 0.9848, Mean IoU = 0.9702
+No improvement for 165 evaluation intervals. Best Val Dice: 0.9917
+Episode 1205: Mean Reward = 11.4360, Mean Dice = 0.9320, Mean IoU = 0.8798, Time = 0.08s
+Validation: Mean Dice = 0.9717, Mean IoU = 0.9452
+ 24%|██▍       | 1205/5000 [02:44<12:19,  5.13it/s] 24%|██▍       | 1207/5000 [02:44<09:58,  6.34it/s] 24%|██▍       | 1209/5000 [02:45<08:31,  7.41it/s] 24%|██▍       | 1210/5000 [02:45<09:51,  6.40it/s] 24%|██▍       | 1211/5000 [02:45<09:06,  6.93it/s] 24%|██▍       | 1213/5000 [02:45<07:49,  8.07it/s] 24%|██▍       | 1215/5000 [02:45<08:48,  7.16it/s] 24%|██▍       | 1217/5000 [02:46<07:45,  8.12it/s] 24%|██▍       | 1219/5000 [02:46<07:04,  8.90it/s] 24%|██▍       | 1220/5000 [02:46<08:39,  7.28it/s] 24%|██▍       | 1222/5000 [02:46<07:45,  8.11it/s] 24%|██▍       | 1224/5000 [02:46<07:08,  8.81it/s] 24%|██▍       | 1225/5000 [02:47<08:47,  7.16it/s] 25%|██▍       | 1227/5000 [02:47<07:40,  8.19it/s] 25%|██▍       | 1229/5000 [02:47<06:59,  8.99it/s] 25%|██▍       | 1230/5000 [02:47<08:35,  7.31it/s] 25%|██▍       | 1232/5000 [02:48<07:31,  8.35it/s] 25%|██▍       | 1234/5000 [02:48<06:53,  9.11it/s] 25%|██▍       | 1235/5000 [02:48<08:32,  7.34it/s] 25%|██▍       | 1237/5000 [02:48<07:35,  8.26it/s] 25%|██▍       | 1239/5000 [02:48<06:57,  9.00it/s] 25%|██▍       | 1240/5000 [02:49<08:35,  7.29it/s] 25%|██▍       | 1242/5000 [02:49<07:32,  8.31it/s] 25%|██▍       | 1244/5000 [02:49<07:00,  8.94it/s] 25%|██▍       | 1245/5000 [02:49<08:38,  7.24it/s] 25%|██▍       | 1247/5000 [02:49<07:35,  8.24it/s] 25%|██▍       | 1249/5000 [02:50<06:58,  8.96it/s] 25%|██▌       | 1250/5000 [02:51<19:14,  3.25it/s] 25%|██▌       | 1252/5000 [02:51<14:26,  4.32it/s] 25%|██▌       | 1254/5000 [02:51<11:31,  5.41it/s] 25%|██▌       | 1255/5000 [02:51<12:17,  5.08it/s] 25%|██▌       | 1257/5000 [02:51<09:57,  6.26it/s] 25%|██▌       | 1259/5000 [02:52<08:29,  7.34it/s] 25%|██▌       | 1260/5000 [02:52<09:50,  6.33it/s] 25%|██▌       | 1262/5000 [02:52<08:21,  7.45it/s] 25%|██▌       | 1264/5000 [02:52<07:26,  8.37it/s] 25%|██▌       | 1265/5000 [02:53<09:02,  6.88it/s] 25%|██▌       | 1267/5000 [02:53<07:50,  7.94it/s] 25%|██▌       | 1269/5000 [02:53<07:07,  8.72it/s] 25%|██▌       | 1270/5000 [02:53<08:42,  7.14it/s] 25%|██▌       | 1272/5000 [02:53<07:37,  8.15it/s] 25%|██▌       | 1274/5000 [02:53<07:00,  8.87it/s] 26%|██▌       | 1275/5000 [02:54<08:35,  7.23it/s] 26%|██▌       | 1276/5000 [02:54<08:07,  7.64it/s] 26%|██▌       | 1278/5000 [02:54<07:17,  8.52it/s] 26%|██▌       | 1280/5000 [02:54<08:23,  7.39it/s] 26%|██▌       | 1282/5000 [02:55<07:28,  8.29it/s] 26%|██▌       | 1284/5000 [02:55<06:51,  9.03it/s] 26%|██▌       | 1285/5000 [02:55<08:29,  7.30it/s] 26%|██▌       | 1286/5000 [02:55<08:02,  7.70it/s] 26%|██▌       | 1288/5000 [02:55<07:06,  8.71it/s] 26%|██▌       | 1290/5000 [02:56<08:16,  7.47it/s] 26%|██▌       | 1292/5000 [02:56<07:23,  8.36it/s] 26%|██▌       | 1294/5000 [02:56<06:48,  9.08it/s] 26%|██▌       | 1295/5000 [02:56<08:21,  7.38it/s] 26%|██▌       | 1297/5000 [02:56<07:26,  8.29it/s] 26%|██▌       | 1299/5000 [02:57<06:51,  8.99it/s] 26%|██▌       | 1300/5000 [02:58<19:00,  3.25it/s] 26%|██▌       | 1302/5000 [02:58<14:25,  4.27it/s] 26%|██▌       | 1304/5000 [02:58<11:30,  5.35it/s] 26%|██▌       | 1305/5000 [02:58<12:20,  4.99it/s] 26%|██▌       | 1307/5000 [02:59<09:55,  6.20it/s] 26%|██▌       | 1309/5000 [02:59<08:27,  7.27it/s] 26%|██▌       | 1310/5000 [02:59<09:48,  6.27it/s] 26%|██▌       | 1312/5000 [02:59<08:20,  7.37it/s] 26%|██▋       | 1314/5000 [02:59<07:23,  8.30it/s] 26%|██▋       | 1315/5000 [03:00<08:53,  6.91it/s] 26%|██▋       | 1316/5000 [03:00<08:17,  7.40it/s] 26%|██▋       | 1318/5000 [03:00<07:16,  8.44it/s] 26%|██▋       | 1320/5000 [03:00<08:15,  7.42it/s] 26%|██▋       | 1322/5000 [03:00<07:20,  8.34it/s] 26%|██▋       | 1324/5000 [03:01<06:47,  9.02it/s] 26%|██▋       | 1325/5000 [03:01<08:17,  7.39it/s] 27%|██▋       | 1327/5000 [03:01<07:25,  8.24it/s] 27%|██▋       | 1329/5000 [03:01<06:46,  9.04it/s] 27%|██▋       | 1330/5000 [03:01<08:16,  7.40it/s] 27%|██▋       | 1332/5000 [03:02<07:17,  8.39it/s] 27%|██▋       | 1334/5000 [03:02<06:39,  9.17it/s] 27%|██▋       | 1335/5000 [03:02<08:13,  7.43it/s] 27%|██▋       | 1337/5000 [03:02<07:14,  8.42it/s] 27%|██▋       | 1339/5000 [03:02<06:38,  9.18it/s] 27%|██▋       | 1340/5000 [03:03<08:09,  7.47it/s] 27%|██▋       | 1342/5000 [03:03<07:10,  8.49it/s] 27%|██▋       | 1344/5000 [03:03<06:37,  9.20it/s] 27%|██▋       | 1345/5000 [03:03<08:12,  7.42it/s] 27%|██▋       | 1347/5000 [03:03<07:15,  8.39it/s] 27%|██▋       | 1349/5000 [03:04<06:40,  9.12it/s] 27%|██▋       | 1350/5000 [03:05<19:31,  3.12it/s] 27%|██▋       | 1352/5000 [03:05<14:33,  4.18it/s] 27%|██▋       | 1354/5000 [03:05<11:31,  5.27it/s] 27%|██▋       | 1355/5000 [03:05<12:07,  5.01it/s] 27%|██▋       | 1357/5000 [03:06<09:45,  6.22it/s] 27%|██▋       | 1359/5000 [03:06<08:18,  7.31it/s] 27%|██▋       | 1360/5000 [03:06<09:30,  6.38it/s] 27%|██▋       | 1362/5000 [03:06<08:04,  7.51it/s] 27%|██▋       | 1364/5000 [03:06<07:10,  8.45it/s] 27%|██▋       | 1365/5000 [03:07<08:35,  7.05it/s] 27%|██▋       | 1367/5000 [03:07<07:27,  8.12it/s] 27%|██▋       | 1369/5000 [03:07<06:47,  8.92it/s] 27%|██▋       | 1370/5000 [03:07<08:15,  7.32it/s] 27%|██▋       | 1372/5000 [03:07<07:15,  8.33it/s] 27%|██▋       | 1374/5000 [03:08<06:40,  9.05it/s] 28%|██▊       | 1375/5000 [03:08<08:10,  7.38it/s] 28%|██▊       | 1377/5000 [03:08<07:12,  8.38it/s] 28%|██▊       | 1379/5000 [03:08<06:34,  9.17it/s] 28%|██▊       | 1380/5000 [03:08<08:07,  7.42it/s] 28%|██▊       | 1382/5000 [03:09<07:10,  8.40it/s] 28%|██▊       | 1384/5000 [03:09<06:35,  9.15it/s] 28%|██▊       | 1385/5000 [03:09<08:06,  7.43it/s] 28%|██▊       | 1387/5000 [03:09<07:08,  8.43it/s] 28%|██▊       | 1389/5000 [03:09<06:32,  9.20it/s] 28%|██▊       | 1390/5000 [03:10<08:05,  7.44it/s] 28%|██▊       | 1392/5000 [03:10<07:10,  8.38it/s] 28%|██▊       | 1394/5000 [03:10<06:34,  9.15it/s] 28%|██▊       | 1395/5000 [03:10<08:05,  7.42it/s] 28%|██▊       | 1397/5000 [03:10<07:09,  8.39it/s] 28%|██▊       | 1399/5000 [03:11<06:33,  9.15it/s] 28%|██▊       | 1400/5000 [03:12<19:07,  3.14it/s] 28%|██▊       | 1402/5000 [03:12<14:17,  4.20it/s] 28%|██▊       | 1404/5000 [03:12<11:17,  5.31it/s]No improvement for 166 evaluation intervals. Best Val Dice: 0.9917
+Episode 1210: Mean Reward = 11.9310, Mean Dice = 0.9410, Mean IoU = 0.8920, Time = 0.07s
+Validation: Mean Dice = 0.9598, Mean IoU = 0.9234
+No improvement for 167 evaluation intervals. Best Val Dice: 0.9917
+Episode 1215: Mean Reward = 11.8929, Mean Dice = 0.9374, Mean IoU = 0.8878, Time = 0.07s
+Validation: Mean Dice = 0.9894, Mean IoU = 0.9791
+No improvement for 168 evaluation intervals. Best Val Dice: 0.9917
+Episode 1220: Mean Reward = 12.0142, Mean Dice = 0.9490, Mean IoU = 0.9048, Time = 0.08s
+Validation: Mean Dice = 0.9345, Mean IoU = 0.8795
+No improvement for 169 evaluation intervals. Best Val Dice: 0.9917
+Episode 1225: Mean Reward = 12.2531, Mean Dice = 0.9717, Mean IoU = 0.9450, Time = 0.08s
+Validation: Mean Dice = 0.9746, Mean IoU = 0.9506
+No improvement for 170 evaluation intervals. Best Val Dice: 0.9917
+Episode 1230: Mean Reward = 11.9885, Mean Dice = 0.9465, Mean IoU = 0.8995, Time = 0.07s
+Validation: Mean Dice = 0.9822, Mean IoU = 0.9651
+No improvement for 171 evaluation intervals. Best Val Dice: 0.9917
+Episode 1235: Mean Reward = 12.0178, Mean Dice = 0.9493, Mean IoU = 0.9040, Time = 0.08s
+Validation: Mean Dice = 0.9432, Mean IoU = 0.8955
+No improvement for 172 evaluation intervals. Best Val Dice: 0.9917
+Episode 1240: Mean Reward = 12.2956, Mean Dice = 0.9758, Mean IoU = 0.9529, Time = 0.07s
+Validation: Mean Dice = 0.9903, Mean IoU = 0.9807
+No improvement for 173 evaluation intervals. Best Val Dice: 0.9917
+Episode 1245: Mean Reward = 11.9789, Mean Dice = 0.9456, Mean IoU = 0.8979, Time = 0.08s
+Validation: Mean Dice = 0.9836, Mean IoU = 0.9677
+No improvement for 174 evaluation intervals. Best Val Dice: 0.9917
+Episode 1250: Mean Reward = 11.4375, Mean Dice = 0.9321, Mean IoU = 0.8800, Time = 0.07s
+Validation: Mean Dice = 0.9779, Mean IoU = 0.9569
+No improvement for 175 evaluation intervals. Best Val Dice: 0.9917
+Episode 1255: Mean Reward = 11.9389, Mean Dice = 0.9418, Mean IoU = 0.8931, Time = 0.08s
+Validation: Mean Dice = 0.9761, Mean IoU = 0.9536
+No improvement for 176 evaluation intervals. Best Val Dice: 0.9917
+Episode 1260: Mean Reward = 12.2667, Mean Dice = 0.9730, Mean IoU = 0.9478, Time = 0.07s
+Validation: Mean Dice = 0.9909, Mean IoU = 0.9820
+No improvement for 177 evaluation intervals. Best Val Dice: 0.9917
+Episode 1265: Mean Reward = 11.8399, Mean Dice = 0.9324, Mean IoU = 0.8759, Time = 0.08s
+Validation: Mean Dice = 0.9636, Mean IoU = 0.9303
+No improvement for 178 evaluation intervals. Best Val Dice: 0.9917
+Episode 1270: Mean Reward = 11.8890, Mean Dice = 0.9370, Mean IoU = 0.8841, Time = 0.07s
+Validation: Mean Dice = 0.9725, Mean IoU = 0.9467
+No improvement for 179 evaluation intervals. Best Val Dice: 0.9917
+Episode 1275: Mean Reward = 12.0538, Mean Dice = 0.9527, Mean IoU = 0.9105, Time = 0.07s
+Validation: Mean Dice = 0.9830, Mean IoU = 0.9666
+No improvement for 180 evaluation intervals. Best Val Dice: 0.9917
+Episode 1280: Mean Reward = 12.0123, Mean Dice = 0.9488, Mean IoU = 0.9083, Time = 0.07s
+Validation: Mean Dice = 0.9830, Mean IoU = 0.9666
+No improvement for 181 evaluation intervals. Best Val Dice: 0.9917
+Episode 1285: Mean Reward = 12.0568, Mean Dice = 0.9530, Mean IoU = 0.9118, Time = 0.08s
+Validation: Mean Dice = 0.9375, Mean IoU = 0.8847
+No improvement for 182 evaluation intervals. Best Val Dice: 0.9917
+Episode 1290: Mean Reward = 12.2589, Mean Dice = 0.9723, Mean IoU = 0.9464, Time = 0.08s
+Validation: Mean Dice = 0.9792, Mean IoU = 0.9593
+No improvement for 183 evaluation intervals. Best Val Dice: 0.9917
+Episode 1295: Mean Reward = 12.0953, Mean Dice = 0.9567, Mean IoU = 0.9191, Time = 0.07s
+Validation: Mean Dice = 0.9878, Mean IoU = 0.9758
+No improvement for 184 evaluation intervals. Best Val Dice: 0.9917
+Episode 1300: Mean Reward = 12.1099, Mean Dice = 0.9581, Mean IoU = 0.9209, Time = 0.08s
+Validation: Mean Dice = 0.9824, Mean IoU = 0.9654
+No improvement for 185 evaluation intervals. Best Val Dice: 0.9917
+Episode 1305: Mean Reward = 12.0629, Mean Dice = 0.9482, Mean IoU = 0.9025, Time = 0.08s
+Validation: Mean Dice = 0.9819, Mean IoU = 0.9645
+No improvement for 186 evaluation intervals. Best Val Dice: 0.9917
+Episode 1310: Mean Reward = 12.2108, Mean Dice = 0.9677, Mean IoU = 0.9382, Time = 0.08s
+Validation: Mean Dice = 0.9765, Mean IoU = 0.9548
+No improvement for 187 evaluation intervals. Best Val Dice: 0.9917
+Episode 1315: Mean Reward = 12.1990, Mean Dice = 0.9666, Mean IoU = 0.9359, Time = 0.07s
+Validation: Mean Dice = 0.9753, Mean IoU = 0.9519
+No improvement for 188 evaluation intervals. Best Val Dice: 0.9917
+Episode 1320: Mean Reward = 12.0441, Mean Dice = 0.9518, Mean IoU = 0.9100, Time = 0.07s
+Validation: Mean Dice = 0.9763, Mean IoU = 0.9540
+No improvement for 189 evaluation intervals. Best Val Dice: 0.9917
+Episode 1325: Mean Reward = 12.0673, Mean Dice = 0.9540, Mean IoU = 0.9130, Time = 0.07s
+Validation: Mean Dice = 0.9787, Mean IoU = 0.9584
+No improvement for 190 evaluation intervals. Best Val Dice: 0.9917
+Episode 1330: Mean Reward = 12.0491, Mean Dice = 0.9523, Mean IoU = 0.9150, Time = 0.07s
+Validation: Mean Dice = 0.9843, Mean IoU = 0.9692
+No improvement for 191 evaluation intervals. Best Val Dice: 0.9917
+Episode 1335: Mean Reward = 12.0125, Mean Dice = 0.9488, Mean IoU = 0.9054, Time = 0.07s
+Validation: Mean Dice = 0.9487, Mean IoU = 0.9056
+No improvement for 192 evaluation intervals. Best Val Dice: 0.9917
+Episode 1340: Mean Reward = 11.9889, Mean Dice = 0.9466, Mean IoU = 0.9034, Time = 0.07s
+Validation: Mean Dice = 0.9758, Mean IoU = 0.9527
+No improvement for 193 evaluation intervals. Best Val Dice: 0.9917
+Episode 1345: Mean Reward = 11.6968, Mean Dice = 0.9187, Mean IoU = 0.8524, Time = 0.08s
+Validation: Mean Dice = 0.9699, Mean IoU = 0.9420
+No improvement for 194 evaluation intervals. Best Val Dice: 0.9917
+Episode 1350: Mean Reward = 12.2705, Mean Dice = 0.9734, Mean IoU = 0.9493, Time = 0.07s
+Validation: Mean Dice = 0.9753, Mean IoU = 0.9520
+No improvement for 195 evaluation intervals. Best Val Dice: 0.9917
+Episode 1355: Mean Reward = 12.1847, Mean Dice = 0.9652, Mean IoU = 0.9334, Time = 0.07s
+Validation: Mean Dice = 0.9881, Mean IoU = 0.9764
+No improvement for 196 evaluation intervals. Best Val Dice: 0.9917
+Episode 1360: Mean Reward = 11.9519, Mean Dice = 0.9430, Mean IoU = 0.8946, Time = 0.07s
+Validation: Mean Dice = 0.9680, Mean IoU = 0.9384
+No improvement for 197 evaluation intervals. Best Val Dice: 0.9917
+Episode 1365: Mean Reward = 12.1988, Mean Dice = 0.9665, Mean IoU = 0.9365, Time = 0.07s
+Validation: Mean Dice = 0.9800, Mean IoU = 0.9608
+No improvement for 198 evaluation intervals. Best Val Dice: 0.9917
+Episode 1370: Mean Reward = 12.1821, Mean Dice = 0.9650, Mean IoU = 0.9327, Time = 0.07s
+Validation: Mean Dice = 0.9666, Mean IoU = 0.9355
+No improvement for 199 evaluation intervals. Best Val Dice: 0.9917
+Episode 1375: Mean Reward = 12.0562, Mean Dice = 0.9530, Mean IoU = 0.9117, Time = 0.07s
+Validation: Mean Dice = 0.9835, Mean IoU = 0.9676
+No improvement for 200 evaluation intervals. Best Val Dice: 0.9917
+Episode 1380: Mean Reward = 12.1152, Mean Dice = 0.9586, Mean IoU = 0.9212, Time = 0.07s
+Validation: Mean Dice = 0.9869, Mean IoU = 0.9742
+No improvement for 201 evaluation intervals. Best Val Dice: 0.9917
+Episode 1385: Mean Reward = 12.1187, Mean Dice = 0.9589, Mean IoU = 0.9216, Time = 0.07s
+Validation: Mean Dice = 0.9606, Mean IoU = 0.9255
+No improvement for 202 evaluation intervals. Best Val Dice: 0.9917
+Episode 1390: Mean Reward = 11.8393, Mean Dice = 0.9323, Mean IoU = 0.8792, Time = 0.07s
+Validation: Mean Dice = 0.9776, Mean IoU = 0.9561
+No improvement for 203 evaluation intervals. Best Val Dice: 0.9917
+Episode 1395: Mean Reward = 12.0897, Mean Dice = 0.9562, Mean IoU = 0.9172, Time = 0.07s
+Validation: Mean Dice = 0.9846, Mean IoU = 0.9696
+No improvement for 204 evaluation intervals. Best Val Dice: 0.9917
+Episode 1400: Mean Reward = 12.1905, Mean Dice = 0.9658, Mean IoU = 0.9347, Time = 0.07s
+Validation: Mean Dice = 0.9825, Mean IoU = 0.9658
+No improvement for 205 evaluation intervals. Best Val Dice: 0.9917
+Episode 1405: Mean Reward = 12.3783, Mean Dice = 0.9836, Mean IoU = 0.9679, Time = 0.07s
+ 28%|██▊       | 1405/5000 [03:12<11:54,  5.03it/s] 28%|██▊       | 1407/5000 [03:13<09:34,  6.26it/s] 28%|██▊       | 1409/5000 [03:13<08:09,  7.33it/s] 28%|██▊       | 1410/5000 [03:13<09:22,  6.38it/s] 28%|██▊       | 1412/5000 [03:13<07:58,  7.50it/s] 28%|██▊       | 1414/5000 [03:13<07:04,  8.44it/s] 28%|██▊       | 1415/5000 [03:14<08:33,  6.99it/s] 28%|██▊       | 1417/5000 [03:14<07:29,  7.97it/s] 28%|██▊       | 1419/5000 [03:14<06:46,  8.81it/s] 28%|██▊       | 1420/5000 [03:14<08:15,  7.22it/s] 28%|██▊       | 1422/5000 [03:14<07:14,  8.24it/s] 28%|██▊       | 1424/5000 [03:15<06:36,  9.02it/s] 28%|██▊       | 1425/5000 [03:15<08:10,  7.28it/s] 29%|██▊       | 1427/5000 [03:15<07:13,  8.24it/s] 29%|██▊       | 1429/5000 [03:15<06:39,  8.95it/s] 29%|██▊       | 1430/5000 [03:15<08:18,  7.16it/s] 29%|██▊       | 1432/5000 [03:16<07:17,  8.15it/s] 29%|██▊       | 1434/5000 [03:16<06:39,  8.93it/s] 29%|██▊       | 1435/5000 [03:16<08:10,  7.27it/s] 29%|██▊       | 1437/5000 [03:16<07:14,  8.19it/s] 29%|██▉       | 1439/5000 [03:16<06:36,  8.99it/s] 29%|██▉       | 1440/5000 [03:17<08:07,  7.31it/s] 29%|██▉       | 1442/5000 [03:17<07:09,  8.29it/s] 29%|██▉       | 1444/5000 [03:17<06:33,  9.04it/s] 29%|██▉       | 1445/5000 [03:17<08:03,  7.35it/s] 29%|██▉       | 1447/5000 [03:17<07:05,  8.36it/s] 29%|██▉       | 1449/5000 [03:18<06:28,  9.14it/s] 29%|██▉       | 1450/5000 [03:19<19:08,  3.09it/s] 29%|██▉       | 1452/5000 [03:19<14:15,  4.15it/s] 29%|██▉       | 1454/5000 [03:19<11:18,  5.23it/s] 29%|██▉       | 1455/5000 [03:19<11:54,  4.96it/s] 29%|██▉       | 1457/5000 [03:20<09:34,  6.16it/s] 29%|██▉       | 1459/5000 [03:20<08:08,  7.25it/s] 29%|██▉       | 1460/5000 [03:20<09:20,  6.31it/s] 29%|██▉       | 1462/5000 [03:20<08:00,  7.37it/s] 29%|██▉       | 1464/5000 [03:20<07:05,  8.31it/s] 29%|██▉       | 1465/5000 [03:21<08:30,  6.93it/s] 29%|██▉       | 1467/5000 [03:21<07:23,  7.96it/s] 29%|██▉       | 1469/5000 [03:21<06:40,  8.81it/s] 29%|██▉       | 1470/5000 [03:21<08:09,  7.21it/s] 29%|██▉       | 1472/5000 [03:21<07:09,  8.20it/s] 29%|██▉       | 1474/5000 [03:22<06:33,  8.96it/s] 30%|██▉       | 1475/5000 [03:22<08:04,  7.28it/s] 30%|██▉       | 1477/5000 [03:22<07:07,  8.25it/s] 30%|██▉       | 1479/5000 [03:22<06:31,  8.99it/s] 30%|██▉       | 1480/5000 [03:22<08:01,  7.32it/s] 30%|██▉       | 1482/5000 [03:23<07:03,  8.30it/s] 30%|██▉       | 1484/5000 [03:23<06:29,  9.02it/s] 30%|██▉       | 1485/5000 [03:23<08:12,  7.14it/s] 30%|██▉       | 1486/5000 [03:23<08:02,  7.29it/s] 30%|██▉       | 1487/5000 [03:23<07:34,  7.73it/s] 30%|██▉       | 1488/5000 [03:23<07:11,  8.14it/s] 30%|██▉       | 1490/5000 [03:24<08:16,  7.08it/s] 30%|██▉       | 1492/5000 [03:24<07:11,  8.12it/s] 30%|██▉       | 1494/5000 [03:24<06:31,  8.96it/s] 30%|██▉       | 1495/5000 [03:24<08:02,  7.26it/s] 30%|██▉       | 1497/5000 [03:25<07:03,  8.28it/s] 30%|██▉       | 1499/5000 [03:25<06:28,  9.00it/s] 30%|███       | 1500/5000 [03:26<18:44,  3.11it/s] 30%|███       | 1502/5000 [03:26<13:56,  4.18it/s] 30%|███       | 1504/5000 [03:26<10:59,  5.30it/s] 30%|███       | 1505/5000 [03:27<11:37,  5.01it/s] 30%|███       | 1507/5000 [03:27<09:23,  6.20it/s] 30%|███       | 1509/5000 [03:27<08:03,  7.21it/s] 30%|███       | 1510/5000 [03:27<09:20,  6.23it/s] 30%|███       | 1512/5000 [03:27<07:54,  7.36it/s] 30%|███       | 1514/5000 [03:28<07:00,  8.29it/s] 30%|███       | 1515/5000 [03:28<08:26,  6.88it/s] 30%|███       | 1517/5000 [03:28<07:19,  7.92it/s] 30%|███       | 1519/5000 [03:28<06:37,  8.75it/s] 30%|███       | 1520/5000 [03:28<08:09,  7.11it/s] 30%|███       | 1521/5000 [03:28<07:45,  7.47it/s] 30%|███       | 1522/5000 [03:29<07:50,  7.40it/s] 30%|███       | 1523/5000 [03:29<07:23,  7.85it/s] 30%|███       | 1524/5000 [03:29<06:57,  8.32it/s] 30%|███       | 1525/5000 [03:29<09:08,  6.34it/s] 31%|███       | 1527/5000 [03:29<07:29,  7.72it/s] 31%|███       | 1529/5000 [03:29<06:40,  8.66it/s] 31%|███       | 1530/5000 [03:30<08:25,  6.86it/s] 31%|███       | 1532/5000 [03:30<07:19,  7.89it/s] 31%|███       | 1534/5000 [03:30<06:39,  8.67it/s] 31%|███       | 1535/5000 [03:30<08:21,  6.90it/s] 31%|███       | 1537/5000 [03:31<07:18,  7.90it/s] 31%|███       | 1539/5000 [03:31<06:38,  8.68it/s] 31%|███       | 1540/5000 [03:31<08:13,  7.02it/s] 31%|███       | 1542/5000 [03:31<07:12,  8.00it/s] 31%|███       | 1544/5000 [03:31<06:34,  8.75it/s] 31%|███       | 1545/5000 [03:32<08:13,  7.00it/s] 31%|███       | 1547/5000 [03:32<07:11,  8.00it/s] 31%|███       | 1549/5000 [03:32<06:35,  8.72it/s] 31%|███       | 1550/5000 [03:33<18:07,  3.17it/s] 31%|███       | 1552/5000 [03:33<13:36,  4.22it/s] 31%|███       | 1554/5000 [03:34<10:50,  5.30it/s] 31%|███       | 1555/5000 [03:34<11:35,  4.95it/s] 31%|███       | 1557/5000 [03:34<09:24,  6.10it/s] 31%|███       | 1559/5000 [03:34<08:04,  7.11it/s] 31%|███       | 1560/5000 [03:34<09:22,  6.12it/s] 31%|███       | 1562/5000 [03:35<07:55,  7.23it/s] 31%|███▏      | 1564/5000 [03:35<07:05,  8.08it/s] 31%|███▏      | 1565/5000 [03:35<08:57,  6.39it/s] 31%|███▏      | 1566/5000 [03:35<08:15,  6.92it/s] 31%|███▏      | 1567/5000 [03:35<07:40,  7.45it/s] 31%|███▏      | 1568/5000 [03:35<07:12,  7.93it/s] 31%|███▏      | 1569/5000 [03:35<06:50,  8.36it/s] 31%|███▏      | 1570/5000 [03:36<09:25,  6.06it/s] 31%|███▏      | 1571/5000 [03:36<08:24,  6.79it/s] 31%|███▏      | 1572/5000 [03:36<07:40,  7.44it/s] 31%|███▏      | 1573/5000 [03:36<07:06,  8.03it/s] 32%|███▏      | 1575/5000 [03:36<08:43,  6.54it/s] 32%|███▏      | 1576/5000 [03:37<08:00,  7.13it/s] 32%|███▏      | 1577/5000 [03:37<07:26,  7.67it/s] 32%|███▏      | 1578/5000 [03:37<07:00,  8.14it/s] 32%|███▏      | 1579/5000 [03:37<06:40,  8.54it/s] 32%|███▏      | 1580/5000 [03:37<09:09,  6.23it/s] 32%|███▏      | 1582/5000 [03:37<07:36,  7.49it/s] 32%|███▏      | 1583/5000 [03:37<07:08,  7.97it/s] 32%|███▏      | 1585/5000 [03:38<08:25,  6.75it/s] 32%|███▏      | 1587/5000 [03:38<07:23,  7.69it/s] 32%|███▏      | 1589/5000 [03:38<06:49,  8.33it/s] 32%|███▏      | 1590/5000 [03:38<08:32,  6.65it/s] 32%|███▏      | 1591/5000 [03:39<08:11,  6.93it/s] 32%|███▏      | 1592/5000 [03:39<08:16,  6.86it/s] 32%|███▏      | 1593/5000 [03:39<08:22,  6.78it/s] 32%|███▏      | 1594/5000 [03:39<08:55,  6.36it/s] 32%|███▏      | 1595/5000 [03:39<12:32,  4.53it/s] 32%|███▏      | 1596/5000 [03:40<11:26,  4.96it/s] 32%|███▏      | 1597/5000 [03:40<09:47,  5.79it/s] 32%|███▏      | 1599/5000 [03:40<07:48,  7.27it/s] 32%|███▏      | 1600/5000 [03:41<21:14,  2.67it/s] 32%|███▏      | 1602/5000 [03:41<14:44,  3.84it/s] 32%|███▏      | 1604/5000 [03:41<11:16,  5.02it/s]Validation: Mean Dice = 0.9856, Mean IoU = 0.9716
+No improvement for 206 evaluation intervals. Best Val Dice: 0.9917
+Episode 1410: Mean Reward = 12.0572, Mean Dice = 0.9531, Mean IoU = 0.9115, Time = 0.07s
+Validation: Mean Dice = 0.9779, Mean IoU = 0.9569
+No improvement for 207 evaluation intervals. Best Val Dice: 0.9917
+Episode 1415: Mean Reward = 12.2102, Mean Dice = 0.9676, Mean IoU = 0.9378, Time = 0.07s
+Validation: Mean Dice = 0.9557, Mean IoU = 0.9161
+No improvement for 208 evaluation intervals. Best Val Dice: 0.9917
+Episode 1420: Mean Reward = 12.0677, Mean Dice = 0.9541, Mean IoU = 0.9133, Time = 0.07s
+Validation: Mean Dice = 0.9847, Mean IoU = 0.9698
+No improvement for 209 evaluation intervals. Best Val Dice: 0.9917
+Episode 1425: Mean Reward = 12.0708, Mean Dice = 0.9544, Mean IoU = 0.9135, Time = 0.07s
+Validation: Mean Dice = 0.9810, Mean IoU = 0.9628
+No improvement for 210 evaluation intervals. Best Val Dice: 0.9917
+Episode 1430: Mean Reward = 12.2531, Mean Dice = 0.9717, Mean IoU = 0.9456, Time = 0.08s
+Validation: Mean Dice = 0.9837, Mean IoU = 0.9680
+No improvement for 211 evaluation intervals. Best Val Dice: 0.9917
+Episode 1435: Mean Reward = 12.0594, Mean Dice = 0.9533, Mean IoU = 0.9121, Time = 0.07s
+Validation: Mean Dice = 0.9723, Mean IoU = 0.9460
+No improvement for 212 evaluation intervals. Best Val Dice: 0.9917
+Episode 1440: Mean Reward = 11.8995, Mean Dice = 0.9381, Mean IoU = 0.8853, Time = 0.07s
+Validation: Mean Dice = 0.9828, Mean IoU = 0.9664
+No improvement for 213 evaluation intervals. Best Val Dice: 0.9917
+Episode 1445: Mean Reward = 12.0464, Mean Dice = 0.9520, Mean IoU = 0.9103, Time = 0.07s
+Validation: Mean Dice = 0.9738, Mean IoU = 0.9494
+No improvement for 214 evaluation intervals. Best Val Dice: 0.9917
+Episode 1450: Mean Reward = 12.2843, Mean Dice = 0.9747, Mean IoU = 0.9507, Time = 0.07s
+Validation: Mean Dice = 0.9832, Mean IoU = 0.9671
+No improvement for 215 evaluation intervals. Best Val Dice: 0.9917
+Episode 1455: Mean Reward = 11.9922, Mean Dice = 0.9469, Mean IoU = 0.9023, Time = 0.07s
+Validation: Mean Dice = 0.9906, Mean IoU = 0.9814
+No improvement for 216 evaluation intervals. Best Val Dice: 0.9917
+Episode 1460: Mean Reward = 11.8852, Mean Dice = 0.9367, Mean IoU = 0.8840, Time = 0.07s
+Validation: Mean Dice = 0.9882, Mean IoU = 0.9766
+No improvement for 217 evaluation intervals. Best Val Dice: 0.9917
+Episode 1465: Mean Reward = 12.0947, Mean Dice = 0.9566, Mean IoU = 0.9183, Time = 0.07s
+Validation: Mean Dice = 0.9883, Mean IoU = 0.9770
+No improvement for 218 evaluation intervals. Best Val Dice: 0.9917
+Episode 1470: Mean Reward = 11.8209, Mean Dice = 0.9306, Mean IoU = 0.8722, Time = 0.07s
+Validation: Mean Dice = 0.9748, Mean IoU = 0.9508
+No improvement for 219 evaluation intervals. Best Val Dice: 0.9917
+Episode 1475: Mean Reward = 12.1562, Mean Dice = 0.9625, Mean IoU = 0.9283, Time = 0.07s
+Validation: Mean Dice = 0.9845, Mean IoU = 0.9695
+No improvement for 220 evaluation intervals. Best Val Dice: 0.9917
+Episode 1480: Mean Reward = 12.2011, Mean Dice = 0.9668, Mean IoU = 0.9368, Time = 0.07s
+Validation: Mean Dice = 0.9780, Mean IoU = 0.9570
+No improvement for 221 evaluation intervals. Best Val Dice: 0.9917
+Episode 1485: Mean Reward = 12.1879, Mean Dice = 0.9655, Mean IoU = 0.9341, Time = 0.07s
+Validation: Mean Dice = 0.9899, Mean IoU = 0.9800
+No improvement for 222 evaluation intervals. Best Val Dice: 0.9917
+Episode 1490: Mean Reward = 12.2645, Mean Dice = 0.9728, Mean IoU = 0.9473, Time = 0.07s
+Validation: Mean Dice = 0.9731, Mean IoU = 0.9483
+No improvement for 223 evaluation intervals. Best Val Dice: 0.9917
+Episode 1495: Mean Reward = 12.0496, Mean Dice = 0.9523, Mean IoU = 0.9111, Time = 0.07s
+Validation: Mean Dice = 0.9815, Mean IoU = 0.9640
+No improvement for 224 evaluation intervals. Best Val Dice: 0.9917
+Episode 1500: Mean Reward = 12.1544, Mean Dice = 0.9623, Mean IoU = 0.9288, Time = 0.07s
+Validation: Mean Dice = 0.9843, Mean IoU = 0.9690
+No improvement for 225 evaluation intervals. Best Val Dice: 0.9917
+Episode 1505: Mean Reward = 12.0840, Mean Dice = 0.9556, Mean IoU = 0.9158, Time = 0.07s
+Validation: Mean Dice = 0.9772, Mean IoU = 0.9554
+No improvement for 226 evaluation intervals. Best Val Dice: 0.9917
+Episode 1510: Mean Reward = 12.1715, Mean Dice = 0.9639, Mean IoU = 0.9310, Time = 0.08s
+Validation: Mean Dice = 0.9803, Mean IoU = 0.9613
+No improvement for 227 evaluation intervals. Best Val Dice: 0.9917
+Episode 1515: Mean Reward = 12.1697, Mean Dice = 0.9638, Mean IoU = 0.9310, Time = 0.07s
+Validation: Mean Dice = 0.9886, Mean IoU = 0.9774
+No improvement for 228 evaluation intervals. Best Val Dice: 0.9917
+Episode 1520: Mean Reward = 12.1608, Mean Dice = 0.9629, Mean IoU = 0.9292, Time = 0.07s
+Validation: Mean Dice = 0.9742, Mean IoU = 0.9498
+No improvement for 229 evaluation intervals. Best Val Dice: 0.9917
+Episode 1525: Mean Reward = 12.1506, Mean Dice = 0.9620, Mean IoU = 0.9278, Time = 0.08s
+Validation: Mean Dice = 0.9754, Mean IoU = 0.9525
+No improvement for 230 evaluation intervals. Best Val Dice: 0.9917
+Episode 1530: Mean Reward = 12.1227, Mean Dice = 0.9593, Mean IoU = 0.9252, Time = 0.08s
+Validation: Mean Dice = 0.9710, Mean IoU = 0.9442
+No improvement for 231 evaluation intervals. Best Val Dice: 0.9917
+Episode 1535: Mean Reward = 12.0791, Mean Dice = 0.9552, Mean IoU = 0.9153, Time = 0.08s
+Validation: Mean Dice = 0.9780, Mean IoU = 0.9570
+No improvement for 232 evaluation intervals. Best Val Dice: 0.9917
+Episode 1540: Mean Reward = 12.1128, Mean Dice = 0.9584, Mean IoU = 0.9206, Time = 0.07s
+Validation: Mean Dice = 0.9622, Mean IoU = 0.9298
+No improvement for 233 evaluation intervals. Best Val Dice: 0.9917
+Episode 1545: Mean Reward = 12.1006, Mean Dice = 0.9572, Mean IoU = 0.9188, Time = 0.08s
+Validation: Mean Dice = 0.9798, Mean IoU = 0.9610
+No improvement for 234 evaluation intervals. Best Val Dice: 0.9917
+Episode 1550: Mean Reward = 11.9154, Mean Dice = 0.9396, Mean IoU = 0.8891, Time = 0.08s
+Validation: Mean Dice = 0.9750, Mean IoU = 0.9512
+No improvement for 235 evaluation intervals. Best Val Dice: 0.9917
+Episode 1555: Mean Reward = 12.0871, Mean Dice = 0.9559, Mean IoU = 0.9167, Time = 0.08s
+Validation: Mean Dice = 0.9846, Mean IoU = 0.9696
+No improvement for 236 evaluation intervals. Best Val Dice: 0.9917
+Episode 1560: Mean Reward = 12.2916, Mean Dice = 0.9754, Mean IoU = 0.9524, Time = 0.08s
+Validation: Mean Dice = 0.9807, Mean IoU = 0.9622
+No improvement for 237 evaluation intervals. Best Val Dice: 0.9917
+Episode 1565: Mean Reward = 12.1989, Mean Dice = 0.9666, Mean IoU = 0.9363, Time = 0.08s
+Validation: Mean Dice = 0.9753, Mean IoU = 0.9519
+No improvement for 238 evaluation intervals. Best Val Dice: 0.9917
+Episode 1570: Mean Reward = 12.0577, Mean Dice = 0.9531, Mean IoU = 0.9112, Time = 0.08s
+Validation: Mean Dice = 0.9871, Mean IoU = 0.9746
+No improvement for 239 evaluation intervals. Best Val Dice: 0.9917
+Episode 1575: Mean Reward = 12.2984, Mean Dice = 0.9760, Mean IoU = 0.9533, Time = 0.08s
+Validation: Mean Dice = 0.9756, Mean IoU = 0.9525
+No improvement for 240 evaluation intervals. Best Val Dice: 0.9917
+Episode 1580: Mean Reward = 11.1737, Mean Dice = 0.9070, Mean IoU = 0.8394, Time = 0.08s
+Validation: Mean Dice = 0.9746, Mean IoU = 0.9506
+No improvement for 241 evaluation intervals. Best Val Dice: 0.9917
+Episode 1585: Mean Reward = 12.0246, Mean Dice = 0.9500, Mean IoU = 0.9050, Time = 0.08s
+Validation: Mean Dice = 0.9842, Mean IoU = 0.9690
+No improvement for 242 evaluation intervals. Best Val Dice: 0.9917
+Episode 1590: Mean Reward = 12.1011, Mean Dice = 0.9573, Mean IoU = 0.9186, Time = 0.09s
+Validation: Mean Dice = 0.9711, Mean IoU = 0.9443
+No improvement for 243 evaluation intervals. Best Val Dice: 0.9917
+Episode 1595: Mean Reward = 12.3155, Mean Dice = 0.9777, Mean IoU = 0.9565, Time = 0.08s
+Validation: Mean Dice = 0.9830, Mean IoU = 0.9666
+No improvement for 244 evaluation intervals. Best Val Dice: 0.9917
+Episode 1600: Mean Reward = 12.1138, Mean Dice = 0.9585, Mean IoU = 0.9210, Time = 0.07s
+Validation: Mean Dice = 0.9830, Mean IoU = 0.9666
+No improvement for 245 evaluation intervals. Best Val Dice: 0.9917
+ 32%|███▏      | 1605/5000 [03:42<11:57,  4.73it/s] 32%|███▏      | 1607/5000 [03:42<09:29,  5.96it/s] 32%|███▏      | 1608/5000 [03:42<08:42,  6.49it/s] 32%|███▏      | 1610/5000 [03:42<09:10,  6.15it/s] 32%|███▏      | 1612/5000 [03:42<07:50,  7.20it/s] 32%|███▏      | 1614/5000 [03:43<07:00,  8.05it/s] 32%|███▏      | 1615/5000 [03:43<08:28,  6.66it/s] 32%|███▏      | 1617/5000 [03:43<07:21,  7.66it/s] 32%|███▏      | 1619/5000 [03:43<06:41,  8.42it/s] 32%|███▏      | 1620/5000 [03:44<08:11,  6.88it/s] 32%|███▏      | 1622/5000 [03:44<07:09,  7.87it/s] 32%|███▏      | 1624/5000 [03:44<06:30,  8.64it/s] 32%|███▎      | 1625/5000 [03:44<08:03,  6.98it/s] 32%|███▎      | 1625/5000 [03:44<07:46,  7.23it/s]
+/root/workspace/wwb/InterRL/src/inter_rl.py:292: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(path, map_location=self.device)
+Episode 1605: Mean Reward = 12.3171, Mean Dice = 0.9778, Mean IoU = 0.9566, Time = 0.07s
+Validation: Mean Dice = 0.9852, Mean IoU = 0.9709
+No improvement for 246 evaluation intervals. Best Val Dice: 0.9917
+Episode 1610: Mean Reward = 12.2465, Mean Dice = 0.9711, Mean IoU = 0.9442, Time = 0.07s
+Validation: Mean Dice = 0.9809, Mean IoU = 0.9626
+No improvement for 247 evaluation intervals. Best Val Dice: 0.9917
+Episode 1615: Mean Reward = 12.2294, Mean Dice = 0.9695, Mean IoU = 0.9408, Time = 0.07s
+Validation: Mean Dice = 0.9856, Mean IoU = 0.9717
+No improvement for 248 evaluation intervals. Best Val Dice: 0.9917
+Episode 1620: Mean Reward = 12.1630, Mean Dice = 0.9631, Mean IoU = 0.9303, Time = 0.07s
+Validation: Mean Dice = 0.9628, Mean IoU = 0.9309
+No improvement for 249 evaluation intervals. Best Val Dice: 0.9917
+Episode 1625: Mean Reward = 11.9961, Mean Dice = 0.9472, Mean IoU = 0.9016, Time = 0.07s
+Validation: Mean Dice = 0.9750, Mean IoU = 0.9512
+No improvement for 250 evaluation intervals. Best Val Dice: 0.9917
+Early stopping triggered at episode 1625 as validation performance hasn't improved for 250 evaluation intervals
+Early stopping triggered at episode 1625, as validation score hasn't improved for 250 evaluation intervals
+Training completed in 224.72 seconds
+Best validation Dice: 0.9917 at episode 375
+Sample 1 image shape: (3, 288, 384)
+SimpleRL Evaluation Results:
+  - Dice: 0.9798 ± 0.0093
+  - IoU: 0.9606 ± 0.0179
+  - Avg Steps: 10.00 ± 0.00
+
+===== Model Comparison =====
+
+Comparison results:
+  U-Net Dice: 0.8226 ± 0.2240, IoU: 0.7476 ± 0.2606
+  SimpleRL Dice: 0.9798 ± 0.0093, IoU: 0.9606 ± 0.0179
+  Dice Difference: 0.1572
+  Winner: SIMPLE_RL
+
+===== All operations completed =====
+Results saved to: results/run_20250508_070922
+Models saved to: models/run_20250508_070922

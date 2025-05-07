@@ -22,6 +22,8 @@ from src.data_utils import PolypDataset, get_data_loaders, visualize_sample
 from src.unet_model import UNet, train_unet
 from src.rl_environment import PolypSegmentationEnv, PolypFeatureExtractor
 from src.rl_agent import PPOAgent
+from src.inter_rl import train_agent, SimpleRLAgent
+from src.inter_rl import predict_mask, visualize_results
 
 def setup_environment(seed=42):
     """Set up the environment (directories, random seeds, etc.)"""
@@ -50,7 +52,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Reinforcement Learning for Interactive Polyp Segmentation')
     
     parser.add_argument('--mode', type=str, default='all', choices=['train_unet', 'train_rl', 'train_simple_rl', 'evaluate', 'all', 'compare_unet_simple_rl', 'train_and_evaluate'],
-                        help='Mode of operation: train_unet (只训练U-Net), train_rl (训练PPO代理), train_simple_rl (训练InteractiveRL代理并保存训练历史), evaluate (评估), all (全部), compare_unet_simple_rl (比较UNet和SimpleRL), train_and_evaluate (训练并评估)')
+                        help='Mode of operation: train_unet (train U-Net only), train_rl (train PPO agent), train_simple_rl (train InteractiveRL agent and save history), evaluate (evaluate models), all (run all), compare_unet_simple_rl (compare UNet and SimpleRL), train_and_evaluate (train and evaluate)')
     parser.add_argument('--data_dir', type=str, default='data/raw',
                         help='Directory containing the dataset')
     parser.add_argument('--unet_epochs', type=int, default=1000,
@@ -249,6 +251,45 @@ def get_improved_data_loaders(data_dir, batch_size, num_workers=2, seed=42, spli
         'split_info': split_info
     }
 
+def optimize_unet(args, device, data_loaders):
+    """
+    Train an optimized U-Net model with advanced techniques and return the model
+    """
+    print("Starting optimized U-Net training...")
+    
+    # Create directories for model checkpoints
+    unet_model_dir = os.path.join("models", "unet_optimized")
+    os.makedirs(unet_model_dir, exist_ok=True)
+    
+    # Use optimized U-Net model (lightweight filter configuration)
+    model = UNet(n_channels=3, n_classes=1, bilinear=True)
+    model = model.to(device)
+    
+    # Use optimized loss function and training process
+    from src.unet_model import train_unet, DiceBCELoss
+    
+    # Execute optimized U-Net training (including early stopping and LR scheduling)
+    # Set to 20 epochs for comparison
+    epochs = 5000 if args.unet_epochs > 20 else args.unet_epochs
+    
+    print(f"Starting optimized U-Net training, planning to train for {epochs} epochs...")
+    
+    # Train the model with early stopping and LR scheduling
+    best_model, train_history = train_unet(
+        model=model,
+        device=device,
+        train_loader=data_loaders['train'],
+        val_loader=data_loaders['val'],
+        epochs=epochs,
+        learning_rate=args.lr,
+        save_checkpoint=True,
+        amp=True,  # Use mixed precision training
+        checkpoint_dir=unet_model_dir,
+        patience=15  # Early stopping patience
+    )
+    
+    return best_model, train_history
+
 def train_unet_model(args, device, data_loaders):
     """Train and evaluate the U-Net model with standardized outputs"""
     print('Training U-Net model...')
@@ -260,221 +301,122 @@ def train_unet_model(args, device, data_loaders):
     unet_model_dir = os.path.join('models', f'unet_{timestamp}')
     os.makedirs(unet_model_dir, exist_ok=True)
     
-    # Create model
+    # Use optimized U-Net model (lightweight filter configuration)
     model = UNet(n_channels=3, n_classes=1, bilinear=True)
     model = model.to(device)
     
-    # Create optimizer and loss functions
-    from src.unet_model import DiceLoss
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
-    bce_criterion = nn.BCELoss()
-    dice_criterion = DiceLoss()
+    # Use optimized loss function and training process
+    from src.unet_model import train_unet, DiceBCELoss
     
-    # Learning rate scheduler
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode='min', patience=10, factor=0.5, min_lr=1e-6, verbose=True
+    # Execute optimized U-Net training (including early stopping and LR scheduling)
+    # Set to 20 epochs for comparison
+    epochs = 5000 if args.unet_epochs > 20 else args.unet_epochs
+    
+    print(f"Starting optimized U-Net training, planning to train for {epochs} epochs...")
+    
+    # Use optimized training function
+    history = train_unet(
+        model=model,
+        train_loader=data_loaders['train'],
+        val_loader=data_loaders['val'],
+        device=device,
+        epochs=epochs,
+        lr=args.lr,
+        patience=10  # Use smaller patience value to adapt to 20-epoch training
     )
     
-    # Early stopping parameters with increased patience
-    best_val_dice = 0.0
-    best_epoch = 0
-    patience = 50  # 增加早停的耐心值
-    patience_counter = 0
-    
-    # Training history - 只存储在一个JSON文件中的训练历史
-    history = {
-        'epochs': [],
-        'train_loss': [],
-        'val_loss': [],
-        'val_dice': [],
-        'val_iou': [],
-        'lr': [],
-        'best_epoch': 0,
-        'best_val_dice': 0.0,
-        'best_val_iou': 0.0,
-        'total_training_time': 0.0,
-        'early_stopped': False
+    # For compatibility, retain key names from existing code
+    full_history = {
+        'epochs': list(range(1, len(history['train_loss']) + 1)),
+        'train_loss': history['train_loss'],
+        'val_loss': history['val_loss'],
+        'val_dice': history['val_dice'],
+        'val_iou': history['val_iou'],
+        'lr': [args.lr] * len(history['train_loss']),  # Simplified, not tracking LR changes
+        'best_epoch': history.get('best_epoch', 0) + 1,  # Index starting from 0 converted to 1-based epoch
+        'best_val_dice': max(history['val_dice']) if history['val_dice'] else 0.0,
+        'best_val_iou': max(history['val_iou']) if history['val_iou'] else 0.0,
+        'total_training_time': 0.0,  # Will be updated later
+        'early_stopped': history.get('early_stopped', False)
     }
     
-    # Track overall training time
-    training_start_time = time.time()
+    # Save all training history to a single JSON file
+    with open(os.path.join(unet_model_dir, 'training_history.json'), 'w') as f:
+        # Create a JSON serializable copy
+        json_serializable = {}
+        for key, value in full_history.items():
+            if isinstance(value, (list, dict)):
+                if len(value) > 0 and isinstance(value[0], (np.integer, np.floating, np.ndarray)):
+                    json_serializable[key] = [float(v) for v in value]
+                else:
+                    json_serializable[key] = value
+            elif isinstance(value, (np.integer, np.floating)):
+                json_serializable[key] = float(value)
+            else:
+                json_serializable[key] = value
+        
+        json.dump(json_serializable, f, indent=2)
     
-    for epoch in range(args.unet_epochs):
-        epoch_start_time = time.time()
-        
-        # Training phase
-        model.train()
-        train_loss = 0
-        
-        for batch_idx, batch in enumerate(data_loaders['train']):
-            # Get images and masks
+    # Also save as a specific name so generate_academic_plots.py can find it
+    with open(os.path.join(unet_model_dir, 'unet_training_history.json'), 'w') as f:
+        json.dump(json_serializable, f, indent=2)
+    
+    # Save the model to the standard location
+    torch.save(model.state_dict(), 'models/unet_model.pth')
+    
+    # Save the best model
+    best_model_path = os.path.join(unet_model_dir, 'best_model.pth')
+    torch.save({
+        'epoch': full_history['best_epoch'],
+        'model_state_dict': model.state_dict(),
+        'loss': min(history['val_loss']) if history['val_loss'] else 0.0,
+        'dice': full_history['best_val_dice'],
+        'iou': full_history['best_val_iou']
+    }, best_model_path)
+    
+    print(f"Optimized U-Net training completed, best model saved at epoch {full_history['best_epoch']}, validation Dice: {full_history['best_val_dice']:.4f}")
+    
+    # Calculate final validation performance
+    model.eval()
+    val_dice = 0
+    val_iou = 0
+    
+    with torch.no_grad():
+        for batch in data_loaders['val']:
             images = batch['image'].to(device)
             masks = batch['mask'].to(device)
             
-            # Forward pass
             outputs = model(images)
+            pred_masks = (outputs > 0.5).float()
             
-            # Calculate loss - combined BCE and Dice Loss
-            bce_loss = bce_criterion(outputs, masks)
-            dice_loss = dice_criterion(outputs, masks)
-            loss = bce_loss + dice_loss
+            from src.unet_model import dice_coefficient, iou_score
+            batch_dice = dice_coefficient(pred_masks, masks).item()
+            batch_iou = iou_score(pred_masks, masks).item()
             
-            # Backward pass and optimization
-            optimizer.zero_grad()
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-            optimizer.step()
-            
-            train_loss += loss.item()
-            
-            # 只在每10个批次打印一次进度
-            if batch_idx % 10 == 0:
-                print(f"Epoch {epoch+1}/{args.unet_epochs} | Batch {batch_idx}/{len(data_loaders['train'])} | Loss: {loss.item():.4f}")
-        
-        train_loss /= len(data_loaders['train'])
-        
-        # Validation phase
-        model.eval()
-        val_loss = 0
-        val_dice = 0
-        val_iou = 0
-        
-        with torch.no_grad():
-            for batch_idx, batch in enumerate(data_loaders['val']):
-                # Get images and masks
-                images = batch['image'].to(device)
-                masks = batch['mask'].to(device)
-                
-                # Forward pass
-                outputs = model(images)
-                
-                # Calculate loss
-                bce_loss = bce_criterion(outputs, masks)
-                dice_loss = dice_criterion(outputs, masks)
-                loss = bce_loss + dice_loss
-                val_loss += loss.item()
-                
-                # Generate binary mask predictions with 0.5 threshold
-                pred_masks = (outputs > 0.5).float()
-                
-                # Calculate batch metrics
-                from src.unet_model import dice_coefficient, iou_score
-                batch_dice = dice_coefficient(pred_masks, masks).item()
-                batch_iou = iou_score(pred_masks, masks).item()
-                
-                val_dice += batch_dice
-                val_iou += batch_iou
-        
-        val_loss /= len(data_loaders['val'])
-        val_dice /= len(data_loaders['val'])
-        val_iou /= len(data_loaders['val'])
-        
-        # Update learning rate scheduler
-        current_lr = optimizer.param_groups[0]['lr']
-        scheduler.step(val_loss)
-        
-        # Record epoch time
-        epoch_time = time.time() - epoch_start_time
-        
-        # Record validation metrics
-        history['epochs'].append(epoch + 1)
-        history['train_loss'].append(float(train_loss))
-        history['val_loss'].append(float(val_loss))
-        history['val_dice'].append(float(val_dice))
-        history['val_iou'].append(float(val_iou))
-        history['lr'].append(float(current_lr))
-        
-        # 保存所有训练历史到单个JSON文件
-        with open(os.path.join(unet_model_dir, 'training_history.json'), 'w') as f:
-            json.dump(history, f, indent=2)
-        
-        print(f"Epoch {epoch+1}/{args.unet_epochs}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Dice: {val_dice:.4f}, Val IoU: {val_iou:.4f}, Time: {epoch_time:.2f}s")
-        
-        # 只保存最好的模型
-        if val_dice > best_val_dice:
-            best_val_dice = val_dice
-            best_val_iou = val_iou
-            best_epoch = epoch + 1
-            patience_counter = 0
-            
-            # Update history with best values
-            history['best_epoch'] = best_epoch
-            history['best_val_dice'] = float(best_val_dice)
-            history['best_val_iou'] = float(best_val_iou)
-            
-            try:
-                # 只保存一个最佳模型
-                best_model_path = os.path.join(unet_model_dir, 'best_model.pth')
-                torch.save({
-                    'epoch': epoch + 1,
-                    'model_state_dict': model.state_dict(),
-                    'optimizer_state_dict': optimizer.state_dict(),
-                    'scheduler_state_dict': scheduler.state_dict(),
-                    'loss': val_loss,
-                    'dice': val_dice,
-                    'iou': val_iou
-                }, best_model_path)
-                
-                # Also save a copy to the standard location
-                torch.save(model.state_dict(), 'models/unet_model.pth')
-                
-                print(f"Saved new best U-Net model with validation Dice: {best_val_dice:.4f}")
-            except Exception as e:
-                print(f"Error saving best model: {str(e)}")
-        else:
-            patience_counter += 1
-        
-        # Early stopping
-        if patience_counter >= patience:
-            print(f"Early stopping at epoch {epoch+1}. No improvement for {patience} epochs.")
-            history['early_stopped'] = True
-            break
+            val_dice += batch_dice
+            val_iou += batch_iou
     
-    # Calculate total training time
-    total_training_time = time.time() - training_start_time
-    history['total_training_time'] = float(total_training_time)
+    val_dice /= len(data_loaders['val'])
+    val_iou /= len(data_loaders['val'])
     
-    # If early stopped, load the best model for return
-    if history['early_stopped'] or best_epoch < epoch + 1:
-        print(f"Loading best model from epoch {best_epoch} for final evaluation")
-        checkpoint = torch.load(os.path.join(unet_model_dir, 'best_model.pth'))
-        model.load_state_dict(checkpoint['model_state_dict'])
+    # Display training results summary
+    print(f"\n=============== Optimized U-Net training summary ===============")
+    print(f"Training epochs: {len(history['train_loss'])}/{epochs}")
+    print(f"Best model epoch: {full_history['best_epoch']}")
+    print(f"Best validation Dice: {full_history['best_val_dice']:.4f}")
+    print(f"Best validation IoU: {full_history['best_val_iou']:.4f}")
+    print(f"Final validation Dice: {val_dice:.4f}")
+    print(f"Final validation IoU: {val_iou:.4f}")
+    print(f"Early stopping: {full_history['early_stopped']}")
+    print(f"================================================\n")
     
-    # Save final training summary
-    training_summary = {
-        'model_type': 'unet',
-        'num_epochs': epoch + 1,
-        'total_epochs_possible': args.unet_epochs,
-        'early_stopped': history['early_stopped'],
-        'best_epoch': best_epoch,
-        'best_val_dice': float(best_val_dice),
-        'best_val_iou': float(best_val_iou),
-        'final_train_loss': float(train_loss),
-        'final_val_loss': float(val_loss),
-        'final_val_dice': float(val_dice),
-        'final_val_iou': float(val_iou),
-        'total_training_time': float(total_training_time),
-        'learning_rate': {
-            'initial': args.lr,
-            'final': float(current_lr)
-        },
-        'model_parameters': sum(p.numel() for p in model.parameters()),
-        'trainable_parameters': sum(p.numel() for p in model.parameters() if p.requires_grad),
-        'timestamp': timestamp
-    }
-    
-    # 更新历史记录并保存
-    history.update(training_summary)
-    with open(os.path.join(unet_model_dir, 'training_history.json'), 'w') as f:
-        json.dump(history, f, indent=2)
-    
-    # 生成训练曲线
+    # Generate training curves
     plt.figure(figsize=(15, 5))
     
     plt.subplot(1, 3, 1)
-    plt.plot(history['epochs'], history['train_loss'], label='Train Loss')
-    plt.plot(history['epochs'], history['val_loss'], label='Validation Loss')
-    plt.axvline(x=best_epoch, color='r', linestyle='--', label=f'Best Epoch: {best_epoch}')
+    plt.plot(full_history['epochs'], full_history['train_loss'], label='Train Loss')
+    plt.plot(full_history['epochs'], full_history['val_loss'], label='Validation Loss')
+    plt.axvline(x=full_history['best_epoch'], color='r', linestyle='--', label=f'Best Epoch: {full_history["best_epoch"]}')
     plt.title('Loss Curves')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
@@ -482,9 +424,9 @@ def train_unet_model(args, device, data_loaders):
     plt.grid(True, linestyle='--', alpha=0.7)
     
     plt.subplot(1, 3, 2)
-    plt.plot(history['epochs'], history['val_dice'], label='Dice')
-    plt.plot(history['epochs'], history['val_iou'], label='IoU')
-    plt.axvline(x=best_epoch, color='r', linestyle='--', label=f'Best Epoch: {best_epoch}')
+    plt.plot(full_history['epochs'], full_history['val_dice'], label='Dice')
+    plt.plot(full_history['epochs'], full_history['val_iou'], label='IoU')
+    plt.axvline(x=full_history['best_epoch'], color='r', linestyle='--', label=f'Best Epoch: {full_history["best_epoch"]}')
     plt.title('Validation Metrics')
     plt.xlabel('Epoch')
     plt.ylabel('Score')
@@ -492,23 +434,68 @@ def train_unet_model(args, device, data_loaders):
     plt.grid(True, linestyle='--', alpha=0.7)
     
     plt.subplot(1, 3, 3)
-    plt.plot(history['epochs'], history['lr'])
+    plt.plot(full_history['epochs'], full_history['lr'])
     plt.title('Learning Rate')
     plt.xlabel('Epoch')
     plt.ylabel('Learning Rate')
-    plt.yscale('log')
     plt.grid(True, linestyle='--', alpha=0.7)
     
     plt.tight_layout()
-    plt.savefig(os.path.join(unet_model_dir, 'training_curves.png'))
+    plt.savefig(os.path.join(unet_model_dir, 'unet_training_curves.png'))
     plt.close()
     
-    print(f"U-Net training completed in {total_training_time:.2f} seconds")
-    print(f"Best validation Dice: {best_val_dice:.4f} at epoch {best_epoch}")
-    print(f"Training artifacts saved to {unet_model_dir}")
+    # Only retain necessary chart code - these keys may not be present in history
+    try:
+        # Try plotting a bar chart of training time per epoch
+        if 'time_per_epoch' in history and len(history['time_per_epoch']) > 0:
+            plt.figure(figsize=(10, 5))
+            plt.bar(full_history['epochs'], history['time_per_epoch'])
+            plt.title('Training Time per Epoch')
+            plt.xlabel('Epoch')
+            plt.ylabel('Time (seconds)')
+            plt.grid(True, linestyle='--', alpha=0.7)
+            plt.tight_layout()
+            plt.savefig(os.path.join(unet_model_dir, 'unet_training_time.png'))
+            plt.close()
+        
+        # Try plotting distribution on validation set
+        if 'per_sample_dice' in history and len(history['per_sample_dice']) > 0:
+            plt.figure(figsize=(12, 5))
+            
+            plt.subplot(1, 2, 1)
+            for epoch, dices in enumerate(history['per_sample_dice']):
+                if epoch in [0, len(history['per_sample_dice'])//2, len(history['per_sample_dice'])-1]:
+                    plt.hist(dices, bins=20, alpha=0.7, label=f'Epoch {epoch+1}')
+            plt.title('Dice Score Distribution (Validation)')
+            plt.xlabel('Dice Score')
+            plt.ylabel('Count')
+            plt.legend()
+            plt.grid(True, linestyle='--', alpha=0.7)
+            
+            plt.subplot(1, 2, 2)
+            for epoch, ious in enumerate(history['per_sample_iou']):
+                if epoch in [0, len(history['per_sample_iou'])//2, len(history['per_sample_iou'])-1]:
+                    plt.hist(ious, bins=20, alpha=0.7, label=f'Epoch {epoch+1}')
+            plt.title('IoU Score Distribution (Validation)')
+            plt.xlabel('IoU Score')
+            plt.ylabel('Count')
+            plt.legend()
+            plt.grid(True, linestyle='--', alpha=0.7)
+            
+            plt.tight_layout()
+            plt.savefig(os.path.join(unet_model_dir, 'unet_score_distributions.png'))
+            plt.close()
+    except Exception as e:
+        print(f"Error plotting additional charts: {str(e)}")
     
-    # Return the trained model and history
-    return model, history
+    # Load best model for evaluation
+    print(f"Loading best U-Net model from epoch {full_history['best_epoch']} for evaluation...")
+    checkpoint = torch.load(best_model_path)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    model.eval()
+    print(f"Loaded best U-Net model, validation Dice: {checkpoint['dice']:.4f}, IoU: {checkpoint['iou']:.4f}")
+    
+    return model, full_history
 
 def train_rl_agent(args, device, data_loaders):
     """Train and evaluate the RL agent"""
@@ -550,14 +537,14 @@ def train_rl_agent(args, device, data_loaders):
 
 def train_simple_rl_agent(args, device, data_loaders):
     """Train the SimpleRL agent from simple_rl.py"""
-    from src.simple_rl import SimpleRLAgent, train_agent
+    from src.inter_rl import SimpleRLAgent, train_agent
     
     print('Training Simple RL agent...')
     
-    # 创建输出目录
+    # Create output directory
     os.makedirs(args.output_dir, exist_ok=True)
     
-    # 创建代理
+    # Create agent
     agent = SimpleRLAgent(
         n_actions=7,  # 0=Up, 1=Down, 2=Left, 3=Right, 4=Expand, 5=Shrink, 6=Done
         lr=args.lr,
@@ -565,10 +552,10 @@ def train_simple_rl_agent(args, device, data_loaders):
         device=device
     )
     
-    # 直接使用传入的args参数
+    # Use args directly
     train_agent(args)
     
-    # 返回代理
+    # Return agent
     return agent
 
 def evaluate_unet(model, test_dataset, device, save_dir=None, num_samples=50, save_visualizations=False, model_info=None):
@@ -696,7 +683,7 @@ def evaluate_unet(model, test_dataset, device, save_dir=None, num_samples=50, sa
 
 def evaluate_simple_rl(agent, test_dataset, device, max_steps=20, save_dir=None, num_samples=50, save_visualizations=False, model_info=None):
     """Evaluate the SimpleRL agent on the test dataset and save results in JSON format"""
-    from src.simple_rl import predict_mask, visualize_results
+    from src.inter_rl import predict_mask, visualize_results
     from src.utils import dice_coefficient, iou_score
     import matplotlib.pyplot as plt
     import os
@@ -733,21 +720,21 @@ def evaluate_simple_rl(agent, test_dataset, device, max_steps=20, save_dir=None,
                 # Only print for the first sample that needs resizing
                 if i == 0:
                     print(f"Resizing image from {image.shape} to {expected_shape}")
-                # Transpose to (H, W, C) for resizing if needed
-                if image.shape[0] == 3:
-                    # Already in (C, H, W) format
-                    image_for_resize = np.transpose(image, (1, 2, 0))
-                    resized_image = cv2.resize(image_for_resize, (expected_shape[2], expected_shape[1]))
-                    image = np.transpose(resized_image, (2, 0, 1))
-                else:
-                    # Assumed to be in (H, W, C) format
-                    resized_image = cv2.resize(image, (expected_shape[2], expected_shape[1]))
-                    if resized_image.ndim == 2:
-                        # If grayscale, add channel dimension
-                        resized_image = np.expand_dims(resized_image, axis=0)
-                    else:
-                        # If color, transpose to (C, H, W)
+                    # Transpose to (H, W, C) for resizing if needed
+                    if image.shape[0] == 3:
+                        # Already in (C, H, W) format
+                        image_for_resize = np.transpose(image, (1, 2, 0))
+                        resized_image = cv2.resize(image_for_resize, (expected_shape[2], expected_shape[1]))
                         image = np.transpose(resized_image, (2, 0, 1))
+                    else:
+                        # Assumed to be in (H, W, C) format
+                        resized_image = cv2.resize(image, (expected_shape[2], expected_shape[1]))
+                        if resized_image.ndim == 2:
+                            # If grayscale, add channel dimension
+                            resized_image = np.expand_dims(resized_image, axis=0)
+                        else:
+                            # If color, transpose to (C, H, W)
+                            image = np.transpose(resized_image, (2, 0, 1))
                 
                 # Also resize the mask
                 if gt_mask.shape != (1, expected_shape[1], expected_shape[2]):
@@ -757,12 +744,12 @@ def evaluate_simple_rl(agent, test_dataset, device, max_steps=20, save_dir=None,
             
             # Predict mask and time it
             start_time = time.time()
-            # 修改：移除return_steps参数，仅获取mask
+            # Modify: Remove return_steps parameter, only get mask
             pred_mask = predict_mask(agent, image, gt_mask, max_steps=max_steps)
             inference_time = time.time() - start_time
             
-            # 将max_steps设为步数，因为我们无法知道实际步数
-            num_steps = max_steps  # 注意：这将导致所有样本都使用最大步数
+            # Set max_steps as the number of steps, as we cannot know the actual number of steps
+            num_steps = max_steps  # Note: This will cause all samples to use the maximum number of steps
             
             inference_times.append(inference_time)
             steps_taken.append(num_steps)
@@ -904,7 +891,7 @@ def compare_unet_simple_rl(args, device, data_loaders):
     simple_rl_agent = train_simple_rl_agent(args, device, data_loaders)
     
     # Load the best model
-    from src.simple_rl import SimpleRLAgent
+    from src.inter_rl import SimpleRLAgent
     best_agent = SimpleRLAgent(
         n_actions=7,
         lr=args.lr,
@@ -1016,7 +1003,7 @@ def evaluate_models(args, device, data_loaders, unet_model=None, rl_agent=None):
             agent=rl_agent,
             test_dataset=data_loaders['test'].dataset,
             device=device,
-            num_episodes=50
+            num_episodes=100
         )
         
         results['rl'] = {
@@ -1045,7 +1032,7 @@ def evaluate_models(args, device, data_loaders, unet_model=None, rl_agent=None):
 
 def train_and_evaluate(args, device, data_loaders):
     """Train both U-Net and SimpleRL models, save them, and then evaluate and compare them"""
-    # 导入必要的函数
+    # Import necessary functions
     from src.unet_model import dice_coefficient, iou_score, DiceLoss
     from src.simple_rl import train_agent
     import numpy as np
@@ -1053,7 +1040,7 @@ def train_and_evaluate(args, device, data_loaders):
     
     print('Training and evaluating models...')
     
-    # 创建结果目录
+    # Create results directories
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     results_dir = f'results/comparison_{timestamp}'
     models_dir = f'models/checkpoints_{timestamp}'
@@ -1063,7 +1050,7 @@ def train_and_evaluate(args, device, data_loaders):
     os.makedirs(os.path.join(models_dir, 'simple_rl'), exist_ok=True)
     os.makedirs(os.path.join(results_dir, 'unet_data'), exist_ok=True)
     
-    # 保存训练配置
+    # Save training configuration
     with open(os.path.join(results_dir, 'training_config.txt'), 'w') as f:
         f.write(f'Training Configuration\n')
         f.write(f'======================\n\n')
@@ -1075,32 +1062,32 @@ def train_and_evaluate(args, device, data_loaders):
         f.write(f'Device: {device}\n')
         f.write(f'Timestamp: {timestamp}\n')
     
-    # 1. 训练U-Net模型并保存检查点
+    # 1. Train U-Net model and save checkpoint
     print('\n1. Training U-Net model...')
     
-    # 创建U-Net模型
+    # Create U-Net model
     unet_model = UNet(n_channels=3, n_classes=1, bilinear=True)
     unet_model = unet_model.to(device)
     
-    # 创建U-Net优化器
+    # Create U-Net optimizer
     optimizer = torch.optim.AdamW(unet_model.parameters(), lr=args.lr, weight_decay=1e-4)
     
-    # 使用组合损失函数：BCE + Dice Loss
+    # Use combined loss function: BCE + Dice Loss
     bce_criterion = nn.BCELoss()
     dice_criterion = DiceLoss()
     
-    # 创建学习率调度器
+    # Create learning rate scheduler
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode='min', patience=5, factor=0.5, min_lr=1e-6, verbose=True
     )
     
-    # 用于早停和保存最佳模型
+    # For early stopping and saving best model
     best_val_dice = 0.0
     best_epoch = 0
-    patience = 15  # 早停耐心值
+    patience = 15  # Early stopping patience value
     patience_counter = 0
     
-    # 训练历史记录
+    # Training history record
     history = {
         'train_loss': [],
         'val_loss': [],
@@ -1109,44 +1096,44 @@ def train_and_evaluate(args, device, data_loaders):
         'lr': [],
         'epochs': [],
         'time_per_epoch': [],
-        'batch_losses': [],  # 记录每个批次的损失
-        'per_sample_dice': [],  # 每个样本的Dice分数
-        'per_sample_iou': []    # 每个样本的IoU分数
+        'batch_losses': [],  # Record losses for each batch
+        'per_sample_dice': [],  # Dice score for each sample
+        'per_sample_iou': []    # IoU score for each sample
     }
     
     for epoch in range(args.unet_epochs):
         epoch_start_time = time.time()
         
-        # 训练阶段
+        # Training phase
         unet_model.train()
         train_loss = 0
         batch_losses = []
         
         for batch_idx, batch in enumerate(data_loaders['train']):
-            # 获取图像和掩码
+            # Get images and masks
             images = batch['image'].to(device)
             masks = batch['mask'].to(device)
             
-            # 正向传播
+            # Forward pass
             outputs = unet_model(images)
             
-            # 计算损失 - 组合BCE和Dice Loss
+            # Calculate loss - combined BCE and Dice Loss
             bce_loss = bce_criterion(outputs, masks)
             dice_loss = dice_criterion(outputs, masks)
             loss = bce_loss + dice_loss
             
-            # 记录每个批次的损失
+            # Record loss for each batch
             batch_losses.append(loss.item())
             
-            # 反向传播和优化
+            # Backward pass and optimization
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(unet_model.parameters(), max_norm=1.0)  # 梯度裁剪
+            torch.nn.utils.clip_grad_norm_(unet_model.parameters(), max_norm=1.0)  # Gradient clipping
             optimizer.step()
             
             train_loss += loss.item()
             
-            # 每10个批次打印一次进度
+            # Print progress every 10 batches
             if batch_idx % 10 == 0:
                 print(f"Epoch {epoch+1}/{args.unet_epochs} | Batch {batch_idx}/{len(data_loaders['train'])} | Loss: {loss.item():.4f}")
         
@@ -1154,7 +1141,7 @@ def train_and_evaluate(args, device, data_loaders):
         history['train_loss'].append(train_loss)
         history['batch_losses'].append(batch_losses)
         
-        # 验证阶段
+        # Validation phase
         unet_model.eval()
         val_loss = 0
         val_dice = 0
@@ -1164,23 +1151,23 @@ def train_and_evaluate(args, device, data_loaders):
         
         with torch.no_grad():
             for batch_idx, batch in enumerate(data_loaders['val']):
-                # 获取图像和掩码
+                # Get images and masks
                 images = batch['image'].to(device)
                 masks = batch['mask'].to(device)
                 
-                # 正向传播
+                # Forward pass
                 outputs = unet_model(images)
                 
-                # 计算损失
+                # Calculate loss
                 bce_loss = bce_criterion(outputs, masks)
                 dice_loss = dice_criterion(outputs, masks)
                 loss = bce_loss + dice_loss
                 val_loss += loss.item()
                 
-                # 生成二值掩码预测，注意阈值是0.5
+                # Generate binary mask predictions, note threshold is 0.5
                 pred_masks = (outputs > 0.5).float()
                 
-                # 逐样本计算指标
+                # Calculate metrics per sample
                 for i in range(pred_masks.size(0)):
                     sample_dice = dice_coefficient(pred_masks[i:i+1], masks[i:i+1]).item()
                     sample_iou = iou_score(pred_masks[i:i+1], masks[i:i+1]).item()
@@ -1188,7 +1175,7 @@ def train_and_evaluate(args, device, data_loaders):
                     epoch_per_sample_dice.append(sample_dice)
                     epoch_per_sample_iou.append(sample_iou)
                 
-                # 计算批次级指标
+                # Calculate batch-level metrics
                 batch_dice = dice_coefficient(pred_masks, masks).item()
                 batch_iou = iou_score(pred_masks, masks).item()
                 
@@ -1199,14 +1186,14 @@ def train_and_evaluate(args, device, data_loaders):
         val_dice /= len(data_loaders['val'])
         val_iou /= len(data_loaders['val'])
         
-        # 更新学习率调度器
+        # Update learning rate scheduler
         current_lr = optimizer.param_groups[0]['lr']
         scheduler.step(val_loss)
         
-        # 记录每个epoch的训练时间
+        # Record training time for each epoch
         epoch_time = time.time() - epoch_start_time
         
-        # 记录验证指标
+        # Record validation metrics
         history['val_loss'].append(val_loss)
         history['val_dice'].append(val_dice)
         history['val_iou'].append(val_iou)
@@ -1218,7 +1205,7 @@ def train_and_evaluate(args, device, data_loaders):
         
         print(f"Epoch {epoch+1}/{args.unet_epochs}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Dice: {val_dice:.4f}, Val IoU: {val_iou:.4f}, Time: {epoch_time:.2f}s")
         
-        # 保存每个epoch的训练数据
+        # Save training data for each epoch
         epoch_data = {
             'epoch': epoch + 1,
             'train_loss': train_loss,
@@ -1232,13 +1219,13 @@ def train_and_evaluate(args, device, data_loaders):
             'per_sample_iou': epoch_per_sample_iou
         }
         
-        # 保存每个epoch的详细数据
+        # Save detailed data for each epoch
         with open(os.path.join(results_dir, 'unet_data', f'epoch_{epoch+1}_data.pkl'), 'wb') as f:
             pickle.dump(epoch_data, f)
         
-        # 可视化当前epoch的验证结果
+        # Visualize validation results for the current epoch
         if args.save_visualizations:
-            # 随机选择几个验证样本进行可视化
+            # Randomly select a few validation samples for visualization
             with torch.no_grad():
                 sample_indices = np.random.randint(0, len(data_loaders['val'].dataset), 3)
                 
@@ -1250,11 +1237,11 @@ def train_and_evaluate(args, device, data_loaders):
                     output = unet_model(image)
                     pred_mask = (output > 0.5).float()
                     
-                    # 计算指标
+                    # Calculate metrics
                     sample_dice = dice_coefficient(pred_mask, gt_mask).item()
                     sample_iou = iou_score(pred_mask, gt_mask).item()
                     
-                    # 转换为numpy
+                    # Convert to numpy
                     image_np = image.squeeze().cpu().numpy().transpose(1, 2, 0)
                     gt_mask_np = gt_mask.squeeze().cpu().numpy()
                     pred_mask_np = pred_mask.squeeze().cpu().numpy()
@@ -1281,16 +1268,16 @@ def train_and_evaluate(args, device, data_loaders):
                     plt.savefig(os.path.join(results_dir, 'unet_data', f'epoch_{epoch+1}_viz', f'sample_{i+1}.png'))
                     plt.close()
         
-        # 保存最佳模型，使用try-except块防止磁盘空间不足
+        # Save best model, use try-except block to handle potential disk space issues
         if val_dice > best_val_dice:
             best_val_dice = val_dice
             best_epoch = epoch + 1
             patience_counter = 0
             best_model_path = os.path.join(models_dir, 'unet', 'unet_best_model.pth')
             
-            # 使用try-except块保存最佳模型
+            # Use try-except block to save best model
             try:
-                # 保存最佳模型
+                # Save best model
                 torch.save({
                     'epoch': epoch + 1,
                     'model_state_dict': unet_model.state_dict(),
@@ -1301,314 +1288,340 @@ def train_and_evaluate(args, device, data_loaders):
                     'iou': val_iou
                 }, best_model_path)
                 
-                print(f"保存新的最佳U-Net模型，验证Dice分数: {best_val_dice:.4f}")
+                print(f"Saved new best U-Net model, validation Dice score: {best_val_dice:.4f}")
             except Exception as e:
-                print(f"保存最佳模型时出错: {str(e)}，跳过保存继续训练")
+                print(f"Error saving best model: {str(e)}, skipping save and continuing training")
         else:
             patience_counter += 1
             
-        # 早停
+        # Early stopping
         if patience_counter >= patience:
-            print(f"早停在第{epoch+1}轮。{patience}轮内没有改进。")
+            print(f"Early stopping at epoch {epoch+1}. No improvement for {patience} epochs.")
             break
     
-    # 保存最终模型，使用try-except块
-    try:
-        final_model_path = os.path.join(models_dir, 'unet', 'unet_final_model.pth')
-        torch.save({
-            'epoch': epoch + 1,
-            'model_state_dict': unet_model.state_dict(),
-            'optimizer_state_dict': optimizer.state_dict(),
-            'scheduler_state_dict': scheduler.state_dict(),
-            'loss': val_loss,
-            'dice': val_dice,
-            'iou': val_iou
-        }, final_model_path)
-    except Exception as e:
-        print(f"保存最终模型时出错: {str(e)}，使用最佳模型继续")
+    # Save U-Net model and training history
+    print(f"U-Net training completed. Best validation Dice score: {best_val_dice:.4f} at epoch {best_epoch}")
     
-    # 保存完整的训练历史记录
+    # Save final model
+    final_model_path = os.path.join(models_dir, 'unet', 'unet_final_model.pth')
+    torch.save({
+        'epoch': args.unet_epochs,
+        'model_state_dict': unet_model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'scheduler_state_dict': scheduler.state_dict(),
+        'val_dice': val_dice,
+        'val_iou': val_iou
+    }, final_model_path)
+    
+    # Save training history
     with open(os.path.join(results_dir, 'unet_training_history.pkl'), 'wb') as f:
         pickle.dump(history, f)
     
-    # 生成更多的训练可视化图表
+    # Visualize training statistics
+    plt.figure(figsize=(20, 10))
     
-    # 1. 损失与准确率曲线
-    plt.figure(figsize=(15, 5))
-    
-    plt.subplot(1, 3, 1)
+    # Plot loss
+    plt.subplot(2, 3, 1)
     plt.plot(history['epochs'], history['train_loss'], label='Train Loss')
-    plt.plot(history['epochs'], history['val_loss'], label='Validation Loss')
-    plt.axvline(x=best_epoch, color='r', linestyle='--', label=f'Best Epoch: {best_epoch}')
-    plt.title('Loss Curves')
+    plt.plot(history['epochs'], history['val_loss'], label='Val Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
+    plt.title('U-Net Loss')
     plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.grid(True)
     
-    plt.subplot(1, 3, 2)
-    plt.plot(history['epochs'], history['val_dice'], label='Dice')
-    plt.plot(history['epochs'], history['val_iou'], label='IoU')
-    plt.axvline(x=best_epoch, color='r', linestyle='--', label=f'Best Epoch: {best_epoch}')
-    plt.title('Validation Metrics')
+    # Plot Dice coefficient
+    plt.subplot(2, 3, 2)
+    plt.plot(history['epochs'], history['val_dice'], label='Validation Dice', color='g')
+    plt.axhline(y=best_val_dice, color='g', linestyle='--', label=f'Best Dice: {best_val_dice:.4f}')
     plt.xlabel('Epoch')
-    plt.ylabel('Score')
+    plt.ylabel('Dice Coefficient')
+    plt.title('U-Net Dice Coefficient')
     plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.grid(True)
     
-    plt.subplot(1, 3, 3)
-    plt.plot(history['epochs'], history['lr'])
-    plt.title('Learning Rate')
+    # Plot IoU
+    plt.subplot(2, 3, 3)
+    plt.plot(history['epochs'], history['val_iou'], label='Validation IoU', color='r')
     plt.xlabel('Epoch')
-    plt.ylabel('Learning Rate')
-    plt.yscale('log')
-    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.ylabel('IoU Score')
+    plt.title('U-Net IoU Score')
+    plt.legend()
+    plt.grid(True)
     
-    plt.tight_layout()
-    plt.savefig(os.path.join(results_dir, 'unet_training_curves.png'))
-    plt.close()
+    # Plot learning rate
+    plt.subplot(2, 3, 4)
+    plt.semilogy(history['epochs'], history['lr'], label='Learning Rate', color='c')
+    plt.xlabel('Epoch')
+    plt.ylabel('Learning Rate (log scale)')
+    plt.title('U-Net Learning Rate')
+    plt.legend()
+    plt.grid(True)
     
-    # 2. 每个epoch的训练时间条形图
-    plt.figure(figsize=(10, 5))
-    plt.bar(history['epochs'], history['time_per_epoch'])
-    plt.title('Training Time per Epoch')
+    # Plot average time per epoch
+    plt.subplot(2, 3, 5)
+    plt.plot(history['epochs'], history['time_per_epoch'], label='Time per Epoch', color='m')
     plt.xlabel('Epoch')
     plt.ylabel('Time (seconds)')
-    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.title('U-Net Time per Epoch')
+    plt.legend()
+    plt.grid(True)
+    
     plt.tight_layout()
-    plt.savefig(os.path.join(results_dir, 'unet_training_time.png'))
+    plt.savefig(os.path.join(results_dir, 'unet_training_stats.png'))
     plt.close()
-    
-    # 3. 验证集上的分布图
-    if len(history['per_sample_dice']) > 0:
-        plt.figure(figsize=(12, 5))
-        
-        plt.subplot(1, 2, 1)
-        for epoch, dices in enumerate(history['per_sample_dice']):
-            if epoch in [0, len(history['per_sample_dice'])//2, len(history['per_sample_dice'])-1]:
-                plt.hist(dices, bins=20, alpha=0.7, label=f'Epoch {epoch+1}')
-        plt.title('Dice Score Distribution (Validation)')
-        plt.xlabel('Dice Score')
-        plt.ylabel('Count')
-        plt.legend()
-        plt.grid(True, linestyle='--', alpha=0.7)
-        
-        plt.subplot(1, 2, 2)
-        for epoch, ious in enumerate(history['per_sample_iou']):
-            if epoch in [0, len(history['per_sample_iou'])//2, len(history['per_sample_iou'])-1]:
-                plt.hist(ious, bins=20, alpha=0.7, label=f'Epoch {epoch+1}')
-        plt.title('IoU Score Distribution (Validation)')
-        plt.xlabel('IoU Score')
-        plt.ylabel('Count')
-        plt.legend()
-        plt.grid(True, linestyle='--', alpha=0.7)
-        
-        plt.tight_layout()
-        plt.savefig(os.path.join(results_dir, 'unet_score_distributions.png'))
-        plt.close()
-    
-    # 加载最佳模型用于评估
-    print(f"从第{best_epoch}轮加载最佳U-Net模型进行评估...")
-    checkpoint = torch.load(best_model_path)
-    unet_model.load_state_dict(checkpoint['model_state_dict'])
-    unet_model.eval()
-    print(f"加载了最佳U-Net模型，验证Dice: {checkpoint['dice']:.4f}, IoU: {checkpoint['iou']:.4f}")
     
     # 2. 训练SimpleRL模型
     print('\n2. Training SimpleRL model...')
-    # 设置SimpleRL训练参数
-    simple_rl_args = argparse.Namespace(
-        data_dir=args.data_dir,
-        output_dir=os.path.join(models_dir, 'simple_rl'),
-        lr=args.lr,
-        gamma=0.99,
-        num_episodes=args.simple_rl_episodes,
+    
+    # Create a new SimpleRL agent
+    from src.inter_rl import SimpleRLAgent
+    
+    # Start training
+    agent, simple_rl_history = train_agent(
+        data_loaders['train'],
+        data_loaders['val'],
+        device=device,
+        epochs=args.simple_rl_episodes,
         max_steps=args.max_steps,
+        save_dir=os.path.join(models_dir, 'simple_rl'),
+        results_dir=os.path.join(results_dir, 'simple_rl_data'),
+        lr=args.lr,
         batch_size=args.batch_size,
-        update_interval=5,
-        log_interval=5,
-        eval_interval=args.eval_interval,
-        num_eval_episodes=args.num_eval_episodes,
-        save_interval=10,
-        device=device,
-        seed=42
+        save_interval=max(1, args.simple_rl_episodes // 10),
+        visualize=args.save_visualizations
     )
     
-    # 直接调用simple_rl.py中的train_agent函数
-    # 记录训练过程中的最佳性能
-    train_start_time = time.time()
-    simple_rl_training_results = train_agent(simple_rl_args)
-    train_time = time.time() - train_start_time
+    # Save final SimpleRL model
+    agent.save(os.path.join(models_dir, 'simple_rl', 'simple_rl_final.pth'))
     
-    # 提取最佳验证性能（如果train_agent返回此信息）
-    if isinstance(simple_rl_training_results, dict) and 'best_val_dice' in simple_rl_training_results:
-        simple_rl_best_val_dice = simple_rl_training_results['best_val_dice']
-        simple_rl_best_val_iou = simple_rl_training_results.get('best_val_iou', 0)
-        simple_rl_best_episode = simple_rl_training_results.get('best_episode', 0)
-        print(f'SimpleRL训练完成：最佳验证Dice={simple_rl_best_val_dice:.4f}, IoU={simple_rl_best_val_iou:.4f} at Episode {simple_rl_best_episode}')
-    else:
-        print('SimpleRL模型训练完成，但未返回最佳验证性能信息')
+    # Save model training history
+    with open(os.path.join(results_dir, 'simple_rl_training_history.pkl'), 'wb') as f:
+        pickle.dump(simple_rl_history, f)
     
-    print(f'SimpleRL模型训练用时：{train_time:.2f}秒')
+    # 3. Compare U-Net vs SimpleRL on test set
+    print('\n3. Comparing U-Net vs SimpleRL on test dataset...')
     
-    # 3. 加载模型进行评估
-    print('\n3. Loading models for evaluation...')
+    # Evaluate both models on test set
+    from src.unet_model import evaluate_unet
+    from src.inter_rl import evaluate_simple_rl
     
-    # U-Net模型已加载为最佳模型
+    # Test dataset for evaluation
+    test_dataset = data_loaders['test'].dataset
     
-    # 加载SimpleRL最佳模型
-    simple_rl_agent = None
-    from src.simple_rl import SimpleRLAgent
-    try:
-        print(f"正在加载SimpleRL最佳模型...")
-        best_rl_path = os.path.join(models_dir, 'simple_rl', 'best_model.pth')
-        
-        # 检查最佳模型文件是否存在
-        if os.path.isfile(best_rl_path):
-            simple_rl_agent = SimpleRLAgent(
-                n_actions=7,
-                lr=args.lr,
-                gamma=0.99,
-                device=device
-            )
-            simple_rl_agent.load(best_rl_path)
-            print('成功加载SimpleRL最佳模型')
-            
-            # 保存模型信息
-            if isinstance(simple_rl_training_results, dict) and 'best_val_dice' in simple_rl_training_results:
-                with open(os.path.join(results_dir, 'simple_rl_best_model_info.txt'), 'w') as f:
-                    f.write(f'SimpleRL最佳模型信息\n')
-                    f.write(f'===================\n\n')
-                    f.write(f'Episode: {simple_rl_best_episode}\n')
-                    f.write(f'验证Dice: {simple_rl_best_val_dice:.4f}\n')
-                    f.write(f'验证IoU: {simple_rl_best_val_iou:.4f}\n')
-                    f.write(f'模型路径: {best_rl_path}\n')
-        else:
-            print(f"警告：最佳模型文件不存在 ({best_rl_path})，尝试加载最终模型...")
-            final_rl_path = os.path.join(models_dir, 'simple_rl', 'final_model.pth')
-            if os.path.isfile(final_rl_path):
-                simple_rl_agent = SimpleRLAgent(
-                    n_actions=7,
-                    lr=args.lr,
-                    gamma=0.99,
-                    device=device
-                )
-                simple_rl_agent.load(final_rl_path)
-                print('成功加载SimpleRL最终模型')
-            else:
-                print(f"错误：最终模型文件也不存在 ({final_rl_path})")
-                raise FileNotFoundError("找不到SimpleRL模型文件")
-    except Exception as e:
-        print(f'加载SimpleRL模型时出错: {str(e)}')
-        print('SimpleRL模型无法加载，将跳过评估')
+    # Initialize evaluation results dictionary
+    eval_results = {
+        'unet': {
+            'dice': [],
+            'iou': [],
+            'inference_time': [],
+            'sample_indices': []
+        },
+        'simple_rl': {
+            'dice': [],
+            'iou': [],
+            'inference_time': [],
+            'steps_taken': [],
+            'sample_indices': []
+        }
+    }
     
-    # 4. 评估模型
-    print('\n4. Evaluating models...')
-    evaluation_results = {}
+    # 4. Evaluate models
+    print('\n4. Evaluating models on test set...')
     
-    # 评估U-Net
-    print('Evaluating U-Net...')
-    unet_results = evaluate_unet(
-        model=unet_model,
-        test_dataset=data_loaders['test'].dataset,
-        device=device,
-        save_dir=results_dir,
-        num_samples=args.eval_samples,
-        save_visualizations=args.save_visualizations
-    )
-    evaluation_results['unet'] = unet_results
+    # Set random seed for reproducibility
+    np.random.seed(42)
     
-    # 评估SimpleRL（如果可用）
-    if simple_rl_agent:
-        print('Evaluating SimpleRL...')
-        # 在评估时使用与训练相同的max_steps参数
-        simple_rl_results = evaluate_simple_rl(
-            agent=simple_rl_agent,
-            test_dataset=data_loaders['test'].dataset,
-            device=device,
-            max_steps=args.max_steps,
-            save_dir=results_dir,
-            num_samples=args.eval_samples,
-            save_visualizations=args.save_visualizations
+    # Randomly select test samples for evaluation
+    num_samples = min(args.num_eval_samples, len(test_dataset))
+    sample_indices = np.random.choice(range(len(test_dataset)), num_samples, replace=False)
+    
+    # Create results visualization directory
+    viz_dir = os.path.join(results_dir, 'comparison_viz')
+    os.makedirs(viz_dir, exist_ok=True)
+    
+    # If U-Net model is available
+    if unet_model is not None:
+        print("Evaluating U-Net model...")
+        # Evaluate on test set
+        unet_results = evaluate_unet(
+            unet_model, 
+            test_dataset, 
+            sample_indices, 
+            device,
+            viz_dir=viz_dir if args.save_visualizations else None
         )
-        evaluation_results['simple_rl'] = simple_rl_results
-        
-        # 将训练验证集上的最佳性能也添加到评估结果中
-        if isinstance(simple_rl_training_results, dict) and 'best_val_dice' in simple_rl_training_results:
-            simple_rl_results['best_val_dice'] = simple_rl_training_results['best_val_dice']
-            simple_rl_results['best_val_iou'] = simple_rl_training_results.get('best_val_iou', 0)
-            simple_rl_results['best_episode'] = simple_rl_training_results.get('best_episode', 0)
+        # Add results to evaluation dictionary
+        eval_results['unet'] = unet_results
     
-    # 5. 对比结果
-    if 'unet' in evaluation_results and 'simple_rl' in evaluation_results:
-        print('\n5. Comparison of results:')
-        print(f'                U-Net      SimpleRL')
-        print(f'Dice:           {evaluation_results["unet"]["mean_dice"]:.4f}      {evaluation_results["simple_rl"]["mean_dice"]:.4f}')
-        print(f'IoU:            {evaluation_results["unet"]["mean_iou"]:.4f}      {evaluation_results["simple_rl"]["mean_iou"]:.4f}')
+    # If SimpleRL model is available
+    if agent is not None:
+        print("Evaluating SimpleRL model...")
+        # Evaluate on test set
+        simple_rl_results = evaluate_simple_rl(
+            agent, 
+            test_dataset, 
+            sample_indices, 
+            device,
+            max_steps=args.max_steps,
+            viz_dir=viz_dir if args.save_visualizations else None
+        )
+        # Add results to evaluation dictionary
+        eval_results['simple_rl'] = simple_rl_results
         
-        # 如果有训练验证集上的最佳性能，也打印出来
-        if 'best_val_dice' in evaluation_results['simple_rl']:
-            print(f'\nSimpleRL在验证集上的最佳性能（第{evaluation_results["simple_rl"]["best_episode"]}轮）:')
-            print(f'验证Dice: {evaluation_results["simple_rl"]["best_val_dice"]:.4f}')
-            print(f'验证IoU: {evaluation_results["simple_rl"]["best_val_iou"]:.4f}')
+        # Add training validation results to evaluation results
+        if isinstance(simple_rl_history, dict) and 'best_val_dice' in simple_rl_history:
+            simple_rl_results['best_val_dice'] = simple_rl_history['best_val_dice']
+            simple_rl_results['best_val_iou'] = simple_rl_history.get('best_val_iou', 0)
+            simple_rl_results['best_episode'] = simple_rl_history.get('best_episode', 0)
+    
+    # 5. Compare results
+    print('\n5. Comparing model results...')
+    
+    # Create comparison report
+    with open(os.path.join(results_dir, 'comparison_report.txt'), 'w') as f:
+        f.write('Model Comparison Report\n')
+        f.write('=====================\n\n')
         
-        # 保存对比结果到文件
-        with open(os.path.join(results_dir, 'model_comparison.txt'), 'w') as f:
-            f.write(f'Model Comparison\n')
-            f.write(f'===============\n\n')
-            f.write(f'                U-Net      SimpleRL\n')
-            f.write(f'Dice:           {evaluation_results["unet"]["mean_dice"]:.4f}      {evaluation_results["simple_rl"]["mean_dice"]:.4f}\n')
-            f.write(f'IoU:            {evaluation_results["unet"]["mean_iou"]:.4f}      {evaluation_results["simple_rl"]["mean_iou"]:.4f}\n')
+        # U-Net results
+        f.write('U-Net Results\n')
+        f.write('-----------\n')
+        if 'mean_dice' in eval_results['unet']:
+            f.write(f"Dice Coefficient: {eval_results['unet']['mean_dice']:.4f} (±{eval_results['unet']['std_dice']:.4f})\n")
+            f.write(f"IoU Score: {eval_results['unet']['mean_iou']:.4f} (±{eval_results['unet']['std_iou']:.4f})\n")
+            f.write(f"Average Inference Time: {eval_results['unet']['mean_inference_time']:.4f} seconds\n")
+            f.write(f"Best Validation Dice: {best_val_dice:.4f} (Epoch {best_epoch})\n")
+        else:
+            f.write('No U-Net evaluation results available\n')
+        
+        f.write('\n')
+        
+        # SimpleRL results
+        f.write('SimpleRL Results\n')
+        f.write('---------------\n')
+        if 'mean_dice' in eval_results['simple_rl']:
+            f.write(f"Dice Coefficient: {eval_results['simple_rl']['mean_dice']:.4f} (±{eval_results['simple_rl']['std_dice']:.4f})\n")
+            f.write(f"IoU Score: {eval_results['simple_rl']['mean_iou']:.4f} (±{eval_results['simple_rl']['std_iou']:.4f})\n")
+            f.write(f"Average Inference Time: {eval_results['simple_rl']['mean_inference_time']:.4f} seconds\n")
+            f.write(f"Average Steps Taken: {eval_results['simple_rl']['mean_steps_taken']:.2f} (±{eval_results['simple_rl']['std_steps_taken']:.2f})\n")
+            if 'best_val_dice' in eval_results['simple_rl']:
+                f.write(f"Best Validation Dice: {eval_results['simple_rl']['best_val_dice']:.4f} (Episode {eval_results['simple_rl']['best_episode']})\n")
+        else:
+            f.write('No SimpleRL evaluation results available\n')
+        
+        f.write('\n')
+        
+        # Comparison
+        f.write('Comparison\n')
+        f.write('----------\n')
+        if 'mean_dice' in eval_results['unet'] and 'mean_dice' in eval_results['simple_rl']:
+            # Dice comparison
+            dice_diff = eval_results['simple_rl']['mean_dice'] - eval_results['unet']['mean_dice']
+            dice_relative = dice_diff / eval_results['unet']['mean_dice'] * 100
+            f.write(f"Dice Difference: {dice_diff:.4f} ({dice_relative:+.2f}%)\n")
             
-            # 添加训练验证集上的最佳性能
-            if 'best_val_dice' in evaluation_results['simple_rl']:
-                f.write(f'\nSimpleRL在验证集上的最佳性能（第{evaluation_results["simple_rl"]["best_episode"]}轮）:\n')
-                f.write(f'验证Dice: {evaluation_results["simple_rl"]["best_val_dice"]:.4f}\n')
-                f.write(f'验证IoU: {evaluation_results["simple_rl"]["best_val_iou"]:.4f}\n')
+            # IoU comparison
+            iou_diff = eval_results['simple_rl']['mean_iou'] - eval_results['unet']['mean_iou']
+            iou_relative = iou_diff / eval_results['unet']['mean_iou'] * 100
+            f.write(f"IoU Difference: {iou_diff:.4f} ({iou_relative:+.2f}%)\n")
             
-        # 生成对比图
-        plt.figure(figsize=(8, 6))
+            # Time comparison
+            time_diff = eval_results['simple_rl']['mean_inference_time'] - eval_results['unet']['mean_inference_time']
+            time_relative = time_diff / eval_results['unet']['mean_inference_time'] * 100
+            f.write(f"Inference Time Difference: {time_diff:.4f} seconds ({time_relative:+.2f}%)\n")
+            
+            # Overall assessment
+            f.write('\nOverall Assessment:\n')
+            if dice_diff > 0:
+                f.write(f"SimpleRL outperforms U-Net in segmentation quality by {dice_relative:.2f}%\n")
+            else:
+                f.write(f"U-Net outperforms SimpleRL in segmentation quality by {-dice_relative:.2f}%\n")
+                
+            if time_diff < 0:
+                f.write(f"SimpleRL is faster than U-Net by {-time_relative:.2f}%\n")
+            else:
+                f.write(f"U-Net is faster than SimpleRL by {time_relative:.2f}%\n")
+        else:
+            f.write('Cannot compare models: incomplete evaluation results\n')
+    
+    # Save all evaluation results
+    with open(os.path.join(results_dir, 'evaluation_results.pkl'), 'wb') as f:
+        pickle.dump(eval_results, f)
+    
+    # Create visualization if requested
+    if args.save_visualizations and 'mean_dice' in eval_results['unet'] and 'mean_dice' in eval_results['simple_rl']:
+        print("Creating comparison visualizations...")
+        
+        # Plot Dice and IoU comparison
+        plt.figure(figsize=(12, 5))
+        
+        # Plot Dice comparison
+        plt.subplot(1, 2, 1)
         models = ['U-Net', 'SimpleRL']
-        dice_scores = [evaluation_results['unet']['mean_dice'], evaluation_results['simple_rl']['mean_dice']]
-        iou_scores = [evaluation_results['unet']['mean_iou'], evaluation_results['simple_rl']['mean_iou']]
-        
-        # 添加SimpleRL验证集上的最佳性能
-        if 'best_val_dice' in evaluation_results['simple_rl']:
-            models.append('SimpleRL\n(验证集最佳)')
-            dice_scores.append(evaluation_results['simple_rl']['best_val_dice'])
-            iou_scores.append(evaluation_results['simple_rl']['best_val_iou'])
+        dice_values = [eval_results['unet']['mean_dice'], eval_results['simple_rl']['mean_dice']]
+        dice_error = [eval_results['unet']['std_dice'], eval_results['simple_rl']['std_dice']]
         
         x = np.arange(len(models))
         width = 0.35
         
-        fig, ax = plt.subplots(figsize=(12, 6))
-        rects1 = ax.bar(x - width/2, dice_scores, width, yerr=dice_stds, label='Dice', capsize=10)
-        rects2 = ax.bar(x + width/2, iou_scores, width, yerr=iou_stds, label='IoU', capsize=10)
+        plt.bar(x, dice_values, width, yerr=dice_error, capsize=10, label='Dice Coefficient')
+        plt.ylabel('Dice Coefficient')
+        plt.title('Dice Coefficient Comparison')
+        plt.xticks(x, models)
+        plt.grid(True, linestyle='--', alpha=0.7)
         
-        ax.set_ylabel('Score')
-        ax.set_title('Segmentation Performance Comparison')
-        ax.set_xticks(x)
-        ax.set_xticklabels(models)
-        ax.legend()
+        # Plot IoU comparison
+        plt.subplot(1, 2, 2)
+        iou_values = [eval_results['unet']['mean_iou'], eval_results['simple_rl']['mean_iou']]
+        iou_error = [eval_results['unet']['std_iou'], eval_results['simple_rl']['std_iou']]
         
-        # 添加数值标签
-        def autolabel(rects):
-            for rect in rects:
-                height = rect.get_height()
-                ax.annotate(f'{height:.4f}',
-                            xy=(rect.get_x() + rect.get_width()/2, height),
-                            xytext=(0, 3),
-                            textcoords="offset points",
-                            ha='center', va='bottom')
+        plt.bar(x, iou_values, width, yerr=iou_error, capsize=10, label='IoU Score')
+        plt.ylabel('IoU Score')
+        plt.title('IoU Score Comparison')
+        plt.xticks(x, models)
+        plt.grid(True, linestyle='--', alpha=0.7)
         
-        autolabel(rects1)
-        autolabel(rects2)
+        plt.tight_layout()
+        plt.savefig(os.path.join(results_dir, 'metrics_comparison.png'))
+        plt.close()
         
-        fig.tight_layout()
+        # Plot inference time and steps for SimpleRL
+        plt.figure(figsize=(12, 5))
+        
+        # Plot inference time comparison
+        plt.subplot(1, 2, 1)
+        time_values = [eval_results['unet']['mean_inference_time'], eval_results['simple_rl']['mean_inference_time']]
+        time_error = [eval_results['unet']['std_inference_time'], eval_results['simple_rl']['std_inference_time']]
+        
+        plt.bar(x, time_values, width, yerr=time_error, capsize=10, label='Inference Time')
+        plt.ylabel('Time (seconds)')
+        plt.title('Inference Time Comparison')
+        plt.xticks(x, models)
+        plt.grid(True, linestyle='--', alpha=0.7)
+        
+        # Plot steps for SimpleRL
+        plt.subplot(1, 2, 2)
+        plt.hist(eval_results['simple_rl']['steps_taken'], bins=20, alpha=0.7)
+        plt.axvline(
+            x=eval_results['simple_rl']['mean_steps_taken'], 
+            color='r', 
+            linestyle='--', 
+            label=f"Mean: {eval_results['simple_rl']['mean_steps_taken']:.2f}"
+        )
+        plt.xlabel('Steps')
+        plt.ylabel('Frequency')
+        plt.title('SimpleRL Steps Distribution')
+        plt.legend()
+        plt.grid(True, linestyle='--', alpha=0.7)
+        
+        plt.tight_layout()
         plt.savefig(os.path.join(results_dir, 'performance_comparison.png'))
         plt.close()
     
-    return evaluation_results, models_dir, results_dir
+    print(f"\nTraining and evaluation completed. Results saved in {results_dir}")
+    
+    # Return evaluation results for further analysis if needed
+    return eval_results
 
 def main():
     """Main function"""
@@ -1752,7 +1765,7 @@ def main():
         )
         
         # Train SimpleRL agent
-        from src.simple_rl import train_agent, SimpleRLAgent
+        from src.inter_rl import train_agent, SimpleRLAgent
         
         training_results = train_agent(simple_rl_args)
         
@@ -1824,7 +1837,7 @@ def main():
         
         # Try to load SimpleRL model
         try:
-            from src.simple_rl import SimpleRLAgent
+            from src.inter_rl import SimpleRLAgent
             
             simple_rl_agent = SimpleRLAgent(
                 n_actions=7,
