@@ -67,7 +67,7 @@ The dataset was split using a fixed random seed (42) for reproducibility:
 │   ├── unet_model.py        # U-Net model implementation
 │   ├── rl_agent.py          # Simple PPO agent implementation (Note: Used SimpleRLAgent in final run)
 │   ├── rl_environment.py    # RL environment implementation (Note: Used SimpleRL environment logic)
-│   ├── simple_rl.py         # Interactive RL (SimpleRLAgent) implementation
+│   ├── inter_rl.py         # Interactive RL (SimpleRLAgent) implementation
 │   ├── train_rl.py          # PPO training functions (Note: Not used for final SimpleRL run)
 │   └── utils.py             # Utility functions
 ├── academic_figures/        # Generated visualizations for analysis
