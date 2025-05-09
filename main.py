@@ -13,6 +13,7 @@ import time
 import pickle
 import json
 from sklearn.model_selection import train_test_split
+from torch.utils.data import Dataset, DataLoader, Subset
 
 # Add the src directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -24,6 +25,37 @@ from src.rl_environment import PolypSegmentationEnv, PolypFeatureExtractor
 from src.rl_agent import PPOAgent
 from src.inter_rl import train_agent, SimpleRLAgent
 from src.inter_rl import predict_mask, visualize_results
+
+# Create a custom dataset class that accepts image and mask file paths
+class CustomPolypDataset(Dataset):
+    def __init__(self, image_paths, mask_paths):
+        self.image_paths = image_paths
+        self.mask_paths = mask_paths
+        
+    def __len__(self):
+        return len(self.image_paths)
+    
+    def __getitem__(self, idx):
+        # Load image
+        image_path = self.image_paths[idx]
+        image = cv2.imread(image_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        # Load mask
+        mask_path = self.mask_paths[idx]
+        mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+        
+        # Normalize image to [0, 1]
+        image = image.astype(np.float32) / 255.0
+        
+        # Convert mask to binary
+        mask = (mask > 0).astype(np.float32)
+        
+        # Convert to PyTorch tensors
+        image = torch.from_numpy(image).permute(2, 0, 1)  # (H, W, C) -> (C, H, W)
+        mask = torch.from_numpy(mask).unsqueeze(0)  # (H, W) -> (1, H, W)
+        
+        return {'image': image, 'mask': mask}
 
 def setup_environment(seed=42):
     """Set up the environment (directories, random seeds, etc.)"""
@@ -132,37 +164,6 @@ def get_improved_data_loaders(data_dir, batch_size, num_workers=2, seed=42, spli
     
     # Ensure we have masks for all images
     assert len(image_files) == len(mask_files), f"Found {len(image_files)} images but {len(mask_files)} masks"
-    
-    # Create a custom dataset class that accepts image and mask file paths
-    class CustomPolypDataset(Dataset):
-        def __init__(self, image_paths, mask_paths):
-            self.image_paths = image_paths
-            self.mask_paths = mask_paths
-            
-        def __len__(self):
-            return len(self.image_paths)
-        
-        def __getitem__(self, idx):
-            # Load image
-            image_path = self.image_paths[idx]
-            image = cv2.imread(image_path)
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            
-            # Load mask
-            mask_path = self.mask_paths[idx]
-            mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-            
-            # Normalize image to [0, 1]
-            image = image.astype(np.float32) / 255.0
-            
-            # Convert mask to binary
-            mask = (mask > 0).astype(np.float32)
-            
-            # Convert to PyTorch tensors
-            image = torch.from_numpy(image).permute(2, 0, 1)  # (H, W, C) -> (C, H, W)
-            mask = torch.from_numpy(mask).unsqueeze(0)  # (H, W) -> (1, H, W)
-            
-            return {'image': image, 'mask': mask}
     
     # Create a complete dataset
     full_dataset = CustomPolypDataset(image_files, mask_files)
